@@ -172,7 +172,7 @@ public class POSSalesController {
 	        }
 	    }
 	}
-	
+	//打印功能 ，测试解决git冲突提交问题
 	@RequestMapping(value = "/exportdata", method = { RequestMethod.POST,
 				RequestMethod.GET }, produces = "text/html,application/json,application/xml;charset=UTF-8")
     public void exportdata(HttpServletRequest request, HttpServletResponse response){
