@@ -314,7 +314,7 @@ public class POSSalesController {
 		  
 	   try {
 			PrintWriter out=response.getWriter();
-			out.print("这个导出功能要求返回的数据 增加数据 aaaaaaaaaaaaaaaaaaaaaaaa");
+			out.print("这个导出功能要求返回的数据 增加数据 aaaaa");
 		    out.print("aaa");
 	   } catch (IOException e) {
 			// TODO Auto-generated catch block
