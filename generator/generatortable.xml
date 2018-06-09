@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry
+		location="D:\.m2\repository\com\microsoft\sqlserver\sqljdbc4\4.0\sqljdbc4-4.0.jar" />
+	<context id="context1">
+		<!-- 去除自动生成的注释 -->
+		 <commentGenerator> <property name="suppressAllComments" value="true" 
+			/> </commentGenerator> 
+		<jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+			connectionURL="jdbc:sqlserver://localhost;databaseName=A001" userId="sa"
+			password="123456" />
+		<javaModelGenerator targetPackage="pos.model"
+			targetProject="D:\MyEclipseWork\testmaven\src\main\java" />
+		<sqlMapGenerator targetPackage="pos.mapping"
+			targetProject="D:\MyEclipseWork\testmaven\src\main\java" />
+		<javaClientGenerator targetPackage="pos.dao"
+			targetProject="D:\MyEclipseWork\testmaven\src\main\java" type="XMLMAPPER" />
+		<!-- <table tableName="VIP" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> <table tableName="GoodsColor" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> -->
+		<!-- <table tableName="POSSales" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> -->
+		<!-- <table tableName="W_Goods" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> <table tableName="W_GoodsImg" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> <table tableName="W_GoodsDtlImg" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> <table tableName="W_ShowSet" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> <table tableName="GoodsType" enableCountByExample="true" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
+			/> -->
+	<!--	<table tableName="BarCode" enableCountByExample="true"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="true" selectByExampleQueryId="false" /> -->
+    <!--
+		<table tableName="W_GuideMonthRpt" enableCountByExample="true"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="true" selectByExampleQueryId="false" />
+
+		<table tableName="W_GuideDayRpt" enableCountByExample="true"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="true" selectByExampleQueryId="false" />
+			-->
+		<table tableName="POSSalesDetail" enableCountByExample="true"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="true" selectByExampleQueryId="false" />		
+		<!--	
+			
+	   <table tableName="POSSalesDetail" enableCountByExample="true"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="true" selectByExampleQueryId="false" />  -->
+			
+			
+	</context>
+</generatorConfiguration>
