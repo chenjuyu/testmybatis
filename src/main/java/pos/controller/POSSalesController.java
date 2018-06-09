@@ -274,14 +274,27 @@ public class POSSalesController {
 		    
 		
 		e1.printStackTrace();
-	}
-	   
-	    
-	    
-	
-	    
-	   	
+	} 	
 	}  	
+	
+	//做一个导出功能
+  @RequestMapping(value="/exportExcel",method={RequestMethod.POST,RequestMethod.GET}, produces="text/html,application/json;charset=UTF-8")
+  public void exportExcel(HttpServletRequest request,HttpServletResponse response){
+	  
+	  
+   try {
+		PrintWriter out=response.getWriter();
+		out.print("这个导出功能要求返回的数据");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  
+	  
+	  
+	  
+  }	  
+	
 	
 	
 	
