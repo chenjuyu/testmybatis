@@ -307,12 +307,24 @@ public class POSSalesController {
 	   return aj;//返回对象
    }
    
-   
-   
-   
-  
-  
-  
+	//做一个导出功能
+	  @RequestMapping(value="/exportexcel",method={RequestMethod.POST,RequestMethod.GET}, produces="text/html,application/json;charset=UTF-8")
+	  public void exportExcel(HttpServletRequest request,HttpServletResponse response){
+		  
+		  
+	   try {
+			PrintWriter out=response.getWriter();
+			out.print("这个导出功能要求返回的数据 增加数据 aaaaaaaaaaaaaaaaaaaaaaaa");
+		    out.print("aaa");
+	   } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
+		  
+		  
+		  
+	  }	  
 	@RequestMapping(value="/search",method={RequestMethod.POST,RequestMethod.GET}, produces="text/html,application/json;charset=UTF-8")
 	@ResponseBody
     public String Search(HttpServletRequest request)	
