@@ -22,9 +22,12 @@
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>js/easyui/demo/demo.css">
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.easyui.min.js"></script>
-
+    
 	<script type="text/javascript" src="<%=basePath%>js/easyui/locale/easyui-lang-zh_CN.js"></script>
+	
+	 <script type="text/javascript" src="<%=basePath%>js/moverow.js"></script> 
 	<script type="text/javascript" src="<%=basePath%>js/printplugins/CreateControl.js"></script>
+	
     <script type="text/javascript">
     CreateReport("Report");
     
@@ -79,7 +82,7 @@
     var seachform;
     var json;
     var map=JSON.stringify(${map1});//eval('('+${map1}+')');  Map转String：
- 
+    var pfields =undefined; //字段属性集合
   //在网页初始加载时向报表提供数据
     function window_onload() {
     	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime());
@@ -181,10 +184,18 @@
         		title : "数量",
         		width : 50,
         		hidden:false,
-        		sum: 'true',   //是否统计
+        		sum: 'true' ,  //是否统计
         		editor: { type: 'text', options: { required: true } } 
         		
         		},
+        		{
+            		field : "UnitPrice",
+            		title : "单价",
+            		width : 50,
+            		hidden:false,
+            		sum: 'true' ,  //是否统计
+            		editor: { type: 'text', options: { required: true } }         		
+            		},
     		{
         		field : "FactAmount",
         		title : "实收金额",
@@ -194,7 +205,103 @@
         		editor: { type: 'text', options: { required: true } }         		
         		}
     		
-    		]],
+    		]],onSelect: function (rowIndex, rowData) {
+                   setTimeout(function () {
+                    //   var drow = $('#tt').datagrid('getSelected');
+                       var index = $('#tt').datagrid('getRowIndex', editRow);
+    
+                       $('#tt').datagrid('endEdit', index);
+                       $('#tt').datagrid('updateRow', { index: index, row: {FactAmount: rowData.Quantity*rowData.UnitPrice} });
+                   }, 100);
+               },
+    		//当用户点击单元格时触发。
+    		onClickCell:function(rowIndex, field, value){
+    			console.log(field);
+    			
+    			
+    			
+    		//	setTimeout("pgrid.datagrid('selectRow', editIndex).datagrid('editCell', {index:editIndex,field:pfield});",100)
+
+    			
+    			
+    			
+    			
+    			if (field=="Code"){
+    				
+    				//var ed = $('#tt').datagrid('getEditor', {index:1,field:'birthday'});
+    				
+    		//	alert("这个是货品编码字段");	
+    			
+    			}
+    		//	 setTimeout("$('#tt').datagrid('selectRow', editRow).datagrid('editCell', {index:editRow,field:field});",100);
+    			
+    		},  //开始 编辑前
+    		onBeginEdit:function(rowIndex, rowData){  
+    	        var ed = $('#tt').datagrid('getEditors', rowIndex);
+    	        
+    	        pfields=$('#tt').datagrid('getColumnFields');
+    	        
+    	        
+    	      //  var n1 = $(editors[0].target);  
+    	       // var n2 = $(editors[1].target);  
+    	      //  var n3 = $(editors[2].target); 
+    	     // var editors= $('#tt').datagrid('getEditor', {index:1,field:'Code'})
+    	        for (var i = 0; i < ed.length; i++){  
+                    var ei = ed[i];    
+                      // if(ei.field == "Code") { // click 'keydown'
+                        $(ei.target).bind("keydown",function(e){  
+                        	var code = e.keyCode || e.which;
+                        	if(code == 13){
+                        	    //保存更改 第一次编辑可能不会改变值
+                        	  //  $('#tt').datagrid('acceptChanges');
+                        	  //  $('#tt').datagrid('editCell',{index:ei,field:ei.field});
+                        	  //  $('#tt').datagrid('endEdit', ei);
+                        	    //do something
+                        	   
+                        	    //editRow=editRow+1;
+                        	    //console.log(editRow);
+                        	   // alert("enter me");
+                        	   
+                        	//	debugger;
+              
+                    			if(e.preventDefault){ //屏蔽浏览器快捷键
+                    			e.preventDefault();
+                    			e.stopPropagation()
+                    			}else{
+                    			e.returnValue=false;
+                    			e.cancelBubble=true
+                    			}
+                    			//var index = $('#tt').datagrid('getRowIndex', editRow);
+                    			$("#tt").datagrid('endEdit', editRow);
+                    			for(var j=0; j<pfields.length; j++){ 
+                    			if(ei.field==pfields[j]){
+                    			if(j==pfields.length-1){//最后一列时换行
+                    				editRow=editRow+1;
+                    				ei.field=pfields[0];
+                    			break;
+                    			}
+                    			ei.field=pfields[j+1];
+                    			break;
+                    			}
+                    			}
+                        	   
+                    			  
+                    			    
+                                  $('#tt').datagrid('endEdit', rowIndex);
+                                  $('#tt').datagrid('updateRow', { index: editRow, row: {FactAmount: rowData.Quantity*rowData.UnitPrice} });
+                        	}
+                           // alert("enter me");  
+                        });  
+                     //  }  
+                } 
+    	        
+    	   /*     n1.add(n2).numberbox({  
+    	            onChange:function(){  
+    	                var cost = n1.numberbox('getValue')*n2.numberbox('getValue');  
+    	                n3.numberbox('setValue',cost);  
+    	            }  
+    	        }） */
+    	    },
     		//单击事件   
     		onClickRow:function(rowIndex,rowData){
     		  
@@ -276,7 +383,7 @@
     		},
     		onLoadSuccess: function (data) {
                   // $('#tt').datagrid('statistics');
-                 
+                 moveRow(this);
                 //合计
                },
     
