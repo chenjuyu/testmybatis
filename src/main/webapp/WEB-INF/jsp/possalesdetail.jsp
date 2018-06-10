@@ -82,10 +82,21 @@
  
   //在网页初始加载时向报表提供数据
     function window_onload() {
-    	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf");
+    	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime());
+    	 
     }
    
-   
+    var editRow = undefined;
+    
+    function endEditing()
+    {
+       if(editRow == undefined) {return true;}//如果为undefined的话，为真，说明可以编辑
+       if($('#tt').datagrid('validateRow',index)) {
+           $('#tt').datagrid('endEdit',index);//当前行编辑事件取消
+           editRow = undefined; return true;//重置编辑行索引对象，返回真，允许编辑
+        }else{return false;}//否则，为假，返回假，不允许编辑
+    }
+    
  $(function(){ 
 	
 	 
@@ -97,7 +108,7 @@
     	border:false,
     	cache : false, 
      	showFooter: true,
-    	singleSelect: true,
+    	//singleSelect: true,
     	dataType :"json",
     	idField:"PosSalesDetailID",//加上这个才能获得id
     	pagination:true,//显示分页
@@ -116,11 +127,27 @@
     	pageList:[10,20,30,40,50],
     	
     	columns : [ [    
+
+       {
+		field : "ck",
+		checkbox:true,
+		width : 50,
+		hidden:false
+		//editor: { type: 'text', options: { required: true } } 
+		},  
+    	             {
+    	          		field : "GoodsID",
+    	          		title : "货品ID",
+    	          		width : 50,
+    	          		hidden:true,
+    	          		editor: { type: 'text', options: { required: true } } 
+    	          		},         
     	    {
      		field : "Code",
      		title : "货号",
      		width : 50,
-     		hidden:false
+     		hidden:false,
+     		editor: { type: 'text', options: { required: true } } 
      		},
      		{
          		field : "Name",
@@ -136,14 +163,16 @@
          		field : "Color",
          		title : "颜色",
          		width : 50,
-         		hidden:false
+         		hidden:false,
+         		editor: { type: 'text', options: { required: true } } 
          		},         		
     	    
     	    {
     		field : "Size",
     		title : "尺码",
     		width : 50,
-    		hidden:false
+    		hidden:false,
+    		editor: { type: 'text', options: { required: true } } 
     		},
     	
     		
@@ -152,7 +181,8 @@
         		title : "数量",
         		width : 50,
         		hidden:false,
-        		sum: 'true'   //是否统计
+        		sum: 'true',   //是否统计
+        		editor: { type: 'text', options: { required: true } } 
         		
         		},
     		{
@@ -160,11 +190,31 @@
         		title : "实收金额",
         		width : 50,
         		hidden:false,
-        		sum: 'true'   //是否统计
-        		
+        		sum: 'true' ,  //是否统计
+        		editor: { type: 'text', options: { required: true } }         		
         		}
     		
     		]],
+    		//单击事件   
+    		onClickRow:function(rowIndex,rowData){
+    		  
+    			  if(editRow !=undefined){
+    				  $('#tt').datagrid('endEdit',editRow);//当前行编辑事件取消
+    				  editRow = undefined;
+    				 // $("#tt").datagrid('rejectChanges');
+    		          $("#tt").datagrid('unselectAll');
+    		          console.log(rowIndex);
+    		          $("#tt").datagrid('beginEdit',  rowIndex);
+    		          editRow=rowIndex;
+    			         }else {
+    			        	 //console.log(rowIndex);
+    			        	 editRow= rowIndex;
+    			        	 $('#tt').datagrid('beginedit',editRow);
+    			        	
+    			        	 // $('#tt').datagrid('selectRow',rowIndex);
+    			        	 console.log(editRow);
+    			         }
+    		},
     		//双击事件
     		onDblClickRow :function(rowIndex,rowData){
     			//console.log(rowIndex);
@@ -350,6 +400,7 @@
  //$('#main').layout('collapse','north');  
   });
 
+
  function serializeObject(form){
 	    var o={};
 	    $.each(form.serializeArray(),function(index){
@@ -378,7 +429,7 @@
  function doprint(){
  // using "<%=basePath%>js/printplugins/CreateControl.js";
  // console.log(json.POSSalesID);
- // CreatePrintViewerEx("100%", "100%", "<%=basePath%>js/printplugins/grf/possales.grf", "<%=basePath%>possales/exportdata.do?possalesid="+json.POSSalesID, true, ""); 
+ // CreatePrintViewerEx("100%", "100%", "<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime(), "<%=basePath%>possales/exportdata.do?possalesid="+json.POSSalesID, true, ""); 
  //  debugger;
  
   Report.LoadDataFromURL("<%=basePath%>possales/exportdata.do?possalesid="+json.POSSalesID);
@@ -387,6 +438,17 @@
  
  }
  
+ function doexportExcel(){
+	 
+	 Report.LoadDataFromURL("<%=basePath%>possales/exportdata.do?possalesid="+json.POSSalesID);
+
+	    //要改变导出默认选项参数，响应IGridppReport.ExportBegin 事件，在事件函数中设置选项参数属性，具体参考例子03.Export
+	 Report.ExportDirect(1, "销售小票.xls", true,  true); //gretXLS = 1, 	 
+	 
+	 
+ }
+
+
  
  function doSearch(){
 	 seachform=$("#form1").form();
@@ -408,23 +470,99 @@
 	var toolbar = [{
 		text:'增加',
 		iconCls:'icon-add',
-		handler:function(){alert('add')}
+		handler:function(){
+			//alert('add')
+	  if (editRow != undefined) {
+        $("#tt").datagrid('endEdit', editRow);
+        
+      //  editRow=$('#tt').datagrid('selectRow',index);//行号 
+        //var row = $('#dg').datagrid('getSelected'); //2.获取选中行的值
+        console.log(editRow);
+        editRow=undefined;
+        
+      };
+	  if (editRow == undefined) {
+		 var rows = $('#tt').datagrid('getSelected');
+		  var lastindex =$('#tt').datagrid("getRows").length;
+		 // var index = $('#tt').datagrid("getRowIndex", rows[lastindex]);//rows[0]永远在第一行
+		 // console.log(rows);   
+		 // console.log(index);
+		/*  var rows =$('#tt').datagrid("getRows");
+		  var keys ={} ;//一条数据拿所有的列名
+		 // console.log(keys);
+		  //keys['index']=lastindex;
+		  for(var key in rows[0]){  
+        	  //if(arr.hasOwnProperty(key))  
+        	 // console.log(key);        //键名  
+        	//  console.log(rows[0][key]);   //键值  
+        	  
+        	  keys[key]='';
+        	}
+		  //如果遍历map
+		  var mapstr="";
+          for(var prop in keys){
+              if(keys.hasOwnProperty(prop)){
+                 // console.log('key is ' + prop +' and value is' + keys[prop]);
+                  mapstr  =mapstr+prop+":"+"''"+",";
+              }
+          }
+          mapstr= mapstr.substring(0,mapstr.length-1);
+          
+		  //console.log(mapstr);
+		  var col =mapstr.split(","); */
+		  var newrow = jQuery.extend(true, {}, rows);
+          $("#tt").datagrid('insertRow', {//insertRow appendRow
+        	  index  :lastindex, //在指定行添加数据  // 行数从0开始计算
+              
+               row:newrow
+            	  
+              
+            
+             
+          });
+          var rows =$('#tt').datagrid("getRows");
+          $("#tt").datagrid('beginEdit',  rows.length-1);
+        //  editRow =index-index;  //rows.length+1;
+         editRow= rows.length-1;
+	  }	
+	}
 	},
 	{
 		text:'修改',
 		iconCls:'icon-edit',
-		handler:function(){alert('edit')}
+		handler:function(){
+			alert('edit')}
 	},
 	{
 		text:'删除',
 		iconCls:'icon-remove',
 		handler:function(){alert('cut')}
-	},
-	
-	'-',{
+	},'-', {
+        text: '撤销', iconCls: 'icon-redo', handler: function () {
+            editRow = undefined;
+            $("#tt").datagrid('rejectChanges');
+            $("#tt").datagrid('unselectAll');
+        }
+	},'-',{
 		text:'保存',
 		iconCls:'icon-save',
-		handler:function(){alert('save')}
+		handler:function(){
+			  $("#tt").datagrid('endEdit', editRow);
+			  
+              //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
+
+              //使用JSON序列化datarow对象，发送到后台。
+              var rows = $("#tt").datagrid('getChanges');
+              console.log(rows);
+              //var rowstr = JSON.stringify(rows);
+             // console.log(rowstr);
+            //  $.post('/Home/Create', rowstr, function (data) {
+                   
+            //  });
+			//alert('save')
+			
+		}
+		
 	}];
 
   
@@ -446,6 +584,8 @@
 <a  class="easyui-linkbutton" plain="true" onclick="doback()">返回列表</a>
 
 <a  class="easyui-linkbutton" plain="true" onclick="doprint()">打印</a>
+
+<a  class="easyui-linkbutton" plain="true" onclick="doexportExcel()">导出Excel</a>
  
   <form id="form1">
     <span>日期</span>
@@ -461,12 +601,16 @@
 </div>
 </div>
 
- <div region="center" split="true" border="false" style="overflow: hidden; height: 700px;">
+ <div region="center" split="true" border="false" style="overflow: hidden; height: 500px;">
 
-	<table id="tt" class="easyui-datagrid" style="width:700px;height:auto;Margin-Top:5px" >
+	<table id="tt" class="easyui-datagrid" style="width:700px;height:auto;Margin-Top:5px;" >
 	
 	</table>
  
+</div>
+
+<div region="south" split="true" border="false" style="overflow: hidden; height: 50px;">
+新增输入<input id="barcode" Name="barcode" class="easyui-textbox" style="width:200px;height:32px">
 </div>
 
 
