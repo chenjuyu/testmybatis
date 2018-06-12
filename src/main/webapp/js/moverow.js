@@ -1,65 +1,35 @@
-var DatagridMoveRow = (function($){
- 
-    function DatagridMoveRow(gridTarget){
-        this.el = gridTarget;
-        this.$el = $(this.el);
-        this.rowIndex = -1;
-        this.rowsCount = this.$el.datagrid('getData').rows.length;
-        return this;
-    }
- 
-    DatagridMoveRow.prototype = {
-        getRowindex: function(){
-            var selectRowIndex = this.$el.datagrid('getSelectedIndex');
-            if(selectRowIndex == -1){
-                this.rowIndex = 0 ;
-            }else{
-                this.rowIndex = selectRowIndex;
-            }
-        },
-        moveUp: function(){
- 
-            this.getRowindex();
- 
-            if(this.rowIndex ==0){
-                return false;
-            }
- 
-            var i = --this.rowIndex;
-            if(i>-1){
-                this.$el.datagrid('selectRow',i);
-            }else{
-                this.rowIndex = 0;
-            }
- 
-            return false;
-        },
-        moveDown: function (){
-            this.getRowindex();
- 
-            if(this.rowIndex == this.rowsCount -1 ){
-                return false;
-            }
-            var i = ++this.rowIndex;
-            this.$el.datagrid('selectRow',i);
+    var isbind=false;
+    $.extend($.fn.datagrid.methods, {
+    keyCtr : function (jq) {
+        return jq.each(function () {
+            var grid = $(this);
+            if(!isbind)
+            {
+                grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
+                    switch (e.keyCode) {
+                    case 38: // up
+                        var selected = grid.datagrid('getSelected');
+                        if (selected) {
+                            var index = grid.datagrid('getRowIndex', selected);
+                            grid.datagrid('selectRow', index - 1);
+                        } else {
+                            var rows = grid.datagrid('getRows');
+                            grid.datagrid('selectRow', rows.length - 1);
+                        }
+                        break;
+                    case 40: // down
+                        var selected = grid.datagrid('getSelected');
+                        if (selected) {
+                            var index = grid.datagrid('getRowIndex', selected);
+                            grid.datagrid('selectRow', index + 1);
+                        } else {
+                            grid.datagrid('selectRow', 0);
+                        }
+                        break;
+                    }
+                });
+                isbind=true;
         }
-    }
- 
-    return DatagridMoveRow;
- 
-})(jQuery);
-
-var moveRow = function(target){
-    var options = $(target).datagrid('options');
-
-    if(options.moveRow){
-        var dmr = new DatagridMoveRow(target);
-        $(document).on('keydown.datagridrow',function(e){
-            if(e.keyCode == 38){ //up
-                dmr.moveUp();
-            }else if(e.keyCode == 40) {// down
-                dmr.moveDown();
-            }
         });
     }
-}
+});

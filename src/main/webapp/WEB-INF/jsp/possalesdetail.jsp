@@ -25,7 +25,7 @@
     
 	<script type="text/javascript" src="<%=basePath%>js/easyui/locale/easyui-lang-zh_CN.js"></script>
 	
-	 <script type="text/javascript" src="<%=basePath%>js/moverow.js"></script> 
+ 	 <script type="text/javascript" src="<%=basePath%>js/moverow.js"></script> 
 	<script type="text/javascript" src="<%=basePath%>js/printplugins/CreateControl.js"></script>
 	
     <script type="text/javascript">
@@ -383,7 +383,8 @@
     		},
     		onLoadSuccess: function (data) {
                   // $('#tt').datagrid('statistics');
-                 moveRow(this);
+                   $('#tt').datagrid('selectRow',0);   
+                   $('#tt').datagrid('keyCtr');  
                 //合计
                },
     
