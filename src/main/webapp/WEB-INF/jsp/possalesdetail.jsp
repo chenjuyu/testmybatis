@@ -83,6 +83,7 @@
     var json;
     var map=JSON.stringify(${map1});//eval('('+${map1}+')');  Map转String：
     var pfields =undefined; //字段属性集合
+    var tf=undefined;
   //在网页初始加载时向报表提供数据
     function window_onload() {
     	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime());
@@ -111,7 +112,7 @@
     	border:false,
     	cache : false, 
      	showFooter: true,
-    	//singleSelect: true,
+    	singleSelect: true,
     	dataType :"json",
     	idField:"PosSalesDetailID",//加上这个才能获得id
     	pagination:true,//显示分页
@@ -130,33 +131,34 @@
     	pageList:[10,20,30,40,50],
     	
     	columns : [ [    
-
+      /*
        {
 		field : "ck",
 		checkbox:true,
 		width : 50,
 		hidden:false
 		//editor: { type: 'text', options: { required: true } } 
-		},  
+		}, 
+		
     	             {
     	          		field : "GoodsID",
     	          		title : "货品ID",
     	          		width : 50,
-    	          		hidden:true,
-    	          		editor: { type: 'text', options: { required: true } } 
-    	          		},         
+    	          		hidden:true
+    	          		//editor: { type: 'text', options: { required: true } } 
+    	          		},   */      
     	    {
      		field : "Code",
      		title : "货号",
      		width : 50,
-     		hidden:false,
-     		editor: { type: 'text', options: { required: true } } 
+     		hidden:false
+     		//editor: { type: 'text', options: { required: true } } 
      		},
      		{
          		field : "Name",
          		title : "货品名称",
          		width : 50,
-         		hidden:false,
+         		hidden:false
          		 //格式化时间操作
          		
          		
@@ -166,16 +168,16 @@
          		field : "Color",
          		title : "颜色",
          		width : 50,
-         		hidden:false,
-         		editor: { type: 'text', options: { required: true } } 
+         		hidden:false
+         		//editor: { type: 'text', options: { required: true } } 
          		},         		
     	    
     	    {
     		field : "Size",
     		title : "尺码",
     		width : 50,
-    		hidden:false,
-    		editor: { type: 'text', options: { required: true } } 
+    		hidden:false
+    		//editor: { type: 'text', options: { required: true } } 
     		},
     	
     		
@@ -184,8 +186,8 @@
         		title : "数量",
         		width : 50,
         		hidden:false,
-        		sum: 'true' ,  //是否统计
-        		editor: { type: 'text', options: { required: true } } 
+        		sum: 'true'  //是否统计
+        	//	editor: { type: 'text', options: { required: true } } 
         		
         		},
         		{
@@ -193,32 +195,53 @@
             		title : "单价",
             		width : 50,
             		hidden:false,
-            		sum: 'true' ,  //是否统计
-            		editor: { type: 'text', options: { required: true } }         		
+            		sum: 'true'   //是否统计
+            		//editor: { type: 'text', options: { required: true } }         		
             		},
     		{
         		field : "FactAmount",
         		title : "实收金额",
         		width : 50,
         		hidden:false,
-        		sum: 'true' ,  //是否统计
-        		editor: { type: 'text', options: { required: true } }         		
+        		sum: 'true'   //是否统计
+        		//editor: { type: 'text', options: { required: true } }         		
         		}
     		
-    		]],onSelect: function (rowIndex, rowData) {
-                   setTimeout(function () {
-                    //   var drow = $('#tt').datagrid('getSelected');
-                       var index = $('#tt').datagrid('getRowIndex', editRow);
-    
-                       $('#tt').datagrid('endEdit', index);
-                       $('#tt').datagrid('updateRow', { index: index, row: {FactAmount: rowData.Quantity*rowData.UnitPrice} });
-                   }, 100);
-               },
+    		]],
+    		onAfterEdit:function(rowIndex, rowData, changes){
+    			 tf.editor={};
+    		},
     		//当用户点击单元格时触发。
     		onClickCell:function(rowIndex, field, value){
-    			console.log(field);
+    			if(editRow !=undefined){
+  				  $('#tt').datagrid('endEdit',editRow);//当前行编辑事件取消
+    			} 
+    			tf=$('#tt').datagrid('getColumnOption', field); //通过列名获得此列
+                tf.editor={type:'text'}; //textarea设置此列的编辑属性 如果禁用编辑 则设置 tt.editor={}
+                $("#tt").datagrid("beginEdit",rowIndex);
+    			editRow=rowIndex;
+    			
+    		
     			
     			
+    			
+    			//var ed = $(this).datagrid('getEditor', {index:rowIndex,field:field});//获取当前编辑器
+    			//$(ed.target).next().children().focus();//获取焦点
+    			
+    			//console.log(field);
+    		     //console.log(rowIndex);
+    		     //rowInde 
+    			// var ed = $(this).datagrid('getEditor', { index: rowIndex, field: 'Number' });  
+                // $(ed.target).next().children().focus();
+    		    // $("#tt").datagrid('addEditor',field);
+    		  //   if (endEditing()){ //如果编辑列返回undefined   
+    		   //  $('#tt').datagrid('selectRow', rowIndex)
+    		    //  .datagrid('editCell', {index:rowIndex,field:field});  
+    		    //     editRow = rowIndex;  
+    		    // }  
+    		     
+    		//	var fields=field;
+    		//	$("#tt").datagrid('addEditor',fields);
     			
     		//	setTimeout("pgrid.datagrid('selectRow', editIndex).datagrid('editCell', {index:editIndex,field:pfield});",100)
 
@@ -237,7 +260,45 @@
     			
     		},  //开始 编辑前
     		onBeginEdit:function(rowIndex, rowData){  
-    	        var ed = $('#tt').datagrid('getEditors', rowIndex);
+    			   
+    			 pfields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+    			  
+    			console.log(pfields.length);
+    			
+    			
+    			   var editors = $('#tt').datagrid('getEditors', rowIndex);
+                   for (var i = 0, len = editors.length; i < len; i++) {
+                   var editor = editors[i];
+                   $(editor.target).bind('keyup', function (e) {
+                       var code = e.keyCode || e.which;
+                       if (code == 13) {
+                           $('#tt').datagrid('endEdit', editRow);
+                           focusEditor(pfields[i]);
+                           //do something
+                           /*
+                           for(var j=0; j<pfields.length; j++){
+                        	   if(tf==pfields[j]){ //最前一列时换行
+                        	   if(j==0){
+                        	   editRow=editRow-1;
+                        	   tf=pfields[pfields.length-1];
+                        	   break;
+                        	   }
+                        	   tf=pfields[j-1];
+                        	   focusEditor(tf);
+                        	   break;
+                        	   }
+                           } */
+                           
+                           
+                           
+                       }
+                   });
+                   }		
+    		
+    			
+    			
+    			
+    	     /*   var ed = $('#tt').datagrid('getEditors', rowIndex);
     	        
     	        pfields=$('#tt').datagrid('getColumnFields');
     	        
@@ -301,11 +362,12 @@
     	                n3.numberbox('setValue',cost);  
     	            }  
     	        }） */
-    	    },
+    	    }, 
+    	    
     		//单击事件   
     		onClickRow:function(rowIndex,rowData){
     		  
-    			  if(editRow !=undefined){
+    		/*	  if(editRow !=undefined){
     				  $('#tt').datagrid('endEdit',editRow);//当前行编辑事件取消
     				  editRow = undefined;
     				 // $("#tt").datagrid('rejectChanges');
@@ -316,11 +378,14 @@
     			         }else {
     			        	 //console.log(rowIndex);
     			        	 editRow= rowIndex;
+    			        	 
+    			        	 
+    			        	 
     			        	 $('#tt').datagrid('beginedit',editRow);
     			        	
     			        	 // $('#tt').datagrid('selectRow',rowIndex);
     			        	 console.log(editRow);
-    			         }
+    			         } */
     		},
     		//双击事件
     		onDblClickRow :function(rowIndex,rowData){
@@ -383,7 +448,7 @@
     		},
     		onLoadSuccess: function (data) {
                   // $('#tt').datagrid('statistics');
-                   $('#tt').datagrid('selectRow',0);   
+                 //  $('#tt').datagrid('selectRow',0);   
                    $('#tt').datagrid('keyCtr');  
                 //合计
                },
@@ -438,6 +503,65 @@
     	            }
     	        }
     	    });
+    
+    
+    $.extend($.fn.datagrid.methods, {
+    	//编辑单元格
+        editCell: function(jq,param){
+            return jq.each(function(){
+                var opts = $(this).datagrid('options');
+                var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));//获取列
+                for(var i=0; i<fields.length; i++){
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor1 = col.editor;
+                    if (fields[i] != param.field){//如果不是选中的单元格  editor置空
+                        col.editor = null;
+                    }
+                }
+                $(this).datagrid('beginEdit', param.index);
+                for(var i=0; i<fields.length; i++){
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor = col.editor1;
+                }
+            });
+        }
+    });
+
+    
+    //动态添加editor
+    
+    $.extend($.fn.datagrid.methods, {  
+        addEditor : function(jq, param) {  
+            if (param instanceof Array) {  
+                $.each(param, function(index, item) {  
+                    var e = $(jq).datagrid('getColumnOption', item.field);  
+                    e.editor = item.editor;  
+                });  
+            } else {  
+              //获取datagrid字段的属性
+                var e = $(jq).datagrid('getColumnOption', param.field);  
+              //给编辑器赋值
+               console.log(e);
+                e.editor = param.editor;  
+            }  
+        },  
+        removeEditor : function(jq, param) {  
+            if (param instanceof Array) {  
+                $.each(param, function(index, item) {  
+                    var e = $(jq).datagrid('getColumnOption', item);  
+                    e.editor = {};  
+                });  
+            } else {  
+                var e = $(jq).datagrid('getColumnOption', param);  
+                e.editor = {};  
+            }  
+        }  
+    }); 
+
+    
+    
+    
+    
     
    //在子页面找父页面的div
     function testAddSubPage(title,url){    
@@ -533,6 +657,20 @@
 	 
 	 
  }
+ 
+ function endEditing(){  
+	    if (editRow == undefined){return true}//如果为undefined的话，为真，说明可以编辑  
+	    if ($('#tt').datagrid('validateRow', editRow)){  
+	        $('#tt').datagrid('endEdit', editRow);  //判断是否有开启编辑的行，如果有则把开户编辑的那行结束编辑  
+	        editRow = undefined;  
+	        return true;  
+	    } else {  
+	        return false;  
+	    }  
+	}
+ 
+ 
+ 
  
  function doprint(){
  // using "<%=basePath%>js/printplugins/CreateControl.js";
