@@ -91,5 +91,11 @@ public class PossalesServiceimpl implements IPossalesService {
 		return  map;
 	}
 
+	@Override
+	public int updateByPrimaryKeySelective(Possales record) {
+		// TODO Auto-generated method stub
+		return possalesmapp.updateByPrimaryKeySelective(record);
+	}
+
 
 }

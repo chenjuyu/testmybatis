@@ -200,6 +200,7 @@
     	 	map['QuantitySum']=rowData.QuantitySum;
     	 	map['FactAmoutSum']=rowData.FactAmountSum;
     	 	map['Date']=formatDateBoxFull(rowData.Date);
+    	 	map['No']=rowData.No;
     	 //	map =encodeURI(map); JSON.stringify(map)
     	 //1.js文件中使用encodeURI()方法(必须套两层)。
         //login_name = encodeURI(encodeURI(login_name));  

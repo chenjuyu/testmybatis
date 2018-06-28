@@ -22,10 +22,10 @@
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>js/easyui/demo/demo.css">
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.easyui.min.js"></script>
-    
+    <script type="text/javascript" src="<%=basePath%>js/datagrid-cellediting.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/easyui/locale/easyui-lang-zh_CN.js"></script>
 	
- 	 <script type="text/javascript" src="<%=basePath%>js/moverow.js"></script> 
+ 	
 	<script type="text/javascript" src="<%=basePath%>js/printplugins/CreateControl.js"></script>
 	
     <script type="text/javascript">
@@ -95,8 +95,8 @@
     function endEditing()
     {
        if(editRow == undefined) {return true;}//如果为undefined的话，为真，说明可以编辑
-       if($('#tt').datagrid('validateRow',index)) {
-           $('#tt').datagrid('endEdit',index);//当前行编辑事件取消
+       if($('#dg').datagrid('validateRow',index)) {
+           $('#dg').datagrid('endEdit',index);//当前行编辑事件取消
            editRow = undefined; return true;//重置编辑行索引对象，返回真，允许编辑
         }else{return false;}//否则，为假，返回假，不允许编辑
     }
@@ -104,7 +104,7 @@
  $(function(){ 
 	
 	 
-    $('#tt').datagrid({
+    $('#dg').datagrid({
     	url:"<%=basePath%>possalesdetail/listdata.do",
     	fit:true,//自动适应边距
     	rownumbers :"true" ,
@@ -138,7 +138,7 @@
 		width : 50,
 		hidden:false
 		//editor: { type: 'text', options: { required: true } } 
-		}, 
+		},  */
 		
     	             {
     	          		field : "GoodsID",
@@ -146,7 +146,7 @@
     	          		width : 50,
     	          		hidden:true
     	          		//editor: { type: 'text', options: { required: true } } 
-    	          		},   */      
+    	          		},         
     	    {
      		field : "Code",
      		title : "货号",
@@ -209,71 +209,34 @@
     		
     		]],
     		onAfterEdit:function(rowIndex, rowData, changes){
-    			 tf.editor={};
+    		//	 tf.editor={};
+    			 if(rowData.Quantity !=undefined && rowData.UnitPrice !=undefined ){
+    			 $("#dg").datagrid("updateRow",{ 
+                     index:rowIndex, //行索引  
+                     row:{  
+                    	 FactAmount:rowData.Quantity*rowData.UnitPrice //行中的某个字段  
+                     }  
+                 }); 
+    			 }
     		},
-    		//当用户点击单元格时触发。
-    		onClickCell:function(rowIndex, field, value){
-    			if(editRow !=undefined){
-  				  $('#tt').datagrid('endEdit',editRow);//当前行编辑事件取消
-    			} 
-    			tf=$('#tt').datagrid('getColumnOption', field); //通过列名获得此列
-                tf.editor={type:'text'}; //textarea设置此列的编辑属性 如果禁用编辑 则设置 tt.editor={}
-                $("#tt").datagrid("beginEdit",rowIndex);
-    			editRow=rowIndex;
-    			
-    		
-    			
-    			
-    			
-    			//var ed = $(this).datagrid('getEditor', {index:rowIndex,field:field});//获取当前编辑器
-    			//$(ed.target).next().children().focus();//获取焦点
-    			
-    			//console.log(field);
-    		     //console.log(rowIndex);
-    		     //rowInde 
-    			// var ed = $(this).datagrid('getEditor', { index: rowIndex, field: 'Number' });  
-                // $(ed.target).next().children().focus();
-    		    // $("#tt").datagrid('addEditor',field);
-    		  //   if (endEditing()){ //如果编辑列返回undefined   
-    		   //  $('#tt').datagrid('selectRow', rowIndex)
-    		    //  .datagrid('editCell', {index:rowIndex,field:field});  
-    		    //     editRow = rowIndex;  
-    		    // }  
-    		     
-    		//	var fields=field;
-    		//	$("#tt").datagrid('addEditor',fields);
-    			
-    		//	setTimeout("pgrid.datagrid('selectRow', editIndex).datagrid('editCell', {index:editIndex,field:pfield});",100)
-
-    			
-    			
-    			
-    			
-    			if (field=="Code"){
-    				
-    				//var ed = $('#tt').datagrid('getEditor', {index:1,field:'birthday'});
-    				
-    		//	alert("这个是货品编码字段");	
-    			
-    			}
-    		//	 setTimeout("$('#tt').datagrid('selectRow', editRow).datagrid('editCell', {index:editRow,field:field});",100);
-    			
-    		},  //开始 编辑前
+    		  //开始 编辑前
     		onBeginEdit:function(rowIndex, rowData){  
     			   
-    			 pfields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+    		/*	 pfields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
     			  
     			console.log(pfields.length);
     			
     			
-    			   var editors = $('#tt').datagrid('getEditors', rowIndex);
+    			   var editors = $('#dg').datagrid('getEditors', rowIndex);
                    for (var i = 0, len = editors.length; i < len; i++) {
                    var editor = editors[i];
                    $(editor.target).bind('keyup', function (e) {
                        var code = e.keyCode || e.which;
                        if (code == 13) {
-                           $('#tt').datagrid('endEdit', editRow);
-                           focusEditor(pfields[i]);
+                           $('#dg').datagrid('endEdit', editRow);
+                          
+                           
+                           
                            //do something
                            /*
                            for(var j=0; j<pfields.length; j++){
@@ -289,24 +252,24 @@
                         	   }
                            } */
                            
-                           
+                 /*          
                            
                        }
                    });
-                   }		
+                   }	*/	
     		
     			
     			
     			
-    	     /*   var ed = $('#tt').datagrid('getEditors', rowIndex);
+    	     /*   var ed = $('#dg').datagrid('getEditors', rowIndex);
     	        
-    	        pfields=$('#tt').datagrid('getColumnFields');
+    	        pfields=$('#dg').datagrid('getColumnFields');
     	        
     	        
     	      //  var n1 = $(editors[0].target);  
     	       // var n2 = $(editors[1].target);  
     	      //  var n3 = $(editors[2].target); 
-    	     // var editors= $('#tt').datagrid('getEditor', {index:1,field:'Code'})
+    	     // var editors= $('#dg').datagrid('getEditor', {index:1,field:'Code'})
     	        for (var i = 0; i < ed.length; i++){  
                     var ei = ed[i];    
                       // if(ei.field == "Code") { // click 'keydown'
@@ -314,9 +277,9 @@
                         	var code = e.keyCode || e.which;
                         	if(code == 13){
                         	    //保存更改 第一次编辑可能不会改变值
-                        	  //  $('#tt').datagrid('acceptChanges');
-                        	  //  $('#tt').datagrid('editCell',{index:ei,field:ei.field});
-                        	  //  $('#tt').datagrid('endEdit', ei);
+                        	  //  $('#dg').datagrid('acceptChanges');
+                        	  //  $('#dg').datagrid('editCell',{index:ei,field:ei.field});
+                        	  //  $('#dg').datagrid('endEdit', ei);
                         	    //do something
                         	   
                         	    //editRow=editRow+1;
@@ -332,8 +295,8 @@
                     			e.returnValue=false;
                     			e.cancelBubble=true
                     			}
-                    			//var index = $('#tt').datagrid('getRowIndex', editRow);
-                    			$("#tt").datagrid('endEdit', editRow);
+                    			//var index = $('#dg').datagrid('getRowIndex', editRow);
+                    			$("#dg").datagrid('endEdit', editRow);
                     			for(var j=0; j<pfields.length; j++){ 
                     			if(ei.field==pfields[j]){
                     			if(j==pfields.length-1){//最后一列时换行
@@ -348,8 +311,8 @@
                         	   
                     			  
                     			    
-                                  $('#tt').datagrid('endEdit', rowIndex);
-                                  $('#tt').datagrid('updateRow', { index: editRow, row: {FactAmount: rowData.Quantity*rowData.UnitPrice} });
+                                  $('#dg').datagrid('endEdit', rowIndex);
+                                  $('#dg').datagrid('updateRow', { index: editRow, row: {FactAmount: rowData.Quantity*rowData.UnitPrice} });
                         	}
                            // alert("enter me");  
                         });  
@@ -368,12 +331,12 @@
     		onClickRow:function(rowIndex,rowData){
     		  
     		/*	  if(editRow !=undefined){
-    				  $('#tt').datagrid('endEdit',editRow);//当前行编辑事件取消
+    				  $('#dg').datagrid('endEdit',editRow);//当前行编辑事件取消
     				  editRow = undefined;
-    				 // $("#tt").datagrid('rejectChanges');
-    		          $("#tt").datagrid('unselectAll');
+    				 // $("#dg").datagrid('rejectChanges');
+    		          $("#dg").datagrid('unselectAll');
     		          console.log(rowIndex);
-    		          $("#tt").datagrid('beginEdit',  rowIndex);
+    		          $("#dg").datagrid('beginEdit',  rowIndex);
     		          editRow=rowIndex;
     			         }else {
     			        	 //console.log(rowIndex);
@@ -381,9 +344,9 @@
     			        	 
     			        	 
     			        	 
-    			        	 $('#tt').datagrid('beginedit',editRow);
+    			        	 $('#dg').datagrid('beginedit',editRow);
     			        	
-    			        	 // $('#tt').datagrid('selectRow',rowIndex);
+    			        	 // $('#dg').datagrid('selectRow',rowIndex);
     			        	 console.log(editRow);
     			         } */
     		},
@@ -397,15 +360,15 @@
     	//	if (seachform !==undefined){
     	//	console.log(serializeObject(seachform));// 表单的条件要记住为返回当页准备
     	//	}else{
-    	//		console.log($('#tt').datagrid('options').queryParams.BeginDate);
+    	//		console.log($('#dg').datagrid('options').queryParams.BeginDate);
     	//	}
     		
-    		//var options=$("#tt").data("pagination").options;
+    		//var options=$("#dg").data("pagination").options;
     		//var curr = options.page;
-    //		var page = $('#tt').datagrid('options').pageNumber;//pageNumber为datagrid的当前页码
-    		//var rowsData= $("#tt").datagrid("getRows");
+    //		var page = $('#dg').datagrid('options').pageNumber;//pageNumber为datagrid的当前页码
+    		//var rowsData= $("#dg").datagrid("getRows");
     		//var rows=rowsData.length;
-    	// 	var rows= $('#tt').datagrid('options').pageSize;
+    	// 	var rows= $('#dg').datagrid('options').pageSize;
     	 	//js Map创建：
     ////	 	var map = {};
     	// 	map['POSSalesID'] =rowData.PosSalesID;
@@ -420,7 +383,7 @@
         //login_name = encodeURI(encodeURI(login_name));  
     	 	//console.log(encodeURI(encodeURI(JSON.stringify(map))));
     	 	
-       //     var row = $('#tt').datagrid('getSelected');
+       //     var row = $('#dg').datagrid('getSelected');
        //     if (row) {
               
               //  var jq = top.jQuery;
@@ -447,9 +410,10 @@
     		
     		},
     		onLoadSuccess: function (data) {
-                  // $('#tt').datagrid('statistics');
-                 //  $('#tt').datagrid('selectRow',0);   
-                   $('#tt').datagrid('keyCtr');  
+                  // $('#dg').datagrid('statistics');
+                 //  $('#dg').datagrid('selectRow',0);   
+                 //   $('#dg').datagrid('keyCtr');  
+                 $('#dg').datagrid('enableCellEditing');
                 //合计
                },
     
@@ -505,29 +469,7 @@
     	    });
     
     
-    $.extend($.fn.datagrid.methods, {
-    	//编辑单元格
-        editCell: function(jq,param){
-            return jq.each(function(){
-                var opts = $(this).datagrid('options');
-                var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));//获取列
-                for(var i=0; i<fields.length; i++){
-                    var col = $(this).datagrid('getColumnOption', fields[i]);
-                    col.editor1 = col.editor;
-                    if (fields[i] != param.field){//如果不是选中的单元格  editor置空
-                        col.editor = null;
-                    }
-                }
-                $(this).datagrid('beginEdit', param.index);
-                for(var i=0; i<fields.length; i++){
-                    var col = $(this).datagrid('getColumnOption', fields[i]);
-                    col.editor = col.editor1;
-                }
-            });
-        }
-    });
 
-    
     //动态添加editor
     
     $.extend($.fn.datagrid.methods, {  
@@ -548,11 +490,11 @@
         removeEditor : function(jq, param) {  
             if (param instanceof Array) {  
                 $.each(param, function(index, item) {  
-                    var e = $(jq).datagrid('getColumnOption', item);  
+                    var e = $(jq).datagrid('getColumnOption', item.field);  
                     e.editor = {};  
                 });  
             } else {  
-                var e = $(jq).datagrid('getColumnOption', param);  
+                var e = $(jq).datagrid('getColumnOption', param.field);  
                 e.editor = {};  
             }  
         }  
@@ -626,7 +568,7 @@
  
  $("#DepartmentID").val(json.DepartmentID); 
  $("#Department").val(json.Department); 
- 
+ $("#No").val(json.No); 
  window_onload();
  
  //$('#main').layout('collapse','north');  
@@ -660,8 +602,8 @@
  
  function endEditing(){  
 	    if (editRow == undefined){return true}//如果为undefined的话，为真，说明可以编辑  
-	    if ($('#tt').datagrid('validateRow', editRow)){  
-	        $('#tt').datagrid('endEdit', editRow);  //判断是否有开启编辑的行，如果有则把开户编辑的那行结束编辑  
+	    if ($('#dg').datagrid('validateRow', editRow)){  
+	        $('#dg').datagrid('endEdit', editRow);  //判断是否有开启编辑的行，如果有则把开户编辑的那行结束编辑  
 	        editRow = undefined;  
 	        return true;  
 	    } else {  
@@ -699,7 +641,7 @@
  function doSearch(){
 	 seachform=$("#form1").form();
 	 console.log(serializeObject(seachform));
-	 	$('#tt').datagrid('load',{
+	 	$('#dg').datagrid('load',{
 	 		
 	 		BeginDate :$("#BeginDate").val(),
 	 		EndDate :$("#EndDate").val(),
@@ -719,21 +661,21 @@
 		handler:function(){
 			//alert('add')
 	  if (editRow != undefined) {
-        $("#tt").datagrid('endEdit', editRow);
+        $("#dg").datagrid('endEdit', editRow);
         
-      //  editRow=$('#tt').datagrid('selectRow',index);//行号 
+      //  editRow=$('#dg').datagrid('selectRow',index);//行号 
         //var row = $('#dg').datagrid('getSelected'); //2.获取选中行的值
         console.log(editRow);
         editRow=undefined;
         
       };
 	  if (editRow == undefined) {
-		 var rows = $('#tt').datagrid('getSelected');
-		  var lastindex =$('#tt').datagrid("getRows").length;
-		 // var index = $('#tt').datagrid("getRowIndex", rows[lastindex]);//rows[0]永远在第一行
+		 var rows = $('#dg').datagrid('getSelected');
+		  var lastindex =$('#dg').datagrid("getRows").length;
+		 // var index = $('#dg').datagrid("getRowIndex", rows[lastindex]);//rows[0]永远在第一行
 		 // console.log(rows);   
 		 // console.log(index);
-		/*  var rows =$('#tt').datagrid("getRows");
+		/*  var rows =$('#dg').datagrid("getRows");
 		  var keys ={} ;//一条数据拿所有的列名
 		 // console.log(keys);
 		  //keys['index']=lastindex;
@@ -756,18 +698,18 @@
           
 		  //console.log(mapstr);
 		  var col =mapstr.split(","); */
-		  var newrow = jQuery.extend(true, {}, rows);
-          $("#tt").datagrid('insertRow', {//insertRow appendRow
+		//  var newrow = jQuery.extend(true, {}, rows);
+          $("#dg").datagrid('insertRow', {//insertRow appendRow
         	  index  :lastindex, //在指定行添加数据  // 行数从0开始计算
               
-               row:newrow
+               row:{}//newrow
             	  
               
             
              
           });
-          var rows =$('#tt').datagrid("getRows");
-          $("#tt").datagrid('beginEdit',  rows.length-1);
+          var rows =$('#dg').datagrid("getRows");
+          $("#dg").datagrid('beginEdit',  rows.length-1);
         //  editRow =index-index;  //rows.length+1;
          editRow= rows.length-1;
 	  }	
@@ -777,35 +719,155 @@
 		text:'修改',
 		iconCls:'icon-edit',
 		handler:function(){
-			alert('edit')}
+			pfields=undefined;
+	    pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
+	   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
+	    for(var i=0;i<pfields.length;i++){
+		if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+			$("#dg").datagrid('addEditor',[ //添加cardNo列editor
+			                                {field:pfields[i],editor:{
+			                                    type:'textbox'
+			                                  /*  options:{
+			                                        required:true,
+			                                        validType:'length[3,3]', 
+			                                        invalidMessage:'请输入3位号码!'
+			                                    } */
+			                                }
+			                            }]);
+			
+			
+			
+		}	
+			
+		}	  	
+			
+		//	alert('edit')
+	    var row = $("#dg").datagrid('getSelected');
+		if (row) {
+			var rowIndex = $("#dg").datagrid('getRowIndex', row);
+			$("#dg").datagrid('beginEdit', rowIndex);
+			editRow =rowIndex;
+		}
+	
+		
+		}
 	},
 	{
 		text:'删除',
 		iconCls:'icon-remove',
-		handler:function(){alert('cut')}
+		handler:function(){
+			//alert('cut')
+			var row = $("#dg").datagrid('getSelected');
+			if (row) {
+				var rowIndex = $("#dg").datagrid('getRowIndex', row);
+				$("#dg").datagrid('deleteRow', rowIndex);
+			}
+	
+		
+		}
 	},'-', {
         text: '撤销', iconCls: 'icon-redo', handler: function () {
             editRow = undefined;
-            $("#tt").datagrid('rejectChanges');
-            $("#tt").datagrid('unselectAll');
+            $("#dg").datagrid('rejectChanges');
+            $("#dg").datagrid('unselectAll');
         }
 	},'-',{
 		text:'保存',
 		iconCls:'icon-save',
 		handler:function(){
-			  $("#tt").datagrid('endEdit', editRow);
+			  $("#dg").datagrid('endEdit', editRow);
 			  
               //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
 
               //使用JSON序列化datarow对象，发送到后台。
-              var rows = $("#tt").datagrid('getChanges');
-              console.log(rows);
+            //  var rows = $("#dg").datagrid('getChanges');
+             // console.log(rows);
               //var rowstr = JSON.stringify(rows);
              // console.log(rowstr);
             //  $.post('/Home/Create', rowstr, function (data) {
                    
             //  });
 			//alert('save')
+			
+			  if ($("#dg").datagrid('getChanges').length) {
+					var inserted = $("#dg").datagrid('getChanges', "inserted");
+					var deleted =$("#dg").datagrid('getChanges', "deleted");
+					var updated = $("#dg").datagrid('getChanges', "updated");
+					
+					var effectRow = new Object();
+					if (inserted.length) {
+						effectRow["inserted"] = JSON.stringify(inserted);
+					}
+					if (deleted.length) {
+						effectRow["deleted"] = JSON.stringify(deleted);
+					}
+					if (updated.length) {
+						effectRow["updated"] = JSON.stringify(updated);
+					}
+
+					$.post('<%=basePath%>possales/save.do', effectRow, function(rsp) {
+						var r=eval('('+rsp+')');
+						if(r.status){
+							$.messager.alert("提示", "提交成功！");
+							//$("#dg").datagrid('acceptChanges');
+							//$("#dg").datagrid('getChanges');
+							$("#dg").datagrid('load');
+							editRow =undefined;
+							$("#dg").datagrid('disableCellEditing');
+							   pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
+							   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
+							    for(var i=0;i<pfields.length;i++){
+								if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+									$("#dg").datagrid('removeEditor',[ //添加cardNo列editor
+									                                {field:pfields[i],editor:{
+									                                    type:'textbox'
+									                                  /*  options:{
+									                                        required:true,
+									                                        validType:'length[3,3]', 
+									                                        invalidMessage:'请输入3位号码!'
+									                                    } */
+									                                }
+									                            }]);
+									
+									
+									
+								}	
+									
+								}	  
+							
+							
+							
+							
+							
+						
+						}
+					}, "json").error(function() {
+						$.messager.alert("提示", "提交错误了！");
+						   pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
+						   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
+						    for(var i=0;i<pfields.length;i++){
+							if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+								$("#dg").datagrid('removeEditor',[ //添加cardNo列editor
+								                                {field:pfields[i],editor:{
+								                                    type:'textbox'
+								                                  /*  options:{
+								                                        required:true,
+								                                        validType:'length[3,3]', 
+								                                        invalidMessage:'请输入3位号码!'
+								                                    } */
+								                                }
+								                            }]);
+								
+								
+								
+							}	
+								
+							}	   	
+						
+					});
+				}
+
+			
 			
 		}
 		
@@ -837,6 +899,8 @@
     <span>日期</span>
     <input id="BeginDate" name="BeginDate" type="text" class="easyui-datetimebox" >-
    <!--  <input id="EndDate" name="EndDate" type="text" class="easyui-datebox" required="required" >  -->
+	<span>单号:</span>
+	<input id="No" name="No" type="text" style="line-height:26px;border:1px solid #ccc">
 	<span>部门:</span>
 	<input id="DepartmentID" name="DepartmentID" type="hidden">
 	<input id="Department" name="Department" type="text" style="line-height:26px;border:1px solid #ccc">
@@ -849,7 +913,7 @@
 
  <div region="center" split="true" border="false" style="overflow: hidden; height: 500px;">
 
-	<table id="tt" class="easyui-datagrid" style="width:700px;height:auto;Margin-Top:5px;" >
+	<table id="dg" class="easyui-datagrid" style="width:700px;height:auto;Margin-Top:5px;" >
 	
 	</table>
  

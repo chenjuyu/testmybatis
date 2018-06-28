@@ -4,7 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 
+
+//import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.BeanUtils;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +33,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import pos.dao.PossalesdetailMapper;
 import pos.model.Possales;
 import pos.model.PossalesExample;
+import pos.model.Possalesdetail;
+import pos.model.PossalesdetailExample;
 import pos.service.IPossalesService;
+import pos.service.IPossalesdetail;
 import web.util.AjaxJson;
 import web.util.CommonUtils;
 import web.util.printplugins.Grcommon;
@@ -44,6 +54,9 @@ public class POSSalesController {
 	
   @Autowired
   private IPossalesService  mapp;  
+  @Autowired
+  private IPossalesdetail possalesdetail;
+
   
    @RequestMapping("/index") 
    public ModelAndView index(HttpServletRequest request){
@@ -276,7 +289,7 @@ public class POSSalesController {
 		e1.printStackTrace();
 	} 	
 	}  	
-	
+
 
 	
 	
@@ -357,6 +370,98 @@ public class POSSalesController {
 	        
     }
 	
+	
+	@RequestMapping(value="/save",method={RequestMethod.POST,RequestMethod.GET}, produces="text/html,application/json;charset=UTF-8")   
+	@ResponseBody
+	public String save(HttpServletRequest request,HttpServletResponse response){
+		Boolean status=false;
+		//设置请求编码
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//获取编辑数据 这里获取到的是json字符串
+		String deleted = request.getParameter("deleted");
+		String inserted = request.getParameter("inserted");
+		String updated = request.getParameter("updated");
+        String possalesid ="";
+        int QuantitySum=0;
+        BigDecimal FactAmountSum= new BigDecimal(0);
+        JSONObject j= new JSONObject();
+		if (deleted != null) {
+			// 把json字符串转换成对象
+			List<Possalesdetail> listDeleted = JSON.parseArray(deleted,
+					Possalesdetail.class);
+			// TODO 下面就可以根据转换后的对象进行相应的操作了
+			for (int i =0 ;i<listDeleted.size();i++)
+			{
+			possalesdetail.deleteByPrimaryKey(listDeleted.get(i).getPossalesdetailid());
+			}
+			
+		}
+
+		if (inserted != null) {
+			// 把json字符串转换成对象
+			List<Possalesdetail> listInserted = JSON.parseArray(inserted,
+					Possalesdetail.class);
+		}
+
+		if (updated != null) {
+			// 把json字符串转换成对象
+			List<Possalesdetail> listUpdated = JSON.parseArray(updated,
+					Possalesdetail.class);
+			possalesid=listUpdated.get(0).getPossalesid();
+			for (Possalesdetail pd : listUpdated) {
+				Possalesdetail p=new Possalesdetail();
+				BeanUtils.copyProperties(pd,p);
+				possalesdetail.updateByPrimaryKeySelective(p); 
+			}
+			PossalesdetailExample example=new PossalesdetailExample();
+			PossalesdetailExample.Criteria cr= example.createCriteria();
+			cr.andPossalesidEqualTo(possalesid);
+			List<Possalesdetail> lp=possalesdetail.selectByExample(example);
+			for(Possalesdetail p:lp){
+			    QuantitySum =QuantitySum+p.getQuantity();
+			    FactAmountSum =FactAmountSum.add(p.getFactamount());
+			}
+			Possales p=new Possales();
+			p.setPossalesid(possalesid);
+			p.setQuantitysum(QuantitySum);
+			p.setFactamountsum(FactAmountSum);
+			mapp.updateByPrimaryKeySelective(p);
+			System.out.println("更新成功");
+			status=true;
+			
+			j.put("status", status);
+			
+		/*	for (int i =0 ;i<listUpdated.size();i++)
+			{    
+				//System.out.println(listUpdated.get(i).getPossalesid());
+			 //	System.out.println(listUpdated.get(i).getQuantity());
+				Possalesdetail p=new Possalesdetail();
+				//p.setPossalesdetailid(listUpdated.get(i).getPossalesdetailid());
+				//p.setQuantity(listUpdated.get(i).getQuantity());
+				
+				try {
+					BeanUtils.copyProperties(p,listUpdated.get(i));
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+			possalesdetail.updateByPrimaryKeySelective(p); 
+			} */
+			
+			
+		}
+		return j.toJSONString();
+		   
+	   }
+
 	
 	
 

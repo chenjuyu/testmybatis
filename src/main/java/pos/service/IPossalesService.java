@@ -10,7 +10,7 @@ import pos.model.PossalesExample;
 
 public interface IPossalesService {
 	
-	
+	 int updateByPrimaryKeySelective(Possales record);	
 public	List<Map<String,Object>> search(String date1,String date2);
 	
 public	List<Possales> selectByExample(PossalesExample example); 
