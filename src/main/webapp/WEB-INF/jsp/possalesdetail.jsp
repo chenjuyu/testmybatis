@@ -24,8 +24,6 @@
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>js/datagrid-cellediting.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/easyui/locale/easyui-lang-zh_CN.js"></script>
-	
- 	
 	<script type="text/javascript" src="<%=basePath%>js/printplugins/CreateControl.js"></script>
 	
     <script type="text/javascript">
@@ -84,6 +82,8 @@
     var map=JSON.stringify(${map1});//eval('('+${map1}+')');  Map转String：
     var pfields =undefined; //字段属性集合
     var tf=undefined;
+    var GoodsID="";
+    var Code="";
   //在网页初始加载时向报表提供数据
     function window_onload() {
     	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime());
@@ -112,7 +112,7 @@
     	border:false,
     	cache : false, 
      	showFooter: true,
-    	singleSelect: true,
+    	//singleSelect: true,
     	dataType :"json",
     	idField:"PosSalesDetailID",//加上这个才能获得id
     	pagination:true,//显示分页
@@ -131,14 +131,14 @@
     	pageList:[10,20,30,40,50],
     	
     	columns : [ [    
-      /*
+      
        {
 		field : "ck",
 		checkbox:true,
 		width : 50,
-		hidden:false
+		hidden:true
 		//editor: { type: 'text', options: { required: true } } 
-		},  */
+		},  
 		
     	             {
     	          		field : "GoodsID",
@@ -220,7 +220,7 @@
     			 }
     		},
     		  //开始 编辑前
-    		onBeginEdit:function(rowIndex, rowData){  
+    		onBeginEdit:function(rowIndex, rowData){ 
     			   
     		/*	 pfields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
     			  
@@ -326,7 +326,15 @@
     	            }  
     	        }） */
     	    }, 
-    	    
+    	    onEndEdit:function(rowIndex,rowData){
+    	    	if(GoodsID !=""){
+    	    	rowData.GoodsID=GoodsID;
+    	    	}
+    	    	if(Code !=""){
+        	    	rowData.Code=Code;
+        	    	}
+    	    	
+    	    },
     		//单击事件   
     		onClickRow:function(rowIndex,rowData){
     		  
@@ -636,7 +644,27 @@
 	 
  }
 
-
+ $.extend($.fn.datagrid.defaults.editors, {
+		combogrid: {
+			init: function(container, options){
+				var input = $('<input type="text" class="datagrid-editable-input">').appendTo(container); 
+				input.combogrid(options);
+				return input;
+			},
+			destroy: function(target){
+				$(target).combogrid('destroy');
+			},
+			getValue: function(target){
+				return $(target).combogrid('getValue');
+			},
+			setValue: function(target, value){
+				$(target).combogrid('setValue', value);
+			},
+			resize: function(target, width){
+				$(target).combogrid('resize',width);
+			}
+		}
+	});
  
  function doSearch(){
 	 seachform=$("#form1").form();
@@ -708,8 +736,33 @@
             
              
           });
+          
+          pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
+		   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
+		    for(var i=0;i<pfields.length;i++){
+			if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+				$("#dg").datagrid('addEditor',[ //添加cardNo列editor
+				                                {field:pfields[i],editor:{
+				                                    type:'textbox'
+				                                  /*  options:{
+				                                        required:true,
+				                                        validType:'length[3,3]', 
+				                                        invalidMessage:'请输入3位号码!'
+				                                    } */
+				                                }
+				                            }]);
+				
+				
+				
+			}	
+				
+			}
+		   // $('#dg').datagrid('enableCellEditing');
+          
+          
+          
           var rows =$('#dg').datagrid("getRows");
-          $("#dg").datagrid('beginEdit',  rows.length-1);
+         // $("#dg").datagrid('beginEdit',  rows.length-1);
         //  editRow =index-index;  //rows.length+1;
          editRow= rows.length-1;
 	  }	
@@ -719,12 +772,61 @@
 		text:'修改',
 		iconCls:'icon-edit',
 		handler:function(){
+			$("#dg").datagrid('showColumn','ck');	
+			
 			pfields=undefined;
 	    pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
 	   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
+	   var data={"total":10,"rows":[
+	                            	{"GoodsID":"009AD","Code":"001-168-2","status":"P","listprice":16.50,"attr1":"Large","itemid":"EST-1"},
+	                            	{"GoodsID":"009AB","Code":"001-168-5","status":"P","listprice":18.50,"attr1":"Spotted Adult Female","itemid":"EST-10"},
+	                            	{"GoodsID":"009EL","Code":"001-823-5","status":"P","listprice":18.50,"attr1":"Venomless","itemid":"EST-11"},
+	                            	{"GoodsID":"RP-SN-01","Code":"DD","status":"P","listprice":18.50,"attr1":"Rattleless","itemid":"EST-12"},
+	                            	{"GoodsID":"RP-LI-02","Code":"ee","status":"P","listprice":18.50,"attr1":"Green Adult","itemid":"EST-13"},
+	                            	{"GoodsID":"FL-DSH-01","Code":"ff","status":"P","listprice":58.50,"attr1":"Tailless","itemid":"EST-14"},
+	                            	{"GoodsID":"FL-DSH-01","Code":"GG","status":"P","listprice":23.50,"attr1":"With tail","itemid":"EST-15"},
+	                            	{"GoodsID":"FL-DLH-02","Code":"HH","status":"P","listprice":93.50,"attr1":"Adult Female","itemid":"EST-16"},
+	                            	{"GoodsID":"FL-DLH-02","Code":"II","status":"P","listprice":93.50,"attr1":"Adult Male","itemid":"EST-17"},
+	                            	{"GoodsID":"AV-CB-01","Code":"JJ","status":"P","listprice":193.50,"attr1":"Adult Male","itemid":"EST-18"}
+	                            ]};
+	   
 	    for(var i=0;i<pfields.length;i++){
 		if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+	    if (pfields[i]=="Code" | pfields[i]=="Color" ){
+	    	$("#dg").datagrid('addEditor',[ //添加cardNo列editor
+			                                   
+			                                {field:pfields[i],editor:{
+			                                    type:'combogrid',
+			                                    	options:{
+			                        					panelWidth:450,
+			                        					idField:'GoodsID',
+			                        					textField:'Code',
+			                        					pagination: true,           //是否分页  
+			                        				    rownumbers: true,           //序号 
+			                        					//url:'datagrid_data.json',
+			                        					pageSize:3,               //每页显示的记录条数，默认为10  
+                                                        pageList: [3,2,1],  
+			                        					data:data,
+			                        					columns:[[
+			                        						{field:'Code',title:'Code',width:60}
+			                        						
+			                        					]],onSelect:function(index,row){
+
+			                        						GoodsID = row.GoodsID;
+
+			                        						Code = row.Code;
+
+			                        						
+
+			                        						}
+			                        				}
+			                                }
+			                                
+			                            }]);
+				
+		}else{
 			$("#dg").datagrid('addEditor',[ //添加cardNo列editor
+			                                   
 			                                {field:pfields[i],editor:{
 			                                    type:'textbox'
 			                                  /*  options:{
@@ -733,11 +835,11 @@
 			                                        invalidMessage:'请输入3位号码!'
 			                                    } */
 			                                }
-			                            }]);
+			                                
+			                            }]);		
 			
-			
-			
-		}	
+		}
+		}
 			
 		}	  	
 			
@@ -748,6 +850,7 @@
 			$("#dg").datagrid('beginEdit', rowIndex);
 			editRow =rowIndex;
 		}
+		
 	
 		
 		}
@@ -757,31 +860,65 @@
 		iconCls:'icon-remove',
 		handler:function(){
 			//alert('cut')
-			var row = $("#dg").datagrid('getSelected');
-			if (row) {
-				var rowIndex = $("#dg").datagrid('getRowIndex', row);
-				$("#dg").datagrid('deleteRow', rowIndex);
-			}
+			//var row = $("#dg").datagrid('getSelected');
+		   var selectarray 	=$("#dg").datagrid('getChecked');
+		   console.log(selectarray.length);
+	 if(selectarray.length){
+		  for(var i=0;i<=selectarray.length;i++){
+		    var r=selectarray[i];
+		    console.log(r);
+		   var id = $("#dg").datagrid('getRowIndex',r);
+		      $("#dg").datagrid('deleteRow', id);
+			
 	
-		
+		  }
+	 }	  
 		}
 	},'-', {
         text: '撤销', iconCls: 'icon-redo', handler: function () {
             editRow = undefined;
+            $("#dg").datagrid('hideColumn','ck');
+            
+            pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
+			   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
+			    for(var i=0;i<pfields.length;i++){
+				if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+					$("#dg").datagrid('removeEditor',[ //添加cardNo列editor
+					                                {field:pfields[i],editor:{
+					                                    type:'textbox'
+					                                  /*  options:{
+					                                        required:true,
+					                                        validType:'length[3,3]', 
+					                                        invalidMessage:'请输入3位号码!'
+					                                    } */
+					                                }
+					                            }]);
+					
+					
+					
+				}	
+					
+				}	
+            
+            $("#dg").datagrid('disableCellEditing');
+            
+            $("#dg").datagrid('uncheckAll');
+            
             $("#dg").datagrid('rejectChanges');
             $("#dg").datagrid('unselectAll');
+            
         }
 	},'-',{
 		text:'保存',
 		iconCls:'icon-save',
 		handler:function(){
 			  $("#dg").datagrid('endEdit', editRow);
-			  
+			  $("#dg").datagrid('hideColumn','ck');
               //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
 
               //使用JSON序列化datarow对象，发送到后台。
-            //  var rows = $("#dg").datagrid('getChanges');
-             // console.log(rows);
+              var rows = $("#dg").datagrid('getChanges');
+              console.log(rows);
               //var rowstr = JSON.stringify(rows);
              // console.log(rowstr);
             //  $.post('/Home/Create', rowstr, function (data) {

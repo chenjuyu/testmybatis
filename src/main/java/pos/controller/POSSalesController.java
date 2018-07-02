@@ -395,10 +395,34 @@ public class POSSalesController {
 			List<Possalesdetail> listDeleted = JSON.parseArray(deleted,
 					Possalesdetail.class);
 			// TODO 下面就可以根据转换后的对象进行相应的操作了
+			possalesid=listDeleted.get(0).getPossalesid();
 			for (int i =0 ;i<listDeleted.size();i++)
 			{
 			possalesdetail.deleteByPrimaryKey(listDeleted.get(i).getPossalesdetailid());
 			}
+			if (possalesid !=null | !"".equals(possalesid)){
+				PossalesdetailExample example=new PossalesdetailExample();
+				PossalesdetailExample.Criteria cr= example.createCriteria();
+				cr.andPossalesidEqualTo(possalesid);
+				List<Possalesdetail> lp=possalesdetail.selectByExample(example);
+				for(Possalesdetail p:lp){
+				    QuantitySum =QuantitySum+p.getQuantity();
+				    FactAmountSum =FactAmountSum.add(p.getFactamount());
+				}
+				Possales p=new Possales();
+				p.setPossalesid(possalesid);
+				p.setQuantitysum(QuantitySum);
+				p.setFactamountsum(FactAmountSum);
+				mapp.updateByPrimaryKeySelective(p);
+				System.out.println("删除成功");
+				status=true;
+				
+				j.put("status", status);
+				
+			}
+			
+			
+			
 			
 		}
 
