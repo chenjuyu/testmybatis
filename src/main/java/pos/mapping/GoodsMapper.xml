@@ -1,0 +1,1827 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Goods" >
+    <id column="GoodsID" property="goodsid" jdbcType="VARCHAR" />
+    <result column="GoodsTypeID" property="goodstypeid" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="OldCode" property="oldcode" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="EName" property="ename" jdbcType="VARCHAR" />
+    <result column="OtherName" property="othername" jdbcType="VARCHAR" />
+    <result column="BrandID" property="brandid" jdbcType="VARCHAR" />
+    <result column="Age" property="age" jdbcType="CHAR" />
+    <result column="Season" property="season" jdbcType="VARCHAR" />
+    <result column="Model" property="model" jdbcType="VARCHAR" />
+    <result column="BrandSerialID" property="brandserialid" jdbcType="VARCHAR" />
+    <result column="Kind" property="kind" jdbcType="VARCHAR" />
+    <result column="ProducingAreaID" property="producingareaid" jdbcType="VARCHAR" />
+    <result column="HelpCode" property="helpcode" jdbcType="VARCHAR" />
+    <result column="Unit" property="unit" jdbcType="VARCHAR" />
+    <result column="PackUnit" property="packunit" jdbcType="VARCHAR" />
+    <result column="PackSize" property="packsize" jdbcType="INTEGER" />
+    <result column="Sex" property="sex" jdbcType="VARCHAR" />
+    <result column="SupplierID" property="supplierid" jdbcType="VARCHAR" />
+    <result column="SupplierCode" property="suppliercode" jdbcType="VARCHAR" />
+    <result column="PurchasePrice" property="purchaseprice" jdbcType="DECIMAL" />
+    <result column="SalesPoint" property="salespoint" jdbcType="DECIMAL" />
+    <result column="RetailSales" property="retailsales" jdbcType="DECIMAL" />
+    <result column="TradePrice" property="tradeprice" jdbcType="DECIMAL" />
+    <result column="SalesPrice1" property="salesprice1" jdbcType="DECIMAL" />
+    <result column="SalesPrice2" property="salesprice2" jdbcType="DECIMAL" />
+    <result column="SalesPrice3" property="salesprice3" jdbcType="DECIMAL" />
+    <result column="Discount" property="discount" jdbcType="DECIMAL" />
+    <result column="BackFlag" property="backflag" jdbcType="BIT" />
+    <result column="DiscountFlag" property="discountflag" jdbcType="BIT" />
+    <result column="SameFlag" property="sameflag" jdbcType="BIT" />
+    <result column="PresentFlag" property="presentflag" jdbcType="BIT" />
+    <result column="CostType" property="costtype" jdbcType="VARCHAR" />
+    <result column="TopStock" property="topstock" jdbcType="INTEGER" />
+    <result column="BottomStock" property="bottomstock" jdbcType="INTEGER" />
+    <result column="StockSubjectID" property="stocksubjectid" jdbcType="VARCHAR" />
+    <result column="SalesSubjectID" property="salessubjectid" jdbcType="VARCHAR" />
+    <result column="CostSubjectID" property="costsubjectid" jdbcType="VARCHAR" />
+    <result column="BeginDate" property="begindate" jdbcType="TIMESTAMP" />
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="MadeDate" property="madedate" jdbcType="TIMESTAMP" />
+    <result column="Creator" property="creator" jdbcType="VARCHAR" />
+    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="Editor" property="editor" jdbcType="VARCHAR" />
+    <result column="SalesDate" property="salesdate" jdbcType="TIMESTAMP" />
+    <result column="PurchasedDate" property="purchaseddate" jdbcType="TIMESTAMP" />
+    <result column="LastPurchasedDate" property="lastpurchaseddate" jdbcType="TIMESTAMP" />
+    <result column="ExchangeEndDate" property="exchangeenddate" jdbcType="TIMESTAMP" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="StopFlag" property="stopflag" jdbcType="BIT" />
+    <result column="UseFlag" property="useflag" jdbcType="BIT" />
+    <result column="GoodsBalance" property="goodsbalance" jdbcType="INTEGER" />
+    <result column="MaterialFlag" property="materialflag" jdbcType="BIT" />
+    <result column="BackDateLimit" property="backdatelimit" jdbcType="INTEGER" />
+    <result column="SendFlag" property="sendflag" jdbcType="BIT" />
+    <result column="CostPrice" property="costprice" jdbcType="DECIMAL" />
+    <result column="WashType" property="washtype" jdbcType="VARCHAR" />
+    <result column="PaymentType" property="paymenttype" jdbcType="VARCHAR" />
+    <result column="HireRate" property="hirerate" jdbcType="DECIMAL" />
+    <result column="SpecialPriceFlag" property="specialpriceflag" jdbcType="BIT" />
+    <result column="PriceType" property="pricetype" jdbcType="VARCHAR" />
+    <result column="PriceInt" property="priceint" jdbcType="INTEGER" />
+    <result column="OrderTargetQty" property="ordertargetqty" jdbcType="INTEGER" />
+    <result column="OrderTargetAnt" property="ordertargetant" jdbcType="DECIMAL" />
+    <result column="GroupNo" property="groupno" jdbcType="VARCHAR" />
+    <result column="GroupID" property="groupid" jdbcType="VARCHAR" />
+    <result column="SalesPrice4" property="salesprice4" jdbcType="DECIMAL" />
+    <result column="SalesPrice5" property="salesprice5" jdbcType="DECIMAL" />
+    <result column="SalesPrice6" property="salesprice6" jdbcType="DECIMAL" />
+    <result column="SalesPrice7" property="salesprice7" jdbcType="DECIMAL" />
+    <result column="SalesPrice8" property="salesprice8" jdbcType="DECIMAL" />
+    <result column="VIPPrice" property="vipprice" jdbcType="DECIMAL" />
+    <result column="RetailSales1" property="retailsales1" jdbcType="DECIMAL" />
+    <result column="RetailSales2" property="retailsales2" jdbcType="DECIMAL" />
+    <result column="RetailSales3" property="retailsales3" jdbcType="DECIMAL" />
+    <result column="RetailSales4" property="retailsales4" jdbcType="DECIMAL" />
+    <result column="RetailSales5" property="retailsales5" jdbcType="DECIMAL" />
+    <result column="RetailSales6" property="retailsales6" jdbcType="DECIMAL" />
+    <result column="RetailSales7" property="retailsales7" jdbcType="DECIMAL" />
+    <result column="RetailSales8" property="retailsales8" jdbcType="DECIMAL" />
+    <result column="Seller" property="seller" jdbcType="VARCHAR" />
+    <result column="EmployeeID" property="employeeid" jdbcType="VARCHAR" />
+    <result column="PackageCost" property="packagecost" jdbcType="DECIMAL" />
+    <result column="DevelopProfit" property="developprofit" jdbcType="DECIMAL" />
+    <result column="Designer" property="designer" jdbcType="VARCHAR" />
+    <result column="Grade" property="grade" jdbcType="VARCHAR" />
+    <result column="PerformStandard" property="performstandard" jdbcType="VARCHAR" />
+    <result column="SecurityType" property="securitytype" jdbcType="VARCHAR" />
+    <result column="StandardCode" property="standardcode" jdbcType="VARCHAR" />
+    <result column="Model1" property="model1" jdbcType="VARCHAR" />
+    <result column="Model2" property="model2" jdbcType="VARCHAR" />
+    <result column="Model3" property="model3" jdbcType="VARCHAR" />
+    <result column="Model4" property="model4" jdbcType="VARCHAR" />
+    <result column="BrandPrintStyle" property="brandprintstyle" jdbcType="VARCHAR" />
+    <result column="WashPrintStyle" property="washprintstyle" jdbcType="VARCHAR" />
+    <result column="SalesMarket" property="salesmarket" jdbcType="VARCHAR" />
+    <result column="PrintFlag" property="printflag" jdbcType="BIT" />
+    <result column="FOB" property="fob" jdbcType="DECIMAL" />
+    <result column="NonDiscount" property="nondiscount" jdbcType="BIT" />
+    <result column="LowRetailSales" property="lowretailsales" jdbcType="DECIMAL" />
+    <result column="NonPoint" property="nonpoint" jdbcType="BIT" />
+    <result column="BrandOutlay" property="brandoutlay" jdbcType="DECIMAL" />
+    <result column="BOMFlag" property="bomflag" jdbcType="BIT" />
+    <result column="Model5" property="model5" jdbcType="VARCHAR" />
+    <result column="Model6" property="model6" jdbcType="VARCHAR" />
+    <result column="Model7" property="model7" jdbcType="VARCHAR" />
+    <result column="Model8" property="model8" jdbcType="VARCHAR" />
+    <result column="Model9" property="model9" jdbcType="VARCHAR" />
+    <result column="GoodsAudit" property="goodsaudit" jdbcType="VARCHAR" />
+    <result column="GoodsAuditFlag" property="goodsauditflag" jdbcType="BIT" />
+    <result column="GoodsAuditDate" property="goodsauditdate" jdbcType="TIMESTAMP" />
+    <result column="Style" property="style" jdbcType="VARCHAR" />
+    <result column="Heel" property="heel" jdbcType="VARCHAR" />
+    <result column="SubType" property="subtype" jdbcType="VARCHAR" />
+    <result column="PointRate" property="pointrate" jdbcType="DECIMAL" />
+    <result column="InitialPrice" property="initialprice" jdbcType="DECIMAL" />
+    <result column="IsNew" property="isnew" jdbcType="BIT" />
+    <result column="IsOnLine" property="isonline" jdbcType="BIT" />
+    <result column="RecommendOnLine" property="recommendonline" jdbcType="BIT" />
+    <result column="MaxSizeNo" property="maxsizeno" jdbcType="INTEGER" />
+    <result column="IsSample" property="issample" jdbcType="BIT" />
+    <result column="NonReturnCash" property="nonreturncash" jdbcType="BIT" />
+    <result column="NonExchangeProfit" property="nonexchangeprofit" jdbcType="BIT" />
+    <result column="ListingDate" property="listingdate" jdbcType="TIMESTAMP" />
+    <result column="CanEditPriceForPOS" property="caneditpriceforpos" jdbcType="BIT" />
+    <result column="Code_EShop" property="codeEshop" jdbcType="VARCHAR" />
+    <result column="KnotCode" property="knotcode" jdbcType="VARCHAR" />
+    <result column="PackType" property="packtype" jdbcType="VARCHAR" />
+    <result column="Band" property="band" jdbcType="VARCHAR" />
+    <result column="Audit" property="audit" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="pos.model.Goods" extends="BaseResultMap" >
+    <result column="Descript" property="descript" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GoodsID, GoodsTypeID, Code, OldCode, Name, EName, OtherName, BrandID, Age, Season, 
+    Model, BrandSerialID, Kind, ProducingAreaID, HelpCode, Unit, PackUnit, PackSize, 
+    Sex, SupplierID, SupplierCode, PurchasePrice, SalesPoint, RetailSales, TradePrice, 
+    SalesPrice1, SalesPrice2, SalesPrice3, Discount, BackFlag, DiscountFlag, SameFlag, 
+    PresentFlag, CostType, TopStock, BottomStock, StockSubjectID, SalesSubjectID, CostSubjectID, 
+    BeginDate, EndDate, MadeDate, Creator, ModifyDate, Editor, SalesDate, PurchasedDate, 
+    LastPurchasedDate, ExchangeEndDate, Memo, StopFlag, UseFlag, GoodsBalance, MaterialFlag, 
+    BackDateLimit, SendFlag, CostPrice, WashType, PaymentType, HireRate, SpecialPriceFlag, 
+    PriceType, PriceInt, OrderTargetQty, OrderTargetAnt, GroupNo, GroupID, SalesPrice4, 
+    SalesPrice5, SalesPrice6, SalesPrice7, SalesPrice8, VIPPrice, RetailSales1, RetailSales2, 
+    RetailSales3, RetailSales4, RetailSales5, RetailSales6, RetailSales7, RetailSales8, 
+    Seller, EmployeeID, PackageCost, DevelopProfit, Designer, Grade, PerformStandard, 
+    SecurityType, StandardCode, Model1, Model2, Model3, Model4, BrandPrintStyle, WashPrintStyle, 
+    SalesMarket, PrintFlag, FOB, NonDiscount, LowRetailSales, NonPoint, BrandOutlay, 
+    BOMFlag, Model5, Model6, Model7, Model8, Model9, GoodsAudit, GoodsAuditFlag, GoodsAuditDate, 
+    Style, Heel, SubType, PointRate, InitialPrice, IsNew, IsOnLine, RecommendOnLine, 
+    MaxSizeNo, IsSample, NonReturnCash, NonExchangeProfit, ListingDate, CanEditPriceForPOS, 
+    Code_EShop, KnotCode, PackType, Band, Audit
+  </sql>
+  <sql id="Blob_Column_List" >
+    Descript
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="pos.model.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Goods
+    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Goods
+    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Goods" >
+    insert into Goods (GoodsID, GoodsTypeID, Code, 
+      OldCode, Name, EName, 
+      OtherName, BrandID, Age, 
+      Season, Model, BrandSerialID, 
+      Kind, ProducingAreaID, HelpCode, 
+      Unit, PackUnit, PackSize, 
+      Sex, SupplierID, SupplierCode, 
+      PurchasePrice, SalesPoint, RetailSales, 
+      TradePrice, SalesPrice1, SalesPrice2, 
+      SalesPrice3, Discount, BackFlag, 
+      DiscountFlag, SameFlag, PresentFlag, 
+      CostType, TopStock, BottomStock, 
+      StockSubjectID, SalesSubjectID, CostSubjectID, 
+      BeginDate, EndDate, MadeDate, 
+      Creator, ModifyDate, Editor, 
+      SalesDate, PurchasedDate, LastPurchasedDate, 
+      ExchangeEndDate, Memo, StopFlag, 
+      UseFlag, GoodsBalance, MaterialFlag, 
+      BackDateLimit, SendFlag, CostPrice, 
+      WashType, PaymentType, HireRate, 
+      SpecialPriceFlag, PriceType, PriceInt, 
+      OrderTargetQty, OrderTargetAnt, GroupNo, 
+      GroupID, SalesPrice4, SalesPrice5, 
+      SalesPrice6, SalesPrice7, SalesPrice8, 
+      VIPPrice, RetailSales1, RetailSales2, 
+      RetailSales3, RetailSales4, RetailSales5, 
+      RetailSales6, RetailSales7, RetailSales8, 
+      Seller, EmployeeID, PackageCost, 
+      DevelopProfit, Designer, Grade, 
+      PerformStandard, SecurityType, StandardCode, 
+      Model1, Model2, Model3, 
+      Model4, BrandPrintStyle, WashPrintStyle, 
+      SalesMarket, PrintFlag, FOB, 
+      NonDiscount, LowRetailSales, NonPoint, 
+      BrandOutlay, BOMFlag, Model5, 
+      Model6, Model7, Model8, 
+      Model9, GoodsAudit, GoodsAuditFlag, 
+      GoodsAuditDate, Style, Heel, 
+      SubType, PointRate, InitialPrice, 
+      IsNew, IsOnLine, RecommendOnLine, 
+      MaxSizeNo, IsSample, NonReturnCash, 
+      NonExchangeProfit, ListingDate, CanEditPriceForPOS, 
+      Code_EShop, KnotCode, PackType, 
+      Band, Audit, Descript
+      )
+    values (#{goodsid,jdbcType=VARCHAR}, #{goodstypeid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{oldcode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, 
+      #{othername,jdbcType=VARCHAR}, #{brandid,jdbcType=VARCHAR}, #{age,jdbcType=CHAR}, 
+      #{season,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{brandserialid,jdbcType=VARCHAR}, 
+      #{kind,jdbcType=VARCHAR}, #{producingareaid,jdbcType=VARCHAR}, #{helpcode,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{packunit,jdbcType=VARCHAR}, #{packsize,jdbcType=INTEGER}, 
+      #{sex,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, #{suppliercode,jdbcType=VARCHAR}, 
+      #{purchaseprice,jdbcType=DECIMAL}, #{salespoint,jdbcType=DECIMAL}, #{retailsales,jdbcType=DECIMAL}, 
+      #{tradeprice,jdbcType=DECIMAL}, #{salesprice1,jdbcType=DECIMAL}, #{salesprice2,jdbcType=DECIMAL}, 
+      #{salesprice3,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, #{backflag,jdbcType=BIT}, 
+      #{discountflag,jdbcType=BIT}, #{sameflag,jdbcType=BIT}, #{presentflag,jdbcType=BIT}, 
+      #{costtype,jdbcType=VARCHAR}, #{topstock,jdbcType=INTEGER}, #{bottomstock,jdbcType=INTEGER}, 
+      #{stocksubjectid,jdbcType=VARCHAR}, #{salessubjectid,jdbcType=VARCHAR}, #{costsubjectid,jdbcType=VARCHAR}, 
+      #{begindate,jdbcType=TIMESTAMP}, #{enddate,jdbcType=TIMESTAMP}, #{madedate,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, #{editor,jdbcType=VARCHAR}, 
+      #{salesdate,jdbcType=TIMESTAMP}, #{purchaseddate,jdbcType=TIMESTAMP}, #{lastpurchaseddate,jdbcType=TIMESTAMP}, 
+      #{exchangeenddate,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}, #{stopflag,jdbcType=BIT}, 
+      #{useflag,jdbcType=BIT}, #{goodsbalance,jdbcType=INTEGER}, #{materialflag,jdbcType=BIT}, 
+      #{backdatelimit,jdbcType=INTEGER}, #{sendflag,jdbcType=BIT}, #{costprice,jdbcType=DECIMAL}, 
+      #{washtype,jdbcType=VARCHAR}, #{paymenttype,jdbcType=VARCHAR}, #{hirerate,jdbcType=DECIMAL}, 
+      #{specialpriceflag,jdbcType=BIT}, #{pricetype,jdbcType=VARCHAR}, #{priceint,jdbcType=INTEGER}, 
+      #{ordertargetqty,jdbcType=INTEGER}, #{ordertargetant,jdbcType=DECIMAL}, #{groupno,jdbcType=VARCHAR}, 
+      #{groupid,jdbcType=VARCHAR}, #{salesprice4,jdbcType=DECIMAL}, #{salesprice5,jdbcType=DECIMAL}, 
+      #{salesprice6,jdbcType=DECIMAL}, #{salesprice7,jdbcType=DECIMAL}, #{salesprice8,jdbcType=DECIMAL}, 
+      #{vipprice,jdbcType=DECIMAL}, #{retailsales1,jdbcType=DECIMAL}, #{retailsales2,jdbcType=DECIMAL}, 
+      #{retailsales3,jdbcType=DECIMAL}, #{retailsales4,jdbcType=DECIMAL}, #{retailsales5,jdbcType=DECIMAL}, 
+      #{retailsales6,jdbcType=DECIMAL}, #{retailsales7,jdbcType=DECIMAL}, #{retailsales8,jdbcType=DECIMAL}, 
+      #{seller,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{packagecost,jdbcType=DECIMAL}, 
+      #{developprofit,jdbcType=DECIMAL}, #{designer,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{performstandard,jdbcType=VARCHAR}, #{securitytype,jdbcType=VARCHAR}, #{standardcode,jdbcType=VARCHAR}, 
+      #{model1,jdbcType=VARCHAR}, #{model2,jdbcType=VARCHAR}, #{model3,jdbcType=VARCHAR}, 
+      #{model4,jdbcType=VARCHAR}, #{brandprintstyle,jdbcType=VARCHAR}, #{washprintstyle,jdbcType=VARCHAR}, 
+      #{salesmarket,jdbcType=VARCHAR}, #{printflag,jdbcType=BIT}, #{fob,jdbcType=DECIMAL}, 
+      #{nondiscount,jdbcType=BIT}, #{lowretailsales,jdbcType=DECIMAL}, #{nonpoint,jdbcType=BIT}, 
+      #{brandoutlay,jdbcType=DECIMAL}, #{bomflag,jdbcType=BIT}, #{model5,jdbcType=VARCHAR}, 
+      #{model6,jdbcType=VARCHAR}, #{model7,jdbcType=VARCHAR}, #{model8,jdbcType=VARCHAR}, 
+      #{model9,jdbcType=VARCHAR}, #{goodsaudit,jdbcType=VARCHAR}, #{goodsauditflag,jdbcType=BIT}, 
+      #{goodsauditdate,jdbcType=TIMESTAMP}, #{style,jdbcType=VARCHAR}, #{heel,jdbcType=VARCHAR}, 
+      #{subtype,jdbcType=VARCHAR}, #{pointrate,jdbcType=DECIMAL}, #{initialprice,jdbcType=DECIMAL}, 
+      #{isnew,jdbcType=BIT}, #{isonline,jdbcType=BIT}, #{recommendonline,jdbcType=BIT}, 
+      #{maxsizeno,jdbcType=INTEGER}, #{issample,jdbcType=BIT}, #{nonreturncash,jdbcType=BIT}, 
+      #{nonexchangeprofit,jdbcType=BIT}, #{listingdate,jdbcType=TIMESTAMP}, #{caneditpriceforpos,jdbcType=BIT}, 
+      #{codeEshop,jdbcType=VARCHAR}, #{knotcode,jdbcType=VARCHAR}, #{packtype,jdbcType=VARCHAR}, 
+      #{band,jdbcType=VARCHAR}, #{audit,jdbcType=VARCHAR}, #{descript,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Goods" >
+    insert into Goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        GoodsID,
+      </if>
+      <if test="goodstypeid != null" >
+        GoodsTypeID,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="oldcode != null" >
+        OldCode,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="ename != null" >
+        EName,
+      </if>
+      <if test="othername != null" >
+        OtherName,
+      </if>
+      <if test="brandid != null" >
+        BrandID,
+      </if>
+      <if test="age != null" >
+        Age,
+      </if>
+      <if test="season != null" >
+        Season,
+      </if>
+      <if test="model != null" >
+        Model,
+      </if>
+      <if test="brandserialid != null" >
+        BrandSerialID,
+      </if>
+      <if test="kind != null" >
+        Kind,
+      </if>
+      <if test="producingareaid != null" >
+        ProducingAreaID,
+      </if>
+      <if test="helpcode != null" >
+        HelpCode,
+      </if>
+      <if test="unit != null" >
+        Unit,
+      </if>
+      <if test="packunit != null" >
+        PackUnit,
+      </if>
+      <if test="packsize != null" >
+        PackSize,
+      </if>
+      <if test="sex != null" >
+        Sex,
+      </if>
+      <if test="supplierid != null" >
+        SupplierID,
+      </if>
+      <if test="suppliercode != null" >
+        SupplierCode,
+      </if>
+      <if test="purchaseprice != null" >
+        PurchasePrice,
+      </if>
+      <if test="salespoint != null" >
+        SalesPoint,
+      </if>
+      <if test="retailsales != null" >
+        RetailSales,
+      </if>
+      <if test="tradeprice != null" >
+        TradePrice,
+      </if>
+      <if test="salesprice1 != null" >
+        SalesPrice1,
+      </if>
+      <if test="salesprice2 != null" >
+        SalesPrice2,
+      </if>
+      <if test="salesprice3 != null" >
+        SalesPrice3,
+      </if>
+      <if test="discount != null" >
+        Discount,
+      </if>
+      <if test="backflag != null" >
+        BackFlag,
+      </if>
+      <if test="discountflag != null" >
+        DiscountFlag,
+      </if>
+      <if test="sameflag != null" >
+        SameFlag,
+      </if>
+      <if test="presentflag != null" >
+        PresentFlag,
+      </if>
+      <if test="costtype != null" >
+        CostType,
+      </if>
+      <if test="topstock != null" >
+        TopStock,
+      </if>
+      <if test="bottomstock != null" >
+        BottomStock,
+      </if>
+      <if test="stocksubjectid != null" >
+        StockSubjectID,
+      </if>
+      <if test="salessubjectid != null" >
+        SalesSubjectID,
+      </if>
+      <if test="costsubjectid != null" >
+        CostSubjectID,
+      </if>
+      <if test="begindate != null" >
+        BeginDate,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+      <if test="madedate != null" >
+        MadeDate,
+      </if>
+      <if test="creator != null" >
+        Creator,
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate,
+      </if>
+      <if test="editor != null" >
+        Editor,
+      </if>
+      <if test="salesdate != null" >
+        SalesDate,
+      </if>
+      <if test="purchaseddate != null" >
+        PurchasedDate,
+      </if>
+      <if test="lastpurchaseddate != null" >
+        LastPurchasedDate,
+      </if>
+      <if test="exchangeenddate != null" >
+        ExchangeEndDate,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="stopflag != null" >
+        StopFlag,
+      </if>
+      <if test="useflag != null" >
+        UseFlag,
+      </if>
+      <if test="goodsbalance != null" >
+        GoodsBalance,
+      </if>
+      <if test="materialflag != null" >
+        MaterialFlag,
+      </if>
+      <if test="backdatelimit != null" >
+        BackDateLimit,
+      </if>
+      <if test="sendflag != null" >
+        SendFlag,
+      </if>
+      <if test="costprice != null" >
+        CostPrice,
+      </if>
+      <if test="washtype != null" >
+        WashType,
+      </if>
+      <if test="paymenttype != null" >
+        PaymentType,
+      </if>
+      <if test="hirerate != null" >
+        HireRate,
+      </if>
+      <if test="specialpriceflag != null" >
+        SpecialPriceFlag,
+      </if>
+      <if test="pricetype != null" >
+        PriceType,
+      </if>
+      <if test="priceint != null" >
+        PriceInt,
+      </if>
+      <if test="ordertargetqty != null" >
+        OrderTargetQty,
+      </if>
+      <if test="ordertargetant != null" >
+        OrderTargetAnt,
+      </if>
+      <if test="groupno != null" >
+        GroupNo,
+      </if>
+      <if test="groupid != null" >
+        GroupID,
+      </if>
+      <if test="salesprice4 != null" >
+        SalesPrice4,
+      </if>
+      <if test="salesprice5 != null" >
+        SalesPrice5,
+      </if>
+      <if test="salesprice6 != null" >
+        SalesPrice6,
+      </if>
+      <if test="salesprice7 != null" >
+        SalesPrice7,
+      </if>
+      <if test="salesprice8 != null" >
+        SalesPrice8,
+      </if>
+      <if test="vipprice != null" >
+        VIPPrice,
+      </if>
+      <if test="retailsales1 != null" >
+        RetailSales1,
+      </if>
+      <if test="retailsales2 != null" >
+        RetailSales2,
+      </if>
+      <if test="retailsales3 != null" >
+        RetailSales3,
+      </if>
+      <if test="retailsales4 != null" >
+        RetailSales4,
+      </if>
+      <if test="retailsales5 != null" >
+        RetailSales5,
+      </if>
+      <if test="retailsales6 != null" >
+        RetailSales6,
+      </if>
+      <if test="retailsales7 != null" >
+        RetailSales7,
+      </if>
+      <if test="retailsales8 != null" >
+        RetailSales8,
+      </if>
+      <if test="seller != null" >
+        Seller,
+      </if>
+      <if test="employeeid != null" >
+        EmployeeID,
+      </if>
+      <if test="packagecost != null" >
+        PackageCost,
+      </if>
+      <if test="developprofit != null" >
+        DevelopProfit,
+      </if>
+      <if test="designer != null" >
+        Designer,
+      </if>
+      <if test="grade != null" >
+        Grade,
+      </if>
+      <if test="performstandard != null" >
+        PerformStandard,
+      </if>
+      <if test="securitytype != null" >
+        SecurityType,
+      </if>
+      <if test="standardcode != null" >
+        StandardCode,
+      </if>
+      <if test="model1 != null" >
+        Model1,
+      </if>
+      <if test="model2 != null" >
+        Model2,
+      </if>
+      <if test="model3 != null" >
+        Model3,
+      </if>
+      <if test="model4 != null" >
+        Model4,
+      </if>
+      <if test="brandprintstyle != null" >
+        BrandPrintStyle,
+      </if>
+      <if test="washprintstyle != null" >
+        WashPrintStyle,
+      </if>
+      <if test="salesmarket != null" >
+        SalesMarket,
+      </if>
+      <if test="printflag != null" >
+        PrintFlag,
+      </if>
+      <if test="fob != null" >
+        FOB,
+      </if>
+      <if test="nondiscount != null" >
+        NonDiscount,
+      </if>
+      <if test="lowretailsales != null" >
+        LowRetailSales,
+      </if>
+      <if test="nonpoint != null" >
+        NonPoint,
+      </if>
+      <if test="brandoutlay != null" >
+        BrandOutlay,
+      </if>
+      <if test="bomflag != null" >
+        BOMFlag,
+      </if>
+      <if test="model5 != null" >
+        Model5,
+      </if>
+      <if test="model6 != null" >
+        Model6,
+      </if>
+      <if test="model7 != null" >
+        Model7,
+      </if>
+      <if test="model8 != null" >
+        Model8,
+      </if>
+      <if test="model9 != null" >
+        Model9,
+      </if>
+      <if test="goodsaudit != null" >
+        GoodsAudit,
+      </if>
+      <if test="goodsauditflag != null" >
+        GoodsAuditFlag,
+      </if>
+      <if test="goodsauditdate != null" >
+        GoodsAuditDate,
+      </if>
+      <if test="style != null" >
+        Style,
+      </if>
+      <if test="heel != null" >
+        Heel,
+      </if>
+      <if test="subtype != null" >
+        SubType,
+      </if>
+      <if test="pointrate != null" >
+        PointRate,
+      </if>
+      <if test="initialprice != null" >
+        InitialPrice,
+      </if>
+      <if test="isnew != null" >
+        IsNew,
+      </if>
+      <if test="isonline != null" >
+        IsOnLine,
+      </if>
+      <if test="recommendonline != null" >
+        RecommendOnLine,
+      </if>
+      <if test="maxsizeno != null" >
+        MaxSizeNo,
+      </if>
+      <if test="issample != null" >
+        IsSample,
+      </if>
+      <if test="nonreturncash != null" >
+        NonReturnCash,
+      </if>
+      <if test="nonexchangeprofit != null" >
+        NonExchangeProfit,
+      </if>
+      <if test="listingdate != null" >
+        ListingDate,
+      </if>
+      <if test="caneditpriceforpos != null" >
+        CanEditPriceForPOS,
+      </if>
+      <if test="codeEshop != null" >
+        Code_EShop,
+      </if>
+      <if test="knotcode != null" >
+        KnotCode,
+      </if>
+      <if test="packtype != null" >
+        PackType,
+      </if>
+      <if test="band != null" >
+        Band,
+      </if>
+      <if test="audit != null" >
+        Audit,
+      </if>
+      <if test="descript != null" >
+        Descript,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodstypeid != null" >
+        #{goodstypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="oldcode != null" >
+        #{oldcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="othername != null" >
+        #{othername,jdbcType=VARCHAR},
+      </if>
+      <if test="brandid != null" >
+        #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=CHAR},
+      </if>
+      <if test="season != null" >
+        #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="brandserialid != null" >
+        #{brandserialid,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="producingareaid != null" >
+        #{producingareaid,jdbcType=VARCHAR},
+      </if>
+      <if test="helpcode != null" >
+        #{helpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="packunit != null" >
+        #{packunit,jdbcType=VARCHAR},
+      </if>
+      <if test="packsize != null" >
+        #{packsize,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null" >
+        #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseprice != null" >
+        #{purchaseprice,jdbcType=DECIMAL},
+      </if>
+      <if test="salespoint != null" >
+        #{salespoint,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales != null" >
+        #{retailsales,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeprice != null" >
+        #{tradeprice,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice1 != null" >
+        #{salesprice1,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice2 != null" >
+        #{salesprice2,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice3 != null" >
+        #{salesprice3,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="backflag != null" >
+        #{backflag,jdbcType=BIT},
+      </if>
+      <if test="discountflag != null" >
+        #{discountflag,jdbcType=BIT},
+      </if>
+      <if test="sameflag != null" >
+        #{sameflag,jdbcType=BIT},
+      </if>
+      <if test="presentflag != null" >
+        #{presentflag,jdbcType=BIT},
+      </if>
+      <if test="costtype != null" >
+        #{costtype,jdbcType=VARCHAR},
+      </if>
+      <if test="topstock != null" >
+        #{topstock,jdbcType=INTEGER},
+      </if>
+      <if test="bottomstock != null" >
+        #{bottomstock,jdbcType=INTEGER},
+      </if>
+      <if test="stocksubjectid != null" >
+        #{stocksubjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="salessubjectid != null" >
+        #{salessubjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="costsubjectid != null" >
+        #{costsubjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="madedate != null" >
+        #{madedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="salesdate != null" >
+        #{salesdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseddate != null" >
+        #{purchaseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastpurchaseddate != null" >
+        #{lastpurchaseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeenddate != null" >
+        #{exchangeenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopflag != null" >
+        #{stopflag,jdbcType=BIT},
+      </if>
+      <if test="useflag != null" >
+        #{useflag,jdbcType=BIT},
+      </if>
+      <if test="goodsbalance != null" >
+        #{goodsbalance,jdbcType=INTEGER},
+      </if>
+      <if test="materialflag != null" >
+        #{materialflag,jdbcType=BIT},
+      </if>
+      <if test="backdatelimit != null" >
+        #{backdatelimit,jdbcType=INTEGER},
+      </if>
+      <if test="sendflag != null" >
+        #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="costprice != null" >
+        #{costprice,jdbcType=DECIMAL},
+      </if>
+      <if test="washtype != null" >
+        #{washtype,jdbcType=VARCHAR},
+      </if>
+      <if test="paymenttype != null" >
+        #{paymenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="hirerate != null" >
+        #{hirerate,jdbcType=DECIMAL},
+      </if>
+      <if test="specialpriceflag != null" >
+        #{specialpriceflag,jdbcType=BIT},
+      </if>
+      <if test="pricetype != null" >
+        #{pricetype,jdbcType=VARCHAR},
+      </if>
+      <if test="priceint != null" >
+        #{priceint,jdbcType=INTEGER},
+      </if>
+      <if test="ordertargetqty != null" >
+        #{ordertargetqty,jdbcType=INTEGER},
+      </if>
+      <if test="ordertargetant != null" >
+        #{ordertargetant,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null" >
+        #{groupno,jdbcType=VARCHAR},
+      </if>
+      <if test="groupid != null" >
+        #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="salesprice4 != null" >
+        #{salesprice4,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice5 != null" >
+        #{salesprice5,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice6 != null" >
+        #{salesprice6,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice7 != null" >
+        #{salesprice7,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice8 != null" >
+        #{salesprice8,jdbcType=DECIMAL},
+      </if>
+      <if test="vipprice != null" >
+        #{vipprice,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales1 != null" >
+        #{retailsales1,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales2 != null" >
+        #{retailsales2,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales3 != null" >
+        #{retailsales3,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales4 != null" >
+        #{retailsales4,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales5 != null" >
+        #{retailsales5,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales6 != null" >
+        #{retailsales6,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales7 != null" >
+        #{retailsales7,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales8 != null" >
+        #{retailsales8,jdbcType=DECIMAL},
+      </if>
+      <if test="seller != null" >
+        #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="packagecost != null" >
+        #{packagecost,jdbcType=DECIMAL},
+      </if>
+      <if test="developprofit != null" >
+        #{developprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="designer != null" >
+        #{designer,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="performstandard != null" >
+        #{performstandard,jdbcType=VARCHAR},
+      </if>
+      <if test="securitytype != null" >
+        #{securitytype,jdbcType=VARCHAR},
+      </if>
+      <if test="standardcode != null" >
+        #{standardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="model1 != null" >
+        #{model1,jdbcType=VARCHAR},
+      </if>
+      <if test="model2 != null" >
+        #{model2,jdbcType=VARCHAR},
+      </if>
+      <if test="model3 != null" >
+        #{model3,jdbcType=VARCHAR},
+      </if>
+      <if test="model4 != null" >
+        #{model4,jdbcType=VARCHAR},
+      </if>
+      <if test="brandprintstyle != null" >
+        #{brandprintstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="washprintstyle != null" >
+        #{washprintstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmarket != null" >
+        #{salesmarket,jdbcType=VARCHAR},
+      </if>
+      <if test="printflag != null" >
+        #{printflag,jdbcType=BIT},
+      </if>
+      <if test="fob != null" >
+        #{fob,jdbcType=DECIMAL},
+      </if>
+      <if test="nondiscount != null" >
+        #{nondiscount,jdbcType=BIT},
+      </if>
+      <if test="lowretailsales != null" >
+        #{lowretailsales,jdbcType=DECIMAL},
+      </if>
+      <if test="nonpoint != null" >
+        #{nonpoint,jdbcType=BIT},
+      </if>
+      <if test="brandoutlay != null" >
+        #{brandoutlay,jdbcType=DECIMAL},
+      </if>
+      <if test="bomflag != null" >
+        #{bomflag,jdbcType=BIT},
+      </if>
+      <if test="model5 != null" >
+        #{model5,jdbcType=VARCHAR},
+      </if>
+      <if test="model6 != null" >
+        #{model6,jdbcType=VARCHAR},
+      </if>
+      <if test="model7 != null" >
+        #{model7,jdbcType=VARCHAR},
+      </if>
+      <if test="model8 != null" >
+        #{model8,jdbcType=VARCHAR},
+      </if>
+      <if test="model9 != null" >
+        #{model9,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsaudit != null" >
+        #{goodsaudit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsauditflag != null" >
+        #{goodsauditflag,jdbcType=BIT},
+      </if>
+      <if test="goodsauditdate != null" >
+        #{goodsauditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="heel != null" >
+        #{heel,jdbcType=VARCHAR},
+      </if>
+      <if test="subtype != null" >
+        #{subtype,jdbcType=VARCHAR},
+      </if>
+      <if test="pointrate != null" >
+        #{pointrate,jdbcType=DECIMAL},
+      </if>
+      <if test="initialprice != null" >
+        #{initialprice,jdbcType=DECIMAL},
+      </if>
+      <if test="isnew != null" >
+        #{isnew,jdbcType=BIT},
+      </if>
+      <if test="isonline != null" >
+        #{isonline,jdbcType=BIT},
+      </if>
+      <if test="recommendonline != null" >
+        #{recommendonline,jdbcType=BIT},
+      </if>
+      <if test="maxsizeno != null" >
+        #{maxsizeno,jdbcType=INTEGER},
+      </if>
+      <if test="issample != null" >
+        #{issample,jdbcType=BIT},
+      </if>
+      <if test="nonreturncash != null" >
+        #{nonreturncash,jdbcType=BIT},
+      </if>
+      <if test="nonexchangeprofit != null" >
+        #{nonexchangeprofit,jdbcType=BIT},
+      </if>
+      <if test="listingdate != null" >
+        #{listingdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="caneditpriceforpos != null" >
+        #{caneditpriceforpos,jdbcType=BIT},
+      </if>
+      <if test="codeEshop != null" >
+        #{codeEshop,jdbcType=VARCHAR},
+      </if>
+      <if test="knotcode != null" >
+        #{knotcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packtype != null" >
+        #{packtype,jdbcType=VARCHAR},
+      </if>
+      <if test="band != null" >
+        #{band,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="descript != null" >
+        #{descript,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.GoodsExample" resultType="java.lang.Integer" >
+    select count(*) from Goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Goods" >
+    update Goods
+    <set >
+      <if test="goodstypeid != null" >
+        GoodsTypeID = #{goodstypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="oldcode != null" >
+        OldCode = #{oldcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        EName = #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="othername != null" >
+        OtherName = #{othername,jdbcType=VARCHAR},
+      </if>
+      <if test="brandid != null" >
+        BrandID = #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        Age = #{age,jdbcType=CHAR},
+      </if>
+      <if test="season != null" >
+        Season = #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        Model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="brandserialid != null" >
+        BrandSerialID = #{brandserialid,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        Kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="producingareaid != null" >
+        ProducingAreaID = #{producingareaid,jdbcType=VARCHAR},
+      </if>
+      <if test="helpcode != null" >
+        HelpCode = #{helpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        Unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="packunit != null" >
+        PackUnit = #{packunit,jdbcType=VARCHAR},
+      </if>
+      <if test="packsize != null" >
+        PackSize = #{packsize,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        Sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        SupplierID = #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null" >
+        SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseprice != null" >
+        PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
+      </if>
+      <if test="salespoint != null" >
+        SalesPoint = #{salespoint,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales != null" >
+        RetailSales = #{retailsales,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeprice != null" >
+        TradePrice = #{tradeprice,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice1 != null" >
+        SalesPrice1 = #{salesprice1,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice2 != null" >
+        SalesPrice2 = #{salesprice2,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice3 != null" >
+        SalesPrice3 = #{salesprice3,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        Discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="backflag != null" >
+        BackFlag = #{backflag,jdbcType=BIT},
+      </if>
+      <if test="discountflag != null" >
+        DiscountFlag = #{discountflag,jdbcType=BIT},
+      </if>
+      <if test="sameflag != null" >
+        SameFlag = #{sameflag,jdbcType=BIT},
+      </if>
+      <if test="presentflag != null" >
+        PresentFlag = #{presentflag,jdbcType=BIT},
+      </if>
+      <if test="costtype != null" >
+        CostType = #{costtype,jdbcType=VARCHAR},
+      </if>
+      <if test="topstock != null" >
+        TopStock = #{topstock,jdbcType=INTEGER},
+      </if>
+      <if test="bottomstock != null" >
+        BottomStock = #{bottomstock,jdbcType=INTEGER},
+      </if>
+      <if test="stocksubjectid != null" >
+        StockSubjectID = #{stocksubjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="salessubjectid != null" >
+        SalesSubjectID = #{salessubjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="costsubjectid != null" >
+        CostSubjectID = #{costsubjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        BeginDate = #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        EndDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="madedate != null" >
+        MadeDate = #{madedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        Creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        Editor = #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="salesdate != null" >
+        SalesDate = #{salesdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseddate != null" >
+        PurchasedDate = #{purchaseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastpurchaseddate != null" >
+        LastPurchasedDate = #{lastpurchaseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeenddate != null" >
+        ExchangeEndDate = #{exchangeenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopflag != null" >
+        StopFlag = #{stopflag,jdbcType=BIT},
+      </if>
+      <if test="useflag != null" >
+        UseFlag = #{useflag,jdbcType=BIT},
+      </if>
+      <if test="goodsbalance != null" >
+        GoodsBalance = #{goodsbalance,jdbcType=INTEGER},
+      </if>
+      <if test="materialflag != null" >
+        MaterialFlag = #{materialflag,jdbcType=BIT},
+      </if>
+      <if test="backdatelimit != null" >
+        BackDateLimit = #{backdatelimit,jdbcType=INTEGER},
+      </if>
+      <if test="sendflag != null" >
+        SendFlag = #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="costprice != null" >
+        CostPrice = #{costprice,jdbcType=DECIMAL},
+      </if>
+      <if test="washtype != null" >
+        WashType = #{washtype,jdbcType=VARCHAR},
+      </if>
+      <if test="paymenttype != null" >
+        PaymentType = #{paymenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="hirerate != null" >
+        HireRate = #{hirerate,jdbcType=DECIMAL},
+      </if>
+      <if test="specialpriceflag != null" >
+        SpecialPriceFlag = #{specialpriceflag,jdbcType=BIT},
+      </if>
+      <if test="pricetype != null" >
+        PriceType = #{pricetype,jdbcType=VARCHAR},
+      </if>
+      <if test="priceint != null" >
+        PriceInt = #{priceint,jdbcType=INTEGER},
+      </if>
+      <if test="ordertargetqty != null" >
+        OrderTargetQty = #{ordertargetqty,jdbcType=INTEGER},
+      </if>
+      <if test="ordertargetant != null" >
+        OrderTargetAnt = #{ordertargetant,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null" >
+        GroupNo = #{groupno,jdbcType=VARCHAR},
+      </if>
+      <if test="groupid != null" >
+        GroupID = #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="salesprice4 != null" >
+        SalesPrice4 = #{salesprice4,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice5 != null" >
+        SalesPrice5 = #{salesprice5,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice6 != null" >
+        SalesPrice6 = #{salesprice6,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice7 != null" >
+        SalesPrice7 = #{salesprice7,jdbcType=DECIMAL},
+      </if>
+      <if test="salesprice8 != null" >
+        SalesPrice8 = #{salesprice8,jdbcType=DECIMAL},
+      </if>
+      <if test="vipprice != null" >
+        VIPPrice = #{vipprice,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales1 != null" >
+        RetailSales1 = #{retailsales1,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales2 != null" >
+        RetailSales2 = #{retailsales2,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales3 != null" >
+        RetailSales3 = #{retailsales3,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales4 != null" >
+        RetailSales4 = #{retailsales4,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales5 != null" >
+        RetailSales5 = #{retailsales5,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales6 != null" >
+        RetailSales6 = #{retailsales6,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales7 != null" >
+        RetailSales7 = #{retailsales7,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales8 != null" >
+        RetailSales8 = #{retailsales8,jdbcType=DECIMAL},
+      </if>
+      <if test="seller != null" >
+        Seller = #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="packagecost != null" >
+        PackageCost = #{packagecost,jdbcType=DECIMAL},
+      </if>
+      <if test="developprofit != null" >
+        DevelopProfit = #{developprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="designer != null" >
+        Designer = #{designer,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        Grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="performstandard != null" >
+        PerformStandard = #{performstandard,jdbcType=VARCHAR},
+      </if>
+      <if test="securitytype != null" >
+        SecurityType = #{securitytype,jdbcType=VARCHAR},
+      </if>
+      <if test="standardcode != null" >
+        StandardCode = #{standardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="model1 != null" >
+        Model1 = #{model1,jdbcType=VARCHAR},
+      </if>
+      <if test="model2 != null" >
+        Model2 = #{model2,jdbcType=VARCHAR},
+      </if>
+      <if test="model3 != null" >
+        Model3 = #{model3,jdbcType=VARCHAR},
+      </if>
+      <if test="model4 != null" >
+        Model4 = #{model4,jdbcType=VARCHAR},
+      </if>
+      <if test="brandprintstyle != null" >
+        BrandPrintStyle = #{brandprintstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="washprintstyle != null" >
+        WashPrintStyle = #{washprintstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmarket != null" >
+        SalesMarket = #{salesmarket,jdbcType=VARCHAR},
+      </if>
+      <if test="printflag != null" >
+        PrintFlag = #{printflag,jdbcType=BIT},
+      </if>
+      <if test="fob != null" >
+        FOB = #{fob,jdbcType=DECIMAL},
+      </if>
+      <if test="nondiscount != null" >
+        NonDiscount = #{nondiscount,jdbcType=BIT},
+      </if>
+      <if test="lowretailsales != null" >
+        LowRetailSales = #{lowretailsales,jdbcType=DECIMAL},
+      </if>
+      <if test="nonpoint != null" >
+        NonPoint = #{nonpoint,jdbcType=BIT},
+      </if>
+      <if test="brandoutlay != null" >
+        BrandOutlay = #{brandoutlay,jdbcType=DECIMAL},
+      </if>
+      <if test="bomflag != null" >
+        BOMFlag = #{bomflag,jdbcType=BIT},
+      </if>
+      <if test="model5 != null" >
+        Model5 = #{model5,jdbcType=VARCHAR},
+      </if>
+      <if test="model6 != null" >
+        Model6 = #{model6,jdbcType=VARCHAR},
+      </if>
+      <if test="model7 != null" >
+        Model7 = #{model7,jdbcType=VARCHAR},
+      </if>
+      <if test="model8 != null" >
+        Model8 = #{model8,jdbcType=VARCHAR},
+      </if>
+      <if test="model9 != null" >
+        Model9 = #{model9,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsaudit != null" >
+        GoodsAudit = #{goodsaudit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsauditflag != null" >
+        GoodsAuditFlag = #{goodsauditflag,jdbcType=BIT},
+      </if>
+      <if test="goodsauditdate != null" >
+        GoodsAuditDate = #{goodsauditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="style != null" >
+        Style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="heel != null" >
+        Heel = #{heel,jdbcType=VARCHAR},
+      </if>
+      <if test="subtype != null" >
+        SubType = #{subtype,jdbcType=VARCHAR},
+      </if>
+      <if test="pointrate != null" >
+        PointRate = #{pointrate,jdbcType=DECIMAL},
+      </if>
+      <if test="initialprice != null" >
+        InitialPrice = #{initialprice,jdbcType=DECIMAL},
+      </if>
+      <if test="isnew != null" >
+        IsNew = #{isnew,jdbcType=BIT},
+      </if>
+      <if test="isonline != null" >
+        IsOnLine = #{isonline,jdbcType=BIT},
+      </if>
+      <if test="recommendonline != null" >
+        RecommendOnLine = #{recommendonline,jdbcType=BIT},
+      </if>
+      <if test="maxsizeno != null" >
+        MaxSizeNo = #{maxsizeno,jdbcType=INTEGER},
+      </if>
+      <if test="issample != null" >
+        IsSample = #{issample,jdbcType=BIT},
+      </if>
+      <if test="nonreturncash != null" >
+        NonReturnCash = #{nonreturncash,jdbcType=BIT},
+      </if>
+      <if test="nonexchangeprofit != null" >
+        NonExchangeProfit = #{nonexchangeprofit,jdbcType=BIT},
+      </if>
+      <if test="listingdate != null" >
+        ListingDate = #{listingdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="caneditpriceforpos != null" >
+        CanEditPriceForPOS = #{caneditpriceforpos,jdbcType=BIT},
+      </if>
+      <if test="codeEshop != null" >
+        Code_EShop = #{codeEshop,jdbcType=VARCHAR},
+      </if>
+      <if test="knotcode != null" >
+        KnotCode = #{knotcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packtype != null" >
+        PackType = #{packtype,jdbcType=VARCHAR},
+      </if>
+      <if test="band != null" >
+        Band = #{band,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        Audit = #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="descript != null" >
+        Descript = #{descript,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pos.model.Goods" >
+    update Goods
+    set GoodsTypeID = #{goodstypeid,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
+      OldCode = #{oldcode,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      EName = #{ename,jdbcType=VARCHAR},
+      OtherName = #{othername,jdbcType=VARCHAR},
+      BrandID = #{brandid,jdbcType=VARCHAR},
+      Age = #{age,jdbcType=CHAR},
+      Season = #{season,jdbcType=VARCHAR},
+      Model = #{model,jdbcType=VARCHAR},
+      BrandSerialID = #{brandserialid,jdbcType=VARCHAR},
+      Kind = #{kind,jdbcType=VARCHAR},
+      ProducingAreaID = #{producingareaid,jdbcType=VARCHAR},
+      HelpCode = #{helpcode,jdbcType=VARCHAR},
+      Unit = #{unit,jdbcType=VARCHAR},
+      PackUnit = #{packunit,jdbcType=VARCHAR},
+      PackSize = #{packsize,jdbcType=INTEGER},
+      Sex = #{sex,jdbcType=VARCHAR},
+      SupplierID = #{supplierid,jdbcType=VARCHAR},
+      SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
+      SalesPoint = #{salespoint,jdbcType=DECIMAL},
+      RetailSales = #{retailsales,jdbcType=DECIMAL},
+      TradePrice = #{tradeprice,jdbcType=DECIMAL},
+      SalesPrice1 = #{salesprice1,jdbcType=DECIMAL},
+      SalesPrice2 = #{salesprice2,jdbcType=DECIMAL},
+      SalesPrice3 = #{salesprice3,jdbcType=DECIMAL},
+      Discount = #{discount,jdbcType=DECIMAL},
+      BackFlag = #{backflag,jdbcType=BIT},
+      DiscountFlag = #{discountflag,jdbcType=BIT},
+      SameFlag = #{sameflag,jdbcType=BIT},
+      PresentFlag = #{presentflag,jdbcType=BIT},
+      CostType = #{costtype,jdbcType=VARCHAR},
+      TopStock = #{topstock,jdbcType=INTEGER},
+      BottomStock = #{bottomstock,jdbcType=INTEGER},
+      StockSubjectID = #{stocksubjectid,jdbcType=VARCHAR},
+      SalesSubjectID = #{salessubjectid,jdbcType=VARCHAR},
+      CostSubjectID = #{costsubjectid,jdbcType=VARCHAR},
+      BeginDate = #{begindate,jdbcType=TIMESTAMP},
+      EndDate = #{enddate,jdbcType=TIMESTAMP},
+      MadeDate = #{madedate,jdbcType=TIMESTAMP},
+      Creator = #{creator,jdbcType=VARCHAR},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      Editor = #{editor,jdbcType=VARCHAR},
+      SalesDate = #{salesdate,jdbcType=TIMESTAMP},
+      PurchasedDate = #{purchaseddate,jdbcType=TIMESTAMP},
+      LastPurchasedDate = #{lastpurchaseddate,jdbcType=TIMESTAMP},
+      ExchangeEndDate = #{exchangeenddate,jdbcType=TIMESTAMP},
+      Memo = #{memo,jdbcType=VARCHAR},
+      StopFlag = #{stopflag,jdbcType=BIT},
+      UseFlag = #{useflag,jdbcType=BIT},
+      GoodsBalance = #{goodsbalance,jdbcType=INTEGER},
+      MaterialFlag = #{materialflag,jdbcType=BIT},
+      BackDateLimit = #{backdatelimit,jdbcType=INTEGER},
+      SendFlag = #{sendflag,jdbcType=BIT},
+      CostPrice = #{costprice,jdbcType=DECIMAL},
+      WashType = #{washtype,jdbcType=VARCHAR},
+      PaymentType = #{paymenttype,jdbcType=VARCHAR},
+      HireRate = #{hirerate,jdbcType=DECIMAL},
+      SpecialPriceFlag = #{specialpriceflag,jdbcType=BIT},
+      PriceType = #{pricetype,jdbcType=VARCHAR},
+      PriceInt = #{priceint,jdbcType=INTEGER},
+      OrderTargetQty = #{ordertargetqty,jdbcType=INTEGER},
+      OrderTargetAnt = #{ordertargetant,jdbcType=DECIMAL},
+      GroupNo = #{groupno,jdbcType=VARCHAR},
+      GroupID = #{groupid,jdbcType=VARCHAR},
+      SalesPrice4 = #{salesprice4,jdbcType=DECIMAL},
+      SalesPrice5 = #{salesprice5,jdbcType=DECIMAL},
+      SalesPrice6 = #{salesprice6,jdbcType=DECIMAL},
+      SalesPrice7 = #{salesprice7,jdbcType=DECIMAL},
+      SalesPrice8 = #{salesprice8,jdbcType=DECIMAL},
+      VIPPrice = #{vipprice,jdbcType=DECIMAL},
+      RetailSales1 = #{retailsales1,jdbcType=DECIMAL},
+      RetailSales2 = #{retailsales2,jdbcType=DECIMAL},
+      RetailSales3 = #{retailsales3,jdbcType=DECIMAL},
+      RetailSales4 = #{retailsales4,jdbcType=DECIMAL},
+      RetailSales5 = #{retailsales5,jdbcType=DECIMAL},
+      RetailSales6 = #{retailsales6,jdbcType=DECIMAL},
+      RetailSales7 = #{retailsales7,jdbcType=DECIMAL},
+      RetailSales8 = #{retailsales8,jdbcType=DECIMAL},
+      Seller = #{seller,jdbcType=VARCHAR},
+      EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      PackageCost = #{packagecost,jdbcType=DECIMAL},
+      DevelopProfit = #{developprofit,jdbcType=DECIMAL},
+      Designer = #{designer,jdbcType=VARCHAR},
+      Grade = #{grade,jdbcType=VARCHAR},
+      PerformStandard = #{performstandard,jdbcType=VARCHAR},
+      SecurityType = #{securitytype,jdbcType=VARCHAR},
+      StandardCode = #{standardcode,jdbcType=VARCHAR},
+      Model1 = #{model1,jdbcType=VARCHAR},
+      Model2 = #{model2,jdbcType=VARCHAR},
+      Model3 = #{model3,jdbcType=VARCHAR},
+      Model4 = #{model4,jdbcType=VARCHAR},
+      BrandPrintStyle = #{brandprintstyle,jdbcType=VARCHAR},
+      WashPrintStyle = #{washprintstyle,jdbcType=VARCHAR},
+      SalesMarket = #{salesmarket,jdbcType=VARCHAR},
+      PrintFlag = #{printflag,jdbcType=BIT},
+      FOB = #{fob,jdbcType=DECIMAL},
+      NonDiscount = #{nondiscount,jdbcType=BIT},
+      LowRetailSales = #{lowretailsales,jdbcType=DECIMAL},
+      NonPoint = #{nonpoint,jdbcType=BIT},
+      BrandOutlay = #{brandoutlay,jdbcType=DECIMAL},
+      BOMFlag = #{bomflag,jdbcType=BIT},
+      Model5 = #{model5,jdbcType=VARCHAR},
+      Model6 = #{model6,jdbcType=VARCHAR},
+      Model7 = #{model7,jdbcType=VARCHAR},
+      Model8 = #{model8,jdbcType=VARCHAR},
+      Model9 = #{model9,jdbcType=VARCHAR},
+      GoodsAudit = #{goodsaudit,jdbcType=VARCHAR},
+      GoodsAuditFlag = #{goodsauditflag,jdbcType=BIT},
+      GoodsAuditDate = #{goodsauditdate,jdbcType=TIMESTAMP},
+      Style = #{style,jdbcType=VARCHAR},
+      Heel = #{heel,jdbcType=VARCHAR},
+      SubType = #{subtype,jdbcType=VARCHAR},
+      PointRate = #{pointrate,jdbcType=DECIMAL},
+      InitialPrice = #{initialprice,jdbcType=DECIMAL},
+      IsNew = #{isnew,jdbcType=BIT},
+      IsOnLine = #{isonline,jdbcType=BIT},
+      RecommendOnLine = #{recommendonline,jdbcType=BIT},
+      MaxSizeNo = #{maxsizeno,jdbcType=INTEGER},
+      IsSample = #{issample,jdbcType=BIT},
+      NonReturnCash = #{nonreturncash,jdbcType=BIT},
+      NonExchangeProfit = #{nonexchangeprofit,jdbcType=BIT},
+      ListingDate = #{listingdate,jdbcType=TIMESTAMP},
+      CanEditPriceForPOS = #{caneditpriceforpos,jdbcType=BIT},
+      Code_EShop = #{codeEshop,jdbcType=VARCHAR},
+      KnotCode = #{knotcode,jdbcType=VARCHAR},
+      PackType = #{packtype,jdbcType=VARCHAR},
+      Band = #{band,jdbcType=VARCHAR},
+      Audit = #{audit,jdbcType=VARCHAR},
+      Descript = #{descript,jdbcType=LONGVARCHAR}
+    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Goods" >
+    update Goods
+    set GoodsTypeID = #{goodstypeid,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
+      OldCode = #{oldcode,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      EName = #{ename,jdbcType=VARCHAR},
+      OtherName = #{othername,jdbcType=VARCHAR},
+      BrandID = #{brandid,jdbcType=VARCHAR},
+      Age = #{age,jdbcType=CHAR},
+      Season = #{season,jdbcType=VARCHAR},
+      Model = #{model,jdbcType=VARCHAR},
+      BrandSerialID = #{brandserialid,jdbcType=VARCHAR},
+      Kind = #{kind,jdbcType=VARCHAR},
+      ProducingAreaID = #{producingareaid,jdbcType=VARCHAR},
+      HelpCode = #{helpcode,jdbcType=VARCHAR},
+      Unit = #{unit,jdbcType=VARCHAR},
+      PackUnit = #{packunit,jdbcType=VARCHAR},
+      PackSize = #{packsize,jdbcType=INTEGER},
+      Sex = #{sex,jdbcType=VARCHAR},
+      SupplierID = #{supplierid,jdbcType=VARCHAR},
+      SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
+      SalesPoint = #{salespoint,jdbcType=DECIMAL},
+      RetailSales = #{retailsales,jdbcType=DECIMAL},
+      TradePrice = #{tradeprice,jdbcType=DECIMAL},
+      SalesPrice1 = #{salesprice1,jdbcType=DECIMAL},
+      SalesPrice2 = #{salesprice2,jdbcType=DECIMAL},
+      SalesPrice3 = #{salesprice3,jdbcType=DECIMAL},
+      Discount = #{discount,jdbcType=DECIMAL},
+      BackFlag = #{backflag,jdbcType=BIT},
+      DiscountFlag = #{discountflag,jdbcType=BIT},
+      SameFlag = #{sameflag,jdbcType=BIT},
+      PresentFlag = #{presentflag,jdbcType=BIT},
+      CostType = #{costtype,jdbcType=VARCHAR},
+      TopStock = #{topstock,jdbcType=INTEGER},
+      BottomStock = #{bottomstock,jdbcType=INTEGER},
+      StockSubjectID = #{stocksubjectid,jdbcType=VARCHAR},
+      SalesSubjectID = #{salessubjectid,jdbcType=VARCHAR},
+      CostSubjectID = #{costsubjectid,jdbcType=VARCHAR},
+      BeginDate = #{begindate,jdbcType=TIMESTAMP},
+      EndDate = #{enddate,jdbcType=TIMESTAMP},
+      MadeDate = #{madedate,jdbcType=TIMESTAMP},
+      Creator = #{creator,jdbcType=VARCHAR},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      Editor = #{editor,jdbcType=VARCHAR},
+      SalesDate = #{salesdate,jdbcType=TIMESTAMP},
+      PurchasedDate = #{purchaseddate,jdbcType=TIMESTAMP},
+      LastPurchasedDate = #{lastpurchaseddate,jdbcType=TIMESTAMP},
+      ExchangeEndDate = #{exchangeenddate,jdbcType=TIMESTAMP},
+      Memo = #{memo,jdbcType=VARCHAR},
+      StopFlag = #{stopflag,jdbcType=BIT},
+      UseFlag = #{useflag,jdbcType=BIT},
+      GoodsBalance = #{goodsbalance,jdbcType=INTEGER},
+      MaterialFlag = #{materialflag,jdbcType=BIT},
+      BackDateLimit = #{backdatelimit,jdbcType=INTEGER},
+      SendFlag = #{sendflag,jdbcType=BIT},
+      CostPrice = #{costprice,jdbcType=DECIMAL},
+      WashType = #{washtype,jdbcType=VARCHAR},
+      PaymentType = #{paymenttype,jdbcType=VARCHAR},
+      HireRate = #{hirerate,jdbcType=DECIMAL},
+      SpecialPriceFlag = #{specialpriceflag,jdbcType=BIT},
+      PriceType = #{pricetype,jdbcType=VARCHAR},
+      PriceInt = #{priceint,jdbcType=INTEGER},
+      OrderTargetQty = #{ordertargetqty,jdbcType=INTEGER},
+      OrderTargetAnt = #{ordertargetant,jdbcType=DECIMAL},
+      GroupNo = #{groupno,jdbcType=VARCHAR},
+      GroupID = #{groupid,jdbcType=VARCHAR},
+      SalesPrice4 = #{salesprice4,jdbcType=DECIMAL},
+      SalesPrice5 = #{salesprice5,jdbcType=DECIMAL},
+      SalesPrice6 = #{salesprice6,jdbcType=DECIMAL},
+      SalesPrice7 = #{salesprice7,jdbcType=DECIMAL},
+      SalesPrice8 = #{salesprice8,jdbcType=DECIMAL},
+      VIPPrice = #{vipprice,jdbcType=DECIMAL},
+      RetailSales1 = #{retailsales1,jdbcType=DECIMAL},
+      RetailSales2 = #{retailsales2,jdbcType=DECIMAL},
+      RetailSales3 = #{retailsales3,jdbcType=DECIMAL},
+      RetailSales4 = #{retailsales4,jdbcType=DECIMAL},
+      RetailSales5 = #{retailsales5,jdbcType=DECIMAL},
+      RetailSales6 = #{retailsales6,jdbcType=DECIMAL},
+      RetailSales7 = #{retailsales7,jdbcType=DECIMAL},
+      RetailSales8 = #{retailsales8,jdbcType=DECIMAL},
+      Seller = #{seller,jdbcType=VARCHAR},
+      EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      PackageCost = #{packagecost,jdbcType=DECIMAL},
+      DevelopProfit = #{developprofit,jdbcType=DECIMAL},
+      Designer = #{designer,jdbcType=VARCHAR},
+      Grade = #{grade,jdbcType=VARCHAR},
+      PerformStandard = #{performstandard,jdbcType=VARCHAR},
+      SecurityType = #{securitytype,jdbcType=VARCHAR},
+      StandardCode = #{standardcode,jdbcType=VARCHAR},
+      Model1 = #{model1,jdbcType=VARCHAR},
+      Model2 = #{model2,jdbcType=VARCHAR},
+      Model3 = #{model3,jdbcType=VARCHAR},
+      Model4 = #{model4,jdbcType=VARCHAR},
+      BrandPrintStyle = #{brandprintstyle,jdbcType=VARCHAR},
+      WashPrintStyle = #{washprintstyle,jdbcType=VARCHAR},
+      SalesMarket = #{salesmarket,jdbcType=VARCHAR},
+      PrintFlag = #{printflag,jdbcType=BIT},
+      FOB = #{fob,jdbcType=DECIMAL},
+      NonDiscount = #{nondiscount,jdbcType=BIT},
+      LowRetailSales = #{lowretailsales,jdbcType=DECIMAL},
+      NonPoint = #{nonpoint,jdbcType=BIT},
+      BrandOutlay = #{brandoutlay,jdbcType=DECIMAL},
+      BOMFlag = #{bomflag,jdbcType=BIT},
+      Model5 = #{model5,jdbcType=VARCHAR},
+      Model6 = #{model6,jdbcType=VARCHAR},
+      Model7 = #{model7,jdbcType=VARCHAR},
+      Model8 = #{model8,jdbcType=VARCHAR},
+      Model9 = #{model9,jdbcType=VARCHAR},
+      GoodsAudit = #{goodsaudit,jdbcType=VARCHAR},
+      GoodsAuditFlag = #{goodsauditflag,jdbcType=BIT},
+      GoodsAuditDate = #{goodsauditdate,jdbcType=TIMESTAMP},
+      Style = #{style,jdbcType=VARCHAR},
+      Heel = #{heel,jdbcType=VARCHAR},
+      SubType = #{subtype,jdbcType=VARCHAR},
+      PointRate = #{pointrate,jdbcType=DECIMAL},
+      InitialPrice = #{initialprice,jdbcType=DECIMAL},
+      IsNew = #{isnew,jdbcType=BIT},
+      IsOnLine = #{isonline,jdbcType=BIT},
+      RecommendOnLine = #{recommendonline,jdbcType=BIT},
+      MaxSizeNo = #{maxsizeno,jdbcType=INTEGER},
+      IsSample = #{issample,jdbcType=BIT},
+      NonReturnCash = #{nonreturncash,jdbcType=BIT},
+      NonExchangeProfit = #{nonexchangeprofit,jdbcType=BIT},
+      ListingDate = #{listingdate,jdbcType=TIMESTAMP},
+      CanEditPriceForPOS = #{caneditpriceforpos,jdbcType=BIT},
+      Code_EShop = #{codeEshop,jdbcType=VARCHAR},
+      KnotCode = #{knotcode,jdbcType=VARCHAR},
+      PackType = #{packtype,jdbcType=VARCHAR},
+      Band = #{band,jdbcType=VARCHAR},
+      Audit = #{audit,jdbcType=VARCHAR}
+    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="goodslist" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+      
+   select a.* from Goods a
+   <if test="conditions != null and conditions != ''">
+   where 
+   ${conditions}
+   </if>
+   order by GoodsID
+      
+  </select>
+  
+    <select id="goodscount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+      
+   select count(1) from Goods a
+   <if test="conditions != null and conditions != ''">
+   where 
+   ${conditions}
+   </if>
+
+      
+  </select>
+  
+  
+  
+  
+</mapper>

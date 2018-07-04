@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.BrandcolorMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Brandcolor" >
+    <id column="ColorID" property="colorid" jdbcType="VARCHAR" />
+    <result column="BrandID" property="brandid" jdbcType="VARCHAR" />
+    <result column="No" property="no" jdbcType="VARCHAR" />
+    <result column="Color" property="color" jdbcType="VARCHAR" />
+    <result column="UserFlag" property="userflag" jdbcType="BIT" />
+    <result column="SupplierColorCode" property="suppliercolorcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ColorID, BrandID, No, Color, UserFlag, SupplierColorCode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.BrandcolorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from BrandColor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from BrandColor
+    where ColorID = #{colorid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from BrandColor
+    where ColorID = #{colorid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Brandcolor" >
+    insert into BrandColor (ColorID, BrandID, No, 
+      Color, UserFlag, SupplierColorCode
+      )
+    values (#{colorid,jdbcType=VARCHAR}, #{brandid,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR}, #{userflag,jdbcType=BIT}, #{suppliercolorcode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Brandcolor" >
+    insert into BrandColor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="colorid != null" >
+        ColorID,
+      </if>
+      <if test="brandid != null" >
+        BrandID,
+      </if>
+      <if test="no != null" >
+        No,
+      </if>
+      <if test="color != null" >
+        Color,
+      </if>
+      <if test="userflag != null" >
+        UserFlag,
+      </if>
+      <if test="suppliercolorcode != null" >
+        SupplierColorCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="colorid != null" >
+        #{colorid,jdbcType=VARCHAR},
+      </if>
+      <if test="brandid != null" >
+        #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="userflag != null" >
+        #{userflag,jdbcType=BIT},
+      </if>
+      <if test="suppliercolorcode != null" >
+        #{suppliercolorcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.BrandcolorExample" resultType="java.lang.Integer" >
+    select count(*) from BrandColor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Brandcolor" >
+    update BrandColor
+    <set >
+      <if test="brandid != null" >
+        BrandID = #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        No = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        Color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="userflag != null" >
+        UserFlag = #{userflag,jdbcType=BIT},
+      </if>
+      <if test="suppliercolorcode != null" >
+        SupplierColorCode = #{suppliercolorcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ColorID = #{colorid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Brandcolor" >
+    update BrandColor
+    set BrandID = #{brandid,jdbcType=VARCHAR},
+      No = #{no,jdbcType=VARCHAR},
+      Color = #{color,jdbcType=VARCHAR},
+      UserFlag = #{userflag,jdbcType=BIT},
+      SupplierColorCode = #{suppliercolorcode,jdbcType=VARCHAR}
+    where ColorID = #{colorid,jdbcType=VARCHAR}
+  </update>
+</mapper>

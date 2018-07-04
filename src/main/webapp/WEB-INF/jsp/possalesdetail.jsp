@@ -84,6 +84,8 @@
     var tf=undefined;
     var GoodsID="";
     var Code="";
+    var ColorID="";
+    var Color ="";
   //在网页初始加载时向报表提供数据
     function window_onload() {
     	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime());
@@ -333,6 +335,12 @@
     	    	if(Code !=""){
         	    	rowData.Code=Code;
         	    	}
+    	    	if(ColorID !=""){
+        	    	rowData.ColorID=ColorID;
+        	    	}
+        	    	if(Color !=""){
+            	    	rowData.Color=Color;
+            	    	}
     	    	
     	    },
     		//单击事件   
@@ -792,25 +800,41 @@
 	   
 	    for(var i=0;i<pfields.length;i++){
 		if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
-	    if (pfields[i]=="Code" | pfields[i]=="Color" ){
+	    if (pfields[i]=="Code"){
 	    	$("#dg").datagrid('addEditor',[ //添加cardNo列editor
 			                                   
 			                                {field:pfields[i],editor:{
 			                                    type:'combogrid',
 			                                    	options:{
-			                        					panelWidth:450,
+			                        					panelWidth:300,
+			                        					fit: true,//自动大小
 			                        					idField:'GoodsID',
 			                        					textField:'Code',
 			                        					pagination: true,           //是否分页  
 			                        				    rownumbers: true,           //序号 
 			                        					//url:'datagrid_data.json',
-			                        					pageSize:3,               //每页显示的记录条数，默认为10  
-                                                        pageList: [3,2,1],  
-			                        					data:data,
+			                        					url:'<%=basePath%>goods/search.do',
+			                        					pageSize:10,               //每页显示的记录条数，默认为10  
+                                                        pageList: [10,15,20],  
+			                        					//data:data,
 			                        					columns:[[
-			                        						{field:'Code',title:'Code',width:60}
-			                        						
-			                        					]],onSelect:function(index,row){
+			                        						{field:'Code',title:'货品编码'},
+			                        						{field:'Name',title:'货品名称'},
+			                        						{field:'SupplierCode',title:'厂商编码'}
+			                        					]],keyHandler: { 
+			                        						up: function() {}, 
+			                        						down: function() {}, 
+			                        						enter: function() {}, 
+			                        						query: function(q) { 
+			                        						//动态搜索 
+			                        						if (q.length>4){
+			                        						$('.datagrid-editable-input').combogrid("grid").datagrid("reload", { 'keyword': q }); 
+			                        						$('.datagrid-editable-input').combogrid("setValue", q); 
+			                        						}
+			                        						} 
+			                        						},
+			 
+			                        					onSelect:function(index,row){
 
 			                        						GoodsID = row.GoodsID;
 
@@ -824,6 +848,63 @@
 			                                
 			                            }]);
 				
+		}else if(pfields[i]=="Color")
+		{
+			$("#dg").datagrid('addEditor',[ //添加cardNo列editor
+			                                   
+			                                {field:pfields[i],editor:{
+			                                    type:'combogrid',
+			                                    	options:{
+			                        					panelWidth:300,
+			                        					fit: true,//自动大小
+			                        					idField:'ColorID',
+			                        					textField:'Color',
+			                        					pagination: true,           //是否分页  
+			                        				    rownumbers: true,           //序号 
+			                        					//url:'datagrid_data.json',
+			                        					url:'<%=basePath%>color/search.do',
+			                        					pageSize:10,               //每页显示的记录条数，默认为10  
+                                                        pageList: [10,15,20],  
+			                        					//data:data,
+			                        					columns:[[
+			                        						{field:'No',title:'颜色编码'},
+			                        						{field:'Color',title:'颜色名称'}
+			                        						
+			                        					]],keyHandler: { 
+			                        						up: function() {}, 
+			                        						down: function() {}, 
+			                        						enter: function() {}, 
+			                        						query: function(q) { 
+			                        						//动态搜索 
+			                        						if(GoodsID=""){
+			                        						
+			                        						 var cell = $("#dg").datagrid('getPanel').find('td.datagrid-row-selected');
+			                        						// var index= parseInt(cell.closest('tr.datagrid-row').attr('datagrid-row-index'));//获取选择的行
+			                        						// var rows =$('#dg').datagrid("getRows");
+			                        						// GoodsID=rows[index][GoodsID];
+			                        						 console.log(cell.length);
+			                        						 
+			                        						}
+			                        						
+			                        						$('.datagrid-editable-input').combogrid("grid").datagrid("reload", { 'keyword': q,'GoodsID':GoodsID }); 
+			                        						$('.datagrid-editable-input').combogrid("setValue", q); 
+			                        						} 
+			                        						},
+			 
+			                        					onSelect:function(index,row){
+
+			                        						ColorID = row.ColorID;
+
+			                        						Color = row.Color;
+
+			                        						
+
+			                        						}
+			                        				}
+			                                }
+			                                
+			                            }]);
+			
 		}else{
 			$("#dg").datagrid('addEditor',[ //添加cardNo列editor
 			                                   

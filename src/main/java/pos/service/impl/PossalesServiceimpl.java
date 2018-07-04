@@ -63,7 +63,7 @@ public class PossalesServiceimpl implements IPossalesService {
 		// this.possalesmapp.possaleslist(map);
 
 		List<LinkedHashMap<String, Object>> possales = this.possalesmapp.possaleslistP(map);
-
+        
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("total", page.getRowCount());
 		map1.put("rows", possales);

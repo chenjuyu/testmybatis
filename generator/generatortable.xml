@@ -11,11 +11,11 @@
 			connectionURL="jdbc:sqlserver://localhost;databaseName=A001" userId="sa"
 			password="123456" />
 		<javaModelGenerator targetPackage="pos.model"
-			targetProject="D:\MyEclipseWork\testmaven\src\main\java" />
+			targetProject="D:\MyEclipseWork\testmybatis\src\main\java" />
 		<sqlMapGenerator targetPackage="pos.mapping"
-			targetProject="D:\MyEclipseWork\testmaven\src\main\java" />
+			targetProject="D:\MyEclipseWork\testmybatis\src\main\java" />
 		<javaClientGenerator targetPackage="pos.dao"
-			targetProject="D:\MyEclipseWork\testmaven\src\main\java" type="XMLMAPPER" />
+			targetProject="D:\MyEclipseWork\testmybatis\src\main\java" type="XMLMAPPER" />
 		<!-- <table tableName="VIP" enableCountByExample="true" enableUpdateByExample="false" 
 			enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false" 
 			/> <table tableName="GoodsColor" enableCountByExample="true" enableUpdateByExample="false" 
@@ -47,7 +47,7 @@
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="true" selectByExampleQueryId="false" />
 			-->
-		<table tableName="POSSalesDetail" enableCountByExample="true"
+		<table tableName="Goods" enableCountByExample="true"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="true" selectByExampleQueryId="false" />		
 		<!--	
