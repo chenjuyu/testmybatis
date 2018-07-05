@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.BorrowingLogMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.BorrowingLog" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ledger" property="ledger" jdbcType="VARCHAR" />
+    <result column="borrower" property="borrower" jdbcType="VARCHAR" />
+    <result column="borrowingType" property="borrowingtype" jdbcType="VARCHAR" />
+    <result column="borrowingDate" property="borrowingdate" jdbcType="VARCHAR" />
+    <result column="repaymentDate" property="repaymentdate" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="voucherNum" property="vouchernum" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="repaymentAmount" property="repaymentamount" jdbcType="DECIMAL" />
+    <result column="requestId" property="requestid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ledger, borrower, borrowingType, borrowingDate, repaymentDate, reason, voucherNum, 
+    amount, repaymentAmount, requestId, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from BorrowingLog
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from BorrowingLog
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.BorrowingLog" >
+    insert into BorrowingLog (ID, ledger, borrower, 
+      borrowingType, borrowingDate, repaymentDate, 
+      reason, voucherNum, amount, 
+      repaymentAmount, requestId, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{ledger,jdbcType=VARCHAR}, #{borrower,jdbcType=VARCHAR}, 
+      #{borrowingtype,jdbcType=VARCHAR}, #{borrowingdate,jdbcType=VARCHAR}, #{repaymentdate,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{vouchernum,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{repaymentamount,jdbcType=DECIMAL}, #{requestid,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.BorrowingLog" >
+    insert into BorrowingLog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="ledger != null" >
+        ledger,
+      </if>
+      <if test="borrower != null" >
+        borrower,
+      </if>
+      <if test="borrowingtype != null" >
+        borrowingType,
+      </if>
+      <if test="borrowingdate != null" >
+        borrowingDate,
+      </if>
+      <if test="repaymentdate != null" >
+        repaymentDate,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="vouchernum != null" >
+        voucherNum,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="repaymentamount != null" >
+        repaymentAmount,
+      </if>
+      <if test="requestid != null" >
+        requestId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ledger != null" >
+        #{ledger,jdbcType=VARCHAR},
+      </if>
+      <if test="borrower != null" >
+        #{borrower,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowingtype != null" >
+        #{borrowingtype,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowingdate != null" >
+        #{borrowingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentdate != null" >
+        #{repaymentdate,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="vouchernum != null" >
+        #{vouchernum,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentamount != null" >
+        #{repaymentamount,jdbcType=DECIMAL},
+      </if>
+      <if test="requestid != null" >
+        #{requestid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.BorrowingLog" >
+    update BorrowingLog
+    <set >
+      <if test="ledger != null" >
+        ledger = #{ledger,jdbcType=VARCHAR},
+      </if>
+      <if test="borrower != null" >
+        borrower = #{borrower,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowingtype != null" >
+        borrowingType = #{borrowingtype,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowingdate != null" >
+        borrowingDate = #{borrowingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentdate != null" >
+        repaymentDate = #{repaymentdate,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="vouchernum != null" >
+        voucherNum = #{vouchernum,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentamount != null" >
+        repaymentAmount = #{repaymentamount,jdbcType=DECIMAL},
+      </if>
+      <if test="requestid != null" >
+        requestId = #{requestid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.BorrowingLog" >
+    update BorrowingLog
+    set ledger = #{ledger,jdbcType=VARCHAR},
+      borrower = #{borrower,jdbcType=VARCHAR},
+      borrowingType = #{borrowingtype,jdbcType=VARCHAR},
+      borrowingDate = #{borrowingdate,jdbcType=VARCHAR},
+      repaymentDate = #{repaymentdate,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      voucherNum = #{vouchernum,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      repaymentAmount = #{repaymentamount,jdbcType=DECIMAL},
+      requestId = #{requestid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="borrowlog" extends="BaseResultMap" type="pos.model.BorrowingLog"></resultMap>
+   
+   <select id="getAll" resultMap="BaseResultMap" parameterType="web.util.Paging">
+        select * from BorrowingLog order by ID
+    </select> 
+   <select id="getCount" resultType="int">
+   select count(*) from BorrowingLog 
+   </select>
+   
+     <select id="findPage"  resultMap="BaseResultMap" parameterType="java.lang.String">  <!-- parameterType="Map" -->
+     <!-- 此句是可以成功查询分页运行的再试下其他的语句 -->
+        select * from (select row_number() over(order by ID) rn,* from BorrowingLog where 1=1 
+        <if test="borrower != null " >
+        and borrower like '%${borrower}%'
+      </if> ) tb where rn &gt;(${currentPage}-1)*${pageCount} and rn &lt;=${currentPage}*${pageCount}       
+		</select>
+
+	<!-- WITH Article_CTE AS (
+	SELECT *, ROW_NUMBER() OVER (ORDER BY [Id]) AS
+	RowNumber FROM BorrowingLog
+	)
+	SELECT * FROM Article_CTE
+	WHERE RowNumber &gt;(${startPos}-1)*${pageSize}
+	AND RowNumber &lt;= ${startPos}*${pageSize} -->
+		
+		<select id="findTotal" resultType="java.lang.Integer" parameterType="java.lang.String" >
+		<!-- 此句是执行的语句 现试一下其他的语句 -->
+    	select count(*) from BorrowingLog where 1=1 
+    	 <if test="borrower != null " >
+        and borrower like '%${borrower}%' 
+      </if>
+    	</select>
+  
+  
+</mapper>
