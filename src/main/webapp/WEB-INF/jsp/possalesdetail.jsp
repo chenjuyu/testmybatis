@@ -18,12 +18,20 @@
 	<title>Basic Panel - jQuery EasyUI Demo</title>
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>js/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>js/jquery-ui.css">
+
 	
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>js/easyui/demo/demo.css">
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>js/datagrid-cellediting.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/easyui/locale/easyui-lang-zh_CN.js"></script>
+	
+	<script type="text/javascript" src="<%=basePath%>js/jquery-ui.min.js"></script>	
+	 <script type="text/javascript" src="<%=basePath%>js/jquery-ui.js"></script>
+
+	
+	
 	<script type="text/javascript" src="<%=basePath%>js/printplugins/CreateControl.js"></script>
 	
     <script type="text/javascript">
@@ -83,9 +91,12 @@
     var pfields =undefined; //字段属性集合
     var tf=undefined;
     var GoodsID="";
+    var GID="";
     var Code="";
     var ColorID="";
     var Color ="";
+    var SizeID="";
+    var Size="";
   //在网页初始加载时向报表提供数据
     function window_onload() {
     	 Report.LoadFromURL("<%=basePath%>js/printplugins/grf/possales.grf?timeStamp="+new Date().getTime());
@@ -224,6 +235,7 @@
     		  //开始 编辑前
     		onBeginEdit:function(rowIndex, rowData){ 
     			   
+    			GID =rowData.GoodsID;
     		/*	 pfields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
     			  
     			console.log(pfields.length);
@@ -340,7 +352,15 @@
         	    	}
         	    	if(Color !=""){
             	    	rowData.Color=Color;
+            	   }
+        	    	if(SizeID !=""){
+            	    	rowData.SizeID=SizeID;
             	    	}
+            	    	if(Size !=""){
+                	    	rowData.Size=Size;
+                	   }  	
+        	    	
+        	    	
     	    	
     	    },
     		//单击事件   
@@ -585,9 +605,23 @@
  $("#DepartmentID").val(json.DepartmentID); 
  $("#Department").val(json.Department); 
  $("#No").val(json.No); 
+ 
+ //载入页面时
+ $('#remove').linkbutton("disable");
+ 
+
+ 
+ 
+ 
+ 
+ 
+
  window_onload();
  
  //$('#main').layout('collapse','north');  
+ 
+
+ 
   });
 
 
@@ -696,6 +730,7 @@
 		iconCls:'icon-add',
 		handler:function(){
 			//alert('add')
+			 $('#remove').linkbutton("enable");
 	  if (editRow != undefined) {
         $("#dg").datagrid('endEdit', editRow);
         
@@ -776,12 +811,20 @@
 	  }	
 	}
 	},
-	{
+	{   id:'edit',
 		text:'修改',
 		iconCls:'icon-edit',
 		handler:function(){
 			$("#dg").datagrid('showColumn','ck');	
-			
+			 $('#remove').linkbutton("enable");
+			 $("#barcode").css("display","block");
+		
+			// $('#barcode').next(".combo").show();
+
+	 
+			 
+			 
+			 
 			pfields=undefined;
 	    pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
 	   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
@@ -799,7 +842,7 @@
 	                            ]};
 	   
 	    for(var i=0;i<pfields.length;i++){
-		if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+		if(pfields[i] in{'Code':'','Color':'','Size':'','Quantity':'','UnitPrice':''}){
 	    if (pfields[i]=="Code"){
 	    	$("#dg").datagrid('addEditor',[ //添加cardNo列editor
 			                                   
@@ -839,7 +882,7 @@
 			                        						GoodsID = row.GoodsID;
 
 			                        						Code = row.Code;
-
+			                        						
 			                        						
 
 			                        						}
@@ -864,31 +907,27 @@
 			                        					//url:'datagrid_data.json',
 			                        					url:'<%=basePath%>color/search.do',
 			                        					pageSize:10,               //每页显示的记录条数，默认为10  
-                                                        pageList: [10,15,20],  
-			                        					//data:data,
-			                        					columns:[[
+                                                        pageList: [10,15,20],   ////data:data,          					
+                                                        columns:[[
 			                        						{field:'No',title:'颜色编码'},
 			                        						{field:'Color',title:'颜色名称'}
 			                        						
-			                        					]],keyHandler: { 
+			                        					]],
+			                        					keyHandler: {
 			                        						up: function() {}, 
 			                        						down: function() {}, 
-			                        						enter: function() {}, 
-			                        						query: function(q) { 
+			                        						enter: function() {},
+			                        				
+			                        						query: function(q) {
 			                        						//动态搜索 
-			                        						if(GoodsID=""){
-			                        						
-			                        						 var cell = $("#dg").datagrid('getPanel').find('td.datagrid-row-selected');
-			                        						// var index= parseInt(cell.closest('tr.datagrid-row').attr('datagrid-row-index'));//获取选择的行
-			                        						// var rows =$('#dg').datagrid("getRows");
-			                        						// GoodsID=rows[index][GoodsID];
-			                        						 console.log(cell.length);
-			                        						 
-			                        						}
-			                        						
-			                        						$('.datagrid-editable-input').combogrid("grid").datagrid("reload", { 'keyword': q,'GoodsID':GoodsID }); 
+			                        					
+			                        					
+			                        						console.log(GID);
+			                        						$('.datagrid-editable-input').combogrid("grid").datagrid("reload", 
+			                        						{'keyword': q ,'GoodsID':GID}); 
 			                        						$('.datagrid-editable-input').combogrid("setValue", q); 
-			                        						} 
+			                        						}
+			                        		
 			                        						},
 			 
 			                        					onSelect:function(index,row){
@@ -905,11 +944,66 @@
 			                                
 			                            }]);
 			
-		}else{
+		}else if(pfields[i]=="Size")
+		{
 			$("#dg").datagrid('addEditor',[ //添加cardNo列editor
 			                                   
 			                                {field:pfields[i],editor:{
-			                                    type:'textbox'
+			                                    type:'combogrid',
+			                                    	options:{
+			                        					panelWidth:300,
+			                        					fit: true,//自动大小
+			                        					idField:'SizeID',
+			                        					textField:'Size',
+			                        					//pagination: true,           //是否分页  
+			                        				    rownumbers: true,           //序号 
+			                        					//url:'datagrid_data.json',
+			                        					url:'<%=basePath%>size/search.do',
+			                        					pageSize:10,               //每页显示的记录条数，默认为10  
+                                                        pageList: [10,15,20],   ////data:data,          					
+                                                        columns:[[
+			                        						{field:'SizeNo',title:'尺码编码'},
+			                        						{field:'Size',title:'尺码名称'}
+			                        						
+			                        					]],
+			                        					keyHandler: {
+			                        						up: function() {}, 
+			                        						down: function() {}, 
+			                        						enter: function() {},
+			                        				
+			                        						query: function(q) {
+			                        						//动态搜索 
+			                        					
+			                        					
+			                        						console.log(GID);
+			                        						$('.datagrid-editable-input').combogrid("grid").datagrid("reload", 
+			                        						{'keyword': q ,'GoodsID':GID}); 
+			                        						$('.datagrid-editable-input').combogrid("setValue", q); 
+			                        						}
+			                        		
+			                        						},
+			 
+			                        					onSelect:function(index,row){
+
+			                        						SizeID = row.SizeID;
+
+			                        						Size = row.Size;
+
+			                        						
+
+			                        						}
+			                        				}
+			                                }
+			                                
+			                            }]);
+			
+		}
+		
+		else{
+			$("#dg").datagrid('addEditor',[ //添加cardNo列editor
+			                                   
+			                                {field:pfields[i],editor:{
+			                                    type:'numberbox'
 			                                  /*  options:{
 			                                        required:true,
 			                                        validType:'length[3,3]', 
@@ -936,7 +1030,7 @@
 		
 		}
 	},
-	{
+	{   id:'remove',
 		text:'删除',
 		iconCls:'icon-remove',
 		handler:function(){
@@ -956,14 +1050,15 @@
 	 }	  
 		}
 	},'-', {
+		id:'redo',
         text: '撤销', iconCls: 'icon-redo', handler: function () {
             editRow = undefined;
             $("#dg").datagrid('hideColumn','ck');
-            
+            $("#remove").linkbutton('disable');
             pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
 			   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
 			    for(var i=0;i<pfields.length;i++){
-				if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+				if(pfields[i] in{'Code':'','Color':'','Size':'','Quantity':'','UnitPrice':''}){
 					$("#dg").datagrid('removeEditor',[ //添加cardNo列editor
 					                                {field:pfields[i],editor:{
 					                                    type:'textbox'
@@ -990,16 +1085,18 @@
             
         }
 	},'-',{
+		id:'save',
 		text:'保存',
 		iconCls:'icon-save',
 		handler:function(){
 			  $("#dg").datagrid('endEdit', editRow);
 			  $("#dg").datagrid('hideColumn','ck');
               //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-
+              $("#remove").linkbutton('disable');
               //使用JSON序列化datarow对象，发送到后台。
               var rows = $("#dg").datagrid('getChanges');
               console.log(rows);
+              
               //var rowstr = JSON.stringify(rows);
              // console.log(rowstr);
             //  $.post('/Home/Create', rowstr, function (data) {
@@ -1035,7 +1132,7 @@
 							   pfields = $('#dg').datagrid('getColumnFields',true).concat($('#dg').datagrid('getColumnFields'));
 							   //  var myeditor = {make: "Honda", model: "Accord", year: 1998};
 							    for(var i=0;i<pfields.length;i++){
-								if(pfields[i] in{'Code':'','Color':'','Quantity':'','UnitPrice':''}){
+								if(pfields[i] in{'Code':'','Color':'','Size':'','Quantity':'','UnitPrice':''}){
 									$("#dg").datagrid('removeEditor',[ //添加cardNo列editor
 									                                {field:pfields[i],editor:{
 									                                    type:'textbox'
@@ -1103,15 +1200,17 @@
 	
 	
 </head>
-<body  id="main" class="easyui-layout" style="overflow-y: hidden"  scroll="no">
- 
+<body id="main" class="easyui-layout" style="overflow-y: hidden"  scroll="no">
+
 <div region="north" split="true" class="easyui-accordion"  border="false" style="overflow: hidden; height: auto;">
  <div id="tb" style="padding:3px;Margin-bottom:5px">
 <a  class="easyui-linkbutton" plain="true" onclick="doback()">返回列表</a>
 
 <a  class="easyui-linkbutton" plain="true" onclick="doprint()">打印</a>
-
+ 
 <a  class="easyui-linkbutton" plain="true" onclick="doexportExcel()">导出Excel</a>
+<a  class="easyui-linkbutton" plain="true" onclick="removePanel()">删除南部</a>
+
  
   <form id="form1">
     <span>日期</span>
@@ -1137,10 +1236,89 @@
  
 </div>
 
-<div region="south" split="true" border="false" style="overflow: hidden; height: 50px;">
-新增输入<input id="barcode" Name="barcode" class="easyui-textbox" style="width:200px;height:32px">
+<div region="south"  split="true" border="false" style="overflow: hidden; height: 50px;">
+<div id="content"><label style="display: inline-block;float: left;">新增输入</label><input id="barcode" Name="barcode"   type="text"  style="display:none;width:200px;height:20px;float: left; "></div>
 </div>
 
+
+
+<script type="text/javascript">
+var availableTags = [
+                     "ActionScript",
+                     "AppleScript",
+                     "Asp",
+                     "BASIC",
+                     "C",
+                     "C++",
+                     "Clojure",
+                     "COBOL",
+                     "ColdFusion",
+                     "Erlang",
+                     "Fortran",
+                     "Groovy",
+                     "Haskell",
+                     "Java",
+                     "JavaScript",
+                     "Lisp",
+                     "Perl",
+                     "PHP",
+                     "Python",
+                     "Ruby",
+                     "Scala",
+                     "Scheme"
+                   ];
+$("#barcode").autocomplete({
+    source: availableTags
+});                   
+                   
+                   
+function removePanel(){
+	//$('#cc').layout('remove', $('#region').val());
+	//$('#main').layout('remove','south');
+	$("#barcode").css("display","none");
+  // $('#barcode').combogrid({
+   //   hide:true	   
+  // });
+  
+	//$('#barcode').combo('destroy'); //.next(".combo")//.hide();
+//	$('#barcode').next(".combo").hide();
+}
+//blur
+/*
+$("#barcode").focus(function(){
+	
+	$("#barcode").css("display","none");
+	 $('#barcode').combogrid({    
+		    panelWidth:450,    
+		    value:'006',    
+		     
+		    idField:'code',    
+		    textField:'name',    
+		    hasDownArrow:false,
+		    editable:true,
+		    width: 202,
+		    height: 25,
+		    plain :true,
+		   // url:'datagrid_data.json',    
+		    columns:[[    
+		        {field:'code',title:'Code',width:60},    
+		        {field:'name',title:'Name',width:100},    
+		        {field:'addr',title:'Address',width:120},    
+		        {field:'col4',title:'Col41',width:100}    
+		    ]]    
+		}); 
+				 
+	//	 $('#barcode').next(".combo").show();	
+		 
+		
+	});
+
+  */
+
+
+
+
+</script>
 
 </body>
 </html>

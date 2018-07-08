@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.alibaba.fastjson.JSONObject;
 
 import pos.service.IColor;
+
+import net.sf.json.JSONObject;
+
 
 
 @Controller
@@ -30,9 +32,16 @@ public class ColorController {
 	public void search(HttpServletRequest request,HttpServletResponse response){
 		
 		String goodsid=request.getParameter("GoodsID");
+		String keyword=request.getParameter("keyword");
+		String conditions="";
+		System.out.println(goodsid);
+		System.out.println(keyword);
 		
-		String conditions =" a.goodsid='"+goodsid+"' and isnull(a.StopFlag,0)=0";
-		
+		if (goodsid ==null | "".equals(goodsid) && (keyword !=null && !"".equals(keyword))){
+			conditions="(and a.Color like '%"+keyword+"%' or a.No like '%"+keyword+"%' and isnull(a.StopFlag,0)=0)";
+		}else{
+			conditions =" a.goodsid='"+goodsid+"' and (b.Color like '%"+keyword+"%' or b.No like '%"+keyword+"%') and isnull(a.StopFlag,0)=0";
+		}
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
@@ -41,16 +50,18 @@ public class ColorController {
 		HashMap<String,Object> m=colorservise.searchcolor(false, conditions, pageno, pagesize);
 		
 		JSONObject j=new JSONObject();
+		
 		j.put("total", m.get("total"));
 		j.put("rows", m.get("rows"));
 		
-		response.setContentType("text/html,application/json;charset=utf-8");
 		
 		PrintWriter out=null;
+		response.setContentType("text/html,application/json;charset=utf-8");
 		
 		try {
 			out=response.getWriter();
-			out.write(j.toJSONString());
+			out.write(j.toString());
+
 			out.flush();
 			out.close();
 		} catch (IOException e) {

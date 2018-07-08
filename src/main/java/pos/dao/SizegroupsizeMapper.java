@@ -5,6 +5,12 @@ import pos.model.Sizegroupsize;
 import pos.model.SizegroupsizeExample;
 import pos.model.SizegroupsizeKey;
 
+import java.util.HashMap;
+import java.util.List;
+import pos.model.Sizegroupsize;
+import pos.model.SizegroupsizeExample;
+import pos.model.SizegroupsizeKey;
+
 public interface SizegroupsizeMapper {
     int countByExample(SizegroupsizeExample example);
 
@@ -21,4 +27,12 @@ public interface SizegroupsizeMapper {
     int updateByPrimaryKeySelective(Sizegroupsize record);
 
     int updateByPrimaryKey(Sizegroupsize record);
+    
+   List<HashMap<String,Object>>  sizegroupsizelist(HashMap<String,Object> map);
+    
+   int sizegroupsizecount(HashMap<String,Object> map);
+    
+    
+    
+
 }
