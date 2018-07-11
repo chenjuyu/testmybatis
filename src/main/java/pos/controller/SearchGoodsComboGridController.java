@@ -39,6 +39,15 @@ public class SearchGoodsComboGridController {
 	public void search(HttpServletRequest request,HttpServletResponse response){
 		
 		String keyword=request.getParameter("keyword");
+		
+		String q=request.getParameter("q");
+		
+		if (keyword==null || "".equals(keyword)){
+			
+			keyword=q;
+		}
+		
+		System.out.println(q);
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;

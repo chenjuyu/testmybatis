@@ -1,6 +1,8 @@
 package sy.test;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import com.alibaba.fastjson.JSON;
+
 import  net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import web.util.CommonUtils;
@@ -18,7 +20,8 @@ public class HttpTest {
 		System.out.println(str);
 		str=str.substring(1,str.length()-1);  //去掉前后的" 号
 		JSONArray jsonarray =JSONArray.fromObject(str);
-			if (jsonarray.size()>0) {
+		
+		if (jsonarray.size()>0) {
 	     for(int i=0;i<jsonarray.size();i++){
 	    	 JSONObject json=	 jsonarray.getJSONObject(i);
 	    	  System.out.println(json.get("DepartmentID"));

@@ -1,0 +1,169 @@
+input,div,span,select{
+	-moz-box-sizing: border-box;  /*Firefox3.5+*/
+	-webkit-box-sizing: border-box; /*Safari3.2+*/
+	-o-box-sizing: border-box; /*Opera9.6*/
+	-ms-box-sizing: border-box; /*IE8*/
+	box-sizing: border-box;
+}
+
+
+.list .searchbox {
+	width: 310px !important;
+}
+.form{
+	background-color: #f7f8fa;
+	overflow: hidden;
+}
+
+.table{
+	width: 750px;
+	overflow: hidden;
+	float: left;
+}
+
+.column{
+	width: 240px;
+	float: left;
+	overflow: hidden;
+	margin-bottom: 4px;
+	outline: none;
+}
+
+.border-top{
+	border-top: 1px solid #95B8E7 !important ;
+}
+
+.list .datagrid-wrap{
+	border-left: 0 !important;
+}
+
+
+.column .label{
+	display: block;
+	float: left;
+	width: 60px;
+	overflow: hidden;
+	text-align:justify;
+	text-align-last:justify; 
+	text-indent:5px;
+	padding-right: 5px;
+	height: 20px;
+	line-height: 20px;
+}
+.label .text{
+	height: 20px;
+	line-height: 20px;
+	display: block;
+}
+
+.column .field{
+	display: block;
+	overflow: hidden;
+	width:auto;
+	height: 21px;
+	line-height: 21px;
+	position: relative;
+}
+
+.column input[type=text],.column select{
+	outline: none;
+	width: 100%;
+	border: 1px solid #a0a0a0;
+	position: relative;
+	height: 21px;
+	line-height: 21px;
+}
+.column select{
+	display: block;
+}
+
+
+.red {
+	color:red;
+}
+
+.label .must{
+	display: none;
+}
+
+.choose_image{
+	width: 18px;
+	height: 18px;
+	display: block;
+	position: absolute;
+	right: 1px;
+	top: 1px;
+}
+
+.choose_input{
+	padding-right: 18px;
+}
+
+.text_field .field1,.text_field .field2{
+	width: 50%;
+	display: block;
+}
+.text_field .field1{
+	float: left;
+}
+.text_field .field2{
+	float: right;
+}
+.field2 input{
+	border-left: 0;
+}
+
+.x2{
+	width: 480px !important;
+}	
+
+.x3{
+	width: 720px !important;
+}	
+
+.twoColumn{
+	height: 45px;
+	outline: none;
+	width: 150px;
+	font-size: 14px;
+}
+.twoColumn .label{
+	width: 100%;
+	text-align: left;
+	text-align-last:left;
+	text-indent:1px;
+} 
+.twoColumn .field{
+	float: left;
+	width: 100%;
+}
+/* .twoColumn .text{
+	font-size: 15px;
+}
+
+.twoColumn input{
+	font-size: 15px;
+	height: 25px;
+}
+
+.twoColumn .field,.twoColumn .text_field{
+	height: 25px;
+}
+
+.twoColumn .choose_image{
+	width: 23px ;
+	height: 23px ;
+} */
+
+.checkGroup{
+	width: 720px;
+	overflow: hidden;
+}
+.checkGroup .column{
+	width: 90px;
+}
+
+
+
+
+
