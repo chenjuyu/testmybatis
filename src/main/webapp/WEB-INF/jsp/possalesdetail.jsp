@@ -445,11 +445,24 @@
     		
     		
     		},
-    		onLoadSuccess: function (data) {
+    		onLoadSuccess: function (rowIndex,rowData) {
                   // $('#dg').datagrid('statistics');
                  //  $('#dg').datagrid('selectRow',0);   
                  //   $('#dg').datagrid('keyCtr');  
+                 $('#dg').datagrid('disableCellEditing');//解决点复选框会卡死的问题
                  $('#dg').datagrid('enableCellEditing');
+                 //$('#dg').datagrid('clearChecked');
+                 
+               var eds = $('#dg').datagrid('getEditors',PosSalesDetailID);
+              $(eds[0].target).bind('click',function(){
+               //这里可以指定当前行的数据
+            	 console.log(rowData.PosSalesDetailID);
+               });
+  
+                 
+                 
+                 
+                 
                 //合计
                },
     
