@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Employee" >
+    <id column="EmployeeID" property="employeeid" jdbcType="VARCHAR" />
+    <result column="EmployeeTypeID" property="employeetypeid" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="HelpCode" property="helpcode" jdbcType="VARCHAR" />
+    <result column="DepartmentID" property="departmentid" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="StopFlag" property="stopflag" jdbcType="BIT" />
+    <result column="UseFlag" property="useflag" jdbcType="BIT" />
+    <result column="CommisionProfit" property="commisionprofit" jdbcType="DECIMAL" />
+    <result column="SharedFlag" property="sharedflag" jdbcType="BIT" />
+    <result column="DefaultFlag" property="defaultflag" jdbcType="BIT" />
+    <result column="CopyFlag" property="copyflag" jdbcType="BIT" />
+    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="Editor" property="editor" jdbcType="VARCHAR" />
+    <result column="SendFlag" property="sendflag" jdbcType="BIT" />
+    <result column="MobilPhone" property="mobilphone" jdbcType="VARCHAR" />
+    <result column="EngageDate" property="engagedate" jdbcType="TIMESTAMP" />
+    <result column="DimissionDate" property="dimissiondate" jdbcType="TIMESTAMP" />
+    <result column="BasePay" property="basepay" jdbcType="DECIMAL" />
+    <result column="Addr" property="addr" jdbcType="VARCHAR" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+    <result column="Education" property="education" jdbcType="VARCHAR" />
+    <result column="IDCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="MobilePhone2" property="mobilephone2" jdbcType="VARCHAR" />
+    <result column="PayType" property="paytype" jdbcType="VARCHAR" />
+    <result column="ZW" property="zw" jdbcType="VARCHAR" />
+    <result column="Creator" property="creator" jdbcType="VARCHAR" />
+    <result column="MadeDate" property="madedate" jdbcType="TIMESTAMP" />
+    <result column="IsGuide" property="isguide" jdbcType="BIT" />
+    <result column="Specialty" property="specialty" jdbcType="NVARCHAR" />
+    <result column="VIPID" property="vipid" jdbcType="VARCHAR" />
+    <result column="OpenID" property="openid" jdbcType="VARCHAR" />
+    <result column="UserID" property="userid" jdbcType="VARCHAR" />
+    <result column="PhotoUrl" property="photourl" jdbcType="VARCHAR" />
+    <result column="IsOfficer" property="isofficer" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="pos.model.Employee" extends="BaseResultMap" >
+    <result column="Photo" property="photo" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    EmployeeID, EmployeeTypeID, Code, Name, HelpCode, DepartmentID, Memo, StopFlag, UseFlag, 
+    CommisionProfit, SharedFlag, DefaultFlag, CopyFlag, ModifyDate, Editor, SendFlag, 
+    MobilPhone, EngageDate, DimissionDate, BasePay, Addr, Tel, Education, IDCard, MobilePhone2, 
+    PayType, ZW, Creator, MadeDate, IsGuide, Specialty, VIPID, OpenID, UserID, PhotoUrl, 
+    IsOfficer
+  </sql>
+  <sql id="Blob_Column_List" >
+    Photo
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="pos.model.EmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.EmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Employee
+    where EmployeeID = #{employeeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Employee
+    where EmployeeID = #{employeeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Employee" >
+    insert into Employee (EmployeeID, EmployeeTypeID, Code, 
+      Name, HelpCode, DepartmentID, 
+      Memo, StopFlag, UseFlag, CommisionProfit, 
+      SharedFlag, DefaultFlag, CopyFlag, 
+      ModifyDate, Editor, SendFlag, 
+      MobilPhone, EngageDate, DimissionDate, 
+      BasePay, Addr, Tel, 
+      Education, IDCard, MobilePhone2, 
+      PayType, ZW, Creator, 
+      MadeDate, IsGuide, Specialty, 
+      VIPID, OpenID, UserID, 
+      PhotoUrl, IsOfficer, Photo
+      )
+    values (#{employeeid,jdbcType=VARCHAR}, #{employeetypeid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{helpcode,jdbcType=VARCHAR}, #{departmentid,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{stopflag,jdbcType=BIT}, #{useflag,jdbcType=BIT}, #{commisionprofit,jdbcType=DECIMAL}, 
+      #{sharedflag,jdbcType=BIT}, #{defaultflag,jdbcType=BIT}, #{copyflag,jdbcType=BIT}, 
+      #{modifydate,jdbcType=TIMESTAMP}, #{editor,jdbcType=VARCHAR}, #{sendflag,jdbcType=BIT}, 
+      #{mobilphone,jdbcType=VARCHAR}, #{engagedate,jdbcType=TIMESTAMP}, #{dimissiondate,jdbcType=TIMESTAMP}, 
+      #{basepay,jdbcType=DECIMAL}, #{addr,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{mobilephone2,jdbcType=VARCHAR}, 
+      #{paytype,jdbcType=VARCHAR}, #{zw,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{madedate,jdbcType=TIMESTAMP}, #{isguide,jdbcType=BIT}, #{specialty,jdbcType=NVARCHAR}, 
+      #{vipid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{photourl,jdbcType=VARCHAR}, #{isofficer,jdbcType=BIT}, #{photo,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Employee" >
+    insert into Employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        EmployeeID,
+      </if>
+      <if test="employeetypeid != null" >
+        EmployeeTypeID,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="helpcode != null" >
+        HelpCode,
+      </if>
+      <if test="departmentid != null" >
+        DepartmentID,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="stopflag != null" >
+        StopFlag,
+      </if>
+      <if test="useflag != null" >
+        UseFlag,
+      </if>
+      <if test="commisionprofit != null" >
+        CommisionProfit,
+      </if>
+      <if test="sharedflag != null" >
+        SharedFlag,
+      </if>
+      <if test="defaultflag != null" >
+        DefaultFlag,
+      </if>
+      <if test="copyflag != null" >
+        CopyFlag,
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate,
+      </if>
+      <if test="editor != null" >
+        Editor,
+      </if>
+      <if test="sendflag != null" >
+        SendFlag,
+      </if>
+      <if test="mobilphone != null" >
+        MobilPhone,
+      </if>
+      <if test="engagedate != null" >
+        EngageDate,
+      </if>
+      <if test="dimissiondate != null" >
+        DimissionDate,
+      </if>
+      <if test="basepay != null" >
+        BasePay,
+      </if>
+      <if test="addr != null" >
+        Addr,
+      </if>
+      <if test="tel != null" >
+        Tel,
+      </if>
+      <if test="education != null" >
+        Education,
+      </if>
+      <if test="idcard != null" >
+        IDCard,
+      </if>
+      <if test="mobilephone2 != null" >
+        MobilePhone2,
+      </if>
+      <if test="paytype != null" >
+        PayType,
+      </if>
+      <if test="zw != null" >
+        ZW,
+      </if>
+      <if test="creator != null" >
+        Creator,
+      </if>
+      <if test="madedate != null" >
+        MadeDate,
+      </if>
+      <if test="isguide != null" >
+        IsGuide,
+      </if>
+      <if test="specialty != null" >
+        Specialty,
+      </if>
+      <if test="vipid != null" >
+        VIPID,
+      </if>
+      <if test="openid != null" >
+        OpenID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="photourl != null" >
+        PhotoUrl,
+      </if>
+      <if test="isofficer != null" >
+        IsOfficer,
+      </if>
+      <if test="photo != null" >
+        Photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeetypeid != null" >
+        #{employeetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="helpcode != null" >
+        #{helpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopflag != null" >
+        #{stopflag,jdbcType=BIT},
+      </if>
+      <if test="useflag != null" >
+        #{useflag,jdbcType=BIT},
+      </if>
+      <if test="commisionprofit != null" >
+        #{commisionprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="sharedflag != null" >
+        #{sharedflag,jdbcType=BIT},
+      </if>
+      <if test="defaultflag != null" >
+        #{defaultflag,jdbcType=BIT},
+      </if>
+      <if test="copyflag != null" >
+        #{copyflag,jdbcType=BIT},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="sendflag != null" >
+        #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="mobilphone != null" >
+        #{mobilphone,jdbcType=VARCHAR},
+      </if>
+      <if test="engagedate != null" >
+        #{engagedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dimissiondate != null" >
+        #{dimissiondate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basepay != null" >
+        #{basepay,jdbcType=DECIMAL},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone2 != null" >
+        #{mobilephone2,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="zw != null" >
+        #{zw,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="madedate != null" >
+        #{madedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isguide != null" >
+        #{isguide,jdbcType=BIT},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=NVARCHAR},
+      </if>
+      <if test="vipid != null" >
+        #{vipid,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        #{photourl,jdbcType=VARCHAR},
+      </if>
+      <if test="isofficer != null" >
+        #{isofficer,jdbcType=BIT},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.EmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from Employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Employee" >
+    update Employee
+    <set >
+      <if test="employeetypeid != null" >
+        EmployeeTypeID = #{employeetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="helpcode != null" >
+        HelpCode = #{helpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        DepartmentID = #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopflag != null" >
+        StopFlag = #{stopflag,jdbcType=BIT},
+      </if>
+      <if test="useflag != null" >
+        UseFlag = #{useflag,jdbcType=BIT},
+      </if>
+      <if test="commisionprofit != null" >
+        CommisionProfit = #{commisionprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="sharedflag != null" >
+        SharedFlag = #{sharedflag,jdbcType=BIT},
+      </if>
+      <if test="defaultflag != null" >
+        DefaultFlag = #{defaultflag,jdbcType=BIT},
+      </if>
+      <if test="copyflag != null" >
+        CopyFlag = #{copyflag,jdbcType=BIT},
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        Editor = #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="sendflag != null" >
+        SendFlag = #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="mobilphone != null" >
+        MobilPhone = #{mobilphone,jdbcType=VARCHAR},
+      </if>
+      <if test="engagedate != null" >
+        EngageDate = #{engagedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dimissiondate != null" >
+        DimissionDate = #{dimissiondate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basepay != null" >
+        BasePay = #{basepay,jdbcType=DECIMAL},
+      </if>
+      <if test="addr != null" >
+        Addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        Tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        Education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        IDCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone2 != null" >
+        MobilePhone2 = #{mobilephone2,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        PayType = #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="zw != null" >
+        ZW = #{zw,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        Creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="madedate != null" >
+        MadeDate = #{madedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isguide != null" >
+        IsGuide = #{isguide,jdbcType=BIT},
+      </if>
+      <if test="specialty != null" >
+        Specialty = #{specialty,jdbcType=NVARCHAR},
+      </if>
+      <if test="vipid != null" >
+        VIPID = #{vipid,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        OpenID = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        PhotoUrl = #{photourl,jdbcType=VARCHAR},
+      </if>
+      <if test="isofficer != null" >
+        IsOfficer = #{isofficer,jdbcType=BIT},
+      </if>
+      <if test="photo != null" >
+        Photo = #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where EmployeeID = #{employeeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pos.model.Employee" >
+    update Employee
+    set EmployeeTypeID = #{employeetypeid,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      HelpCode = #{helpcode,jdbcType=VARCHAR},
+      DepartmentID = #{departmentid,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR},
+      StopFlag = #{stopflag,jdbcType=BIT},
+      UseFlag = #{useflag,jdbcType=BIT},
+      CommisionProfit = #{commisionprofit,jdbcType=DECIMAL},
+      SharedFlag = #{sharedflag,jdbcType=BIT},
+      DefaultFlag = #{defaultflag,jdbcType=BIT},
+      CopyFlag = #{copyflag,jdbcType=BIT},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      Editor = #{editor,jdbcType=VARCHAR},
+      SendFlag = #{sendflag,jdbcType=BIT},
+      MobilPhone = #{mobilphone,jdbcType=VARCHAR},
+      EngageDate = #{engagedate,jdbcType=TIMESTAMP},
+      DimissionDate = #{dimissiondate,jdbcType=TIMESTAMP},
+      BasePay = #{basepay,jdbcType=DECIMAL},
+      Addr = #{addr,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR},
+      Education = #{education,jdbcType=VARCHAR},
+      IDCard = #{idcard,jdbcType=VARCHAR},
+      MobilePhone2 = #{mobilephone2,jdbcType=VARCHAR},
+      PayType = #{paytype,jdbcType=VARCHAR},
+      ZW = #{zw,jdbcType=VARCHAR},
+      Creator = #{creator,jdbcType=VARCHAR},
+      MadeDate = #{madedate,jdbcType=TIMESTAMP},
+      IsGuide = #{isguide,jdbcType=BIT},
+      Specialty = #{specialty,jdbcType=NVARCHAR},
+      VIPID = #{vipid,jdbcType=VARCHAR},
+      OpenID = #{openid,jdbcType=VARCHAR},
+      UserID = #{userid,jdbcType=VARCHAR},
+      PhotoUrl = #{photourl,jdbcType=VARCHAR},
+      IsOfficer = #{isofficer,jdbcType=BIT},
+      Photo = #{photo,jdbcType=LONGVARBINARY}
+    where EmployeeID = #{employeeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Employee" >
+    update Employee
+    set EmployeeTypeID = #{employeetypeid,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      HelpCode = #{helpcode,jdbcType=VARCHAR},
+      DepartmentID = #{departmentid,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR},
+      StopFlag = #{stopflag,jdbcType=BIT},
+      UseFlag = #{useflag,jdbcType=BIT},
+      CommisionProfit = #{commisionprofit,jdbcType=DECIMAL},
+      SharedFlag = #{sharedflag,jdbcType=BIT},
+      DefaultFlag = #{defaultflag,jdbcType=BIT},
+      CopyFlag = #{copyflag,jdbcType=BIT},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      Editor = #{editor,jdbcType=VARCHAR},
+      SendFlag = #{sendflag,jdbcType=BIT},
+      MobilPhone = #{mobilphone,jdbcType=VARCHAR},
+      EngageDate = #{engagedate,jdbcType=TIMESTAMP},
+      DimissionDate = #{dimissiondate,jdbcType=TIMESTAMP},
+      BasePay = #{basepay,jdbcType=DECIMAL},
+      Addr = #{addr,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR},
+      Education = #{education,jdbcType=VARCHAR},
+      IDCard = #{idcard,jdbcType=VARCHAR},
+      MobilePhone2 = #{mobilephone2,jdbcType=VARCHAR},
+      PayType = #{paytype,jdbcType=VARCHAR},
+      ZW = #{zw,jdbcType=VARCHAR},
+      Creator = #{creator,jdbcType=VARCHAR},
+      MadeDate = #{madedate,jdbcType=TIMESTAMP},
+      IsGuide = #{isguide,jdbcType=BIT},
+      Specialty = #{specialty,jdbcType=NVARCHAR},
+      VIPID = #{vipid,jdbcType=VARCHAR},
+      OpenID = #{openid,jdbcType=VARCHAR},
+      UserID = #{userid,jdbcType=VARCHAR},
+      PhotoUrl = #{photourl,jdbcType=VARCHAR},
+      IsOfficer = #{isofficer,jdbcType=BIT}
+    where EmployeeID = #{employeeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,240 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%
+ String path = request.getContextPath();
+ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+ 
+ //String DepartmentID =request.getParameter("DepartmentID");
+  //System.out.println(map.DepartmentID);
+ //<script type="text/javascript" src="./ui/js/autocomplete.js"></script>
+ %>   
+ <!DOCTYPE html>
+ <html>
+<head>
+<base href="<%=basePath%>">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" href="./ui/css/xadmin.css" media="all">
+  <link rel="stylesheet" href="./ui/css/autocomplete.css" media="all">
+ <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./ui/js/jquery.min.js"></script>
+
+
+<title>Insert title here</title>
+</head>
+<body>
+    <div class="layui-card-body">
+                            <div class="layui-form layui-col-space5">
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start"></div>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end"></div>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="keyword" id="keyword" placeholder="货品编码" autocomplete="off" class="layui-input"></div>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <button class="layui-btn" data-type="reload">
+                                        <i class="layui-icon">&#xe615;</i></button>
+                                </div>
+                            </div>
+   </div>
+<table class="layui-hide" id="test"  lay-filter="test"></table>
+ 
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+  </div>
+</script>
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+              
+          
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
+ 
+    <script>
+    /*layui.use('laydate',
+        function() {
+            var laydate = layui.laydate;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end' //指定元素
+            });
+        }); //ui/lib/layui/*/
+        
+        layui.config({
+        	  base: '<%=basePath%>/ui/js/' //假设这是你存放拓展模块的根目录
+        	}).extend({ //设定模块别名
+        	 // mymod: 'mymod' //如果 mymod.js 是在根目录，也可以不用设定别名
+        	 // ,mod1: 'admin/mod1' //相对于上述 base 目录的子目录
+        	});
+    </script>
+ 
+ 
+<script>
+//$(function  () {
+layui.use(['table','laydate','form','autocomplete'], function(){
+  var laydate = layui.laydate;	
+  var form = layui.form;
+  
+  var autocomplete=layui.autocomplete;
+  
+  var table = layui.table;
+  
+  
+  
+//执行一个laydate实例
+  laydate.render({
+      elem: '#start' //指定元素
+  });
+  //执行一个laydate实例
+  laydate.render({
+      elem: '#end' //指定元素
+  });
+  
+  
+  table.render({
+    elem: '#test'
+    ,url:'<%=basePath%>goods/search.do'
+    ,method:'post'
+    ,where:{keyword:'',q:''}
+    ,toolbar: '#toolbarDemo'
+    ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
+  /*  ,parseData: function(res){ //res 即为原始返回的数据
+        return {
+            "code": res.status, //解析接口状态
+            "msg": res.message, //解析提示文本
+            "count": res.total, //解析数据长度
+            "data": res.rows //解析数据列表
+          };
+        } */
+    ,request: {
+        pageName: 'page' //页码的参数名称，默认：page
+        ,limitName: 'rows' //每页数据量的参数名，默认：limit
+          }
+  /*  ,response: {
+        statusName: 'status' //规定数据状态的字段名称，默认：code
+        ,statusCode: 200 //规定成功的状态码，默认：0
+        ,msgName: 'hint' //规定状态信息的字段名称，默认：msg
+        ,countName: 'total' //规定数据总数的字段名称，默认：count
+        ,dataName: 'rows' //规定数据列表的字段名称，默认：data
+      } */ 
+    ,title: '货品数据表'
+    ,cols: [[
+      {type: 'checkbox', fixed: 'left'}
+      ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
+      ,{field:'Code', title:'货品编码', width:120, edit: 'text'}
+      ,{field:'Name', title:'货品名称', width:120, edit: 'text'}
+      /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
+        return '<em>'+ res.email +'</em>'
+      }} */
+      ,{field:'Age', title:'年份', width:80, edit: 'text' }//sort: true
+      ,{field:'PurchasePrice', title:'参考进价', width:100,hide:true}
+      ,{field:'RetailSales', title:'零售价',width:80}
+      ,{field:'PointRate', title:'积分倍数', width:100}
+      ,{field:'SupplierCode', title:'厂商货品编码', width:120}
+      ,{field:'Model', title:'型号规格', width:100}
+      ,{field:'Season', title:'季节', width:120}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+    ,id: 'goodslist'  
+    ,page: true
+   
+  });
+  
+  //头工具栏事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'getCheckData':
+        var data = checkStatus.data;
+        layer.alert(JSON.stringify(data));
+      break;
+      case 'getCheckLength':
+        var data = checkStatus.data;
+        layer.msg('选中了：'+ data.length + ' 个');
+      break;
+      case 'isAll':
+        layer.msg(checkStatus.isAll ? '全选': '未全选');
+      break;
+    };
+  });
+  
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    //console.log(obj)
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    } else if(obj.event === 'edit'){
+      layer.prompt({
+        formType: 2
+        ,value: data.Name
+      }, function(value, index){
+        obj.update({
+        	Name: value
+        });
+        layer.close(index);
+      });
+    }
+  });
+  //------------------------------表单
+  
+  var $ = layui.$, active = {
+		    reload: function(){
+		       if($('#keyword').val()==''){
+		    	   $('#keyword').attr("alt","")    
+		       }	
+		    	
+		      var keyword = $('#keyword').attr("alt");
+		      console.log("keyword的值："+keyword)//keyword.val()
+		      //执行重载
+		      table.reload('goodslist', {
+		        page: {
+		          curr: 1 //重新从第 1 页开始
+		        }
+		        ,where: {
+		          //key: {
+		        	  //keyword: keyword.val()
+		        	  keyword:keyword
+		        //  }
+		        }
+		      });
+		    }
+		  };
+  
+  $('.layui-card-body .layui-btn').on('click', function(){
+	    var type = $(this).data('type');
+	    active[type] ? active[type].call(this) : '';
+	  });
+    
+  //自动输入提示
+  autocomplete.render({
+            elem: $('#keyword')[0],
+            url: '<%=basePath%>goods/autocompete.do',
+            template_val: '{{d.Code}}',
+            template_txt: '{{d.Code}} <span class=\'layui-badge layui-bg-gray\'>{{d.Name}}</span>',
+            onselect: function (resp) {
+              $('input[name=keyword]').val(resp.Code),
+              $('input[name=keyword]').attr("alt",resp.GoodsID)
+            }
+        })
+  
+  
+});
+//}) //$(function 结束
+</script>
+
+</body>
+</html>

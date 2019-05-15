@@ -54,6 +54,16 @@
     <servlet-name>springMvc</servlet-name>
     <url-pattern>*.*</url-pattern>
   </servlet-mapping>
+  <!-- 让特定文件夹 通过访问 -->
+    <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/ui/*</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
+  </servlet-mapping>
+  <!-- /index.jsp /WEB-INF/jsp/login.jsp-->
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>

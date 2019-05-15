@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,10 @@ import com.alibaba.fastjson.JSONObject;
 
 import pos.model.User;
 import pos.service.userService;
+import web.util.AjaxJson;
+import web.util.OAuth;
+import web.util.Common;
+import web.util.ResourceUtil;
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -45,11 +50,11 @@ public class UserController {
     username=request.getParameter("username");
     password=request.getParameter("password");
     
-    User u=new User();
+     
     //loginFlag=String.valueOf(userservice.Login(user));
     user.setUsername(username);
     user.setPassword(password);
-   u=userservice.Login(user);
+    User  u=userservice.Login(user);
    
   // System.out.print(u.getUsername());
    if (null==u){
@@ -81,14 +86,23 @@ public class UserController {
     {
     	loginFlag=true;
     	 System.out.println("ssss"+String.valueOf(1));
-    	 request.getSession().setAttribute("user", user);
+    	 
+    	 //request.getSession().setAttribute("user", user);
+    	 
     	 j.put("userid", u.getUserid());
     	 j.put("no", u.getNo());
     	 j.put("password", u.getPassword());
     	 j.put("username", u.getUsername());
     	 j.put("departmentid", u.getDepartmentid());
     	 
+    	// HttpSession session= request.getSession();
+    	 
+    	// session.setAttribute("userid", u.getUserid());
+    	 request.getSession().setAttribute("user", u);
+    	 
     	 System.out.println(user);
+    	 
+    	 response.setContentType("text/html;charset=UTF-8");
     	 try {
     	//String l=JSONObject.toJSONString("j",j);
     		
@@ -153,6 +167,56 @@ public class UserController {
 		return new ModelAndView("login");
 	}
 	
+	@RequestMapping("/loginCheck")
+	@ResponseBody
+	public AjaxJson loginCheck(User user,HttpServletRequest request){
+		AjaxJson j =new AjaxJson();
+		 
+		String	username=request.getParameter("username");
+		String password=request.getParameter("password");
+		 user.setUsername(username);
+		 user.setPassword(password);
+		 
+		 User  u=userservice.Login(user);
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 HttpSession session = request.getSession();
+		 
+		 if(u !=null){
+			 session.setAttribute("userid", u.getUserid());  //保存session
+			 map.put("user", u);
+			 j.setMsg("登录成功");
+			 j.setSuccess(true);
+		 }else{
+			 j.setMsg("密码或者用户错误");
+		 }
+		 j.setAttribute(map);	
+		return j;
+	}
+	
+	@RequestMapping("/loginjd")
+	@ResponseBody
+    public AjaxJson loginjd(HttpServletRequest request){
+		
+		//String appid="16CE123054B0616AA1BCCE9917DFE684";
+		//String url="http://wvip.sc9991888.cn";		
+		
+		if(!Common.isEmpty(request.getParameter("code"))){
+		
+		OAuth.Code =request.getParameter("code");
+		}
+		AjaxJson j=new AjaxJson();
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("Code", OAuth.Code);
+		System.out.println("读取本地的appKey:"+ResourceUtil.getConfigByName("appKey"));
+		System.out.println("读取本地的appSecret:"+ResourceUtil.getConfigByName("appSecret"));
+		
+		
+		OAuth.getToken(ResourceUtil.getConfigByName("appKey"),ResourceUtil.getConfigByName("appSecret"));
+		
+		j.setAttribute(map);
+		return j;
+	}	
 	
 	
 	

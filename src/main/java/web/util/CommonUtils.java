@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -31,17 +32,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
+import org.json.JSONObject;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +53,331 @@ import org.slf4j.LoggerFactory;
 public class CommonUtils {
 	private static Logger log = LoggerFactory.getLogger(CommonUtils.class);
 	  public static final String dtLong = "yyyyMMddHHmmss";
+	  
+	 private static String firstCookie;
+	 
+	 public static JSONObject jd(String requestUrl, String requestMethod, Map<String,Object> outputStr)
+	  {
+	    /*
+	     * 测试
+	     * Map<String,Object> map=new HashMap<String,Object>();
+		map.put("userno", "admin");
+		map.put("password", "1");
+		
+		String session=CommonUtils.getSessionMap("https://weixin.fxsoft88.com/managelogin/login.do","POST",map);
+		
+		System.out.println("sessionKKKK:"+session);;
+	     * 
+	     * */
+		 JSONObject j=null;
+		 
+	    try
+	    {
+	      TrustManager[] tm = { new MyX509TrustManager() };
+	      SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+	      sslContext.init(null, tm, new SecureRandom());
+
+	      SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+	     URL url = new URL(requestUrl);
+	      HttpsURLConnection conn = (HttpsURLConnection)url.openConnection(); //https 
+	      conn.setSSLSocketFactory(ssf);
+
+	      conn.setDoOutput(true);
+	      conn.setDoInput(true);
+	      conn.setUseCaches(false);
+
+	 
+	      
+	      
+	      conn.setRequestMethod(requestMethod);
+
+
+	      if ("GET".equalsIgnoreCase(requestMethod)) {
+	        conn.connect();
+	      }
+
+	      if (outputStr != null) {
+	        OutputStream outputStream = conn.getOutputStream();
+	        outputStream.write(String.valueOf(outputStr).getBytes("UTF-8"));
+	        outputStream.close();
+	      }
+
+	      InputStream inputStream = conn.getInputStream();
+	      InputStreamReader inputStreamReader = new InputStreamReader(
+	        inputStream, "utf-8");
+	      BufferedReader bufferedReader = new BufferedReader(
+	        inputStreamReader);
+	      
+	    
+	      String str = null;
+	      StringBuffer buffer = new StringBuffer();
+	      while ((str = bufferedReader.readLine()) != null) {
+	        buffer.append(str);
+	      }
+	      System.out.println("\r返回内容:" + buffer.toString());
+          
+	   
+	      
+	      bufferedReader.close();
+	      inputStreamReader.close();
+	      inputStream.close();
+	      inputStream = null;
+	      conn.disconnect();
+	      j=new JSONObject(buffer.toString());
+	      return j;
+	    }
+	    catch (ConnectException ce) {
+	      log.error("连接超时：{}", ce);
+	      return null;//httpsRequest(requestUrl, requestMethod, outputStr);
+	    } catch (Exception e) {
+	      log.error("https请求异常：{}", e);
+	    }return j;
+	  }
+	 
+	 
+	 public static JSONObject getResultMap(String requestUrl, String requestMethod, Map<String,Object> outputStr)
+	  {
+	    /*
+	     * 测试
+	     * Map<String,Object> map=new HashMap<String,Object>();
+		map.put("userno", "admin");
+		map.put("password", "1");
+		
+		String session=CommonUtils.getSessionMap("https://weixin.fxsoft88.com/managelogin/login.do","POST",map);
+		
+		System.out.println("sessionKKKK:"+session);;
+	     * 
+	     * */
+		 JSONObject j=null;
+		 
+	    try
+	    {
+	      TrustManager[] tm = { new MyX509TrustManager() };
+	      SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+	      sslContext.init(null, tm, new SecureRandom());
+
+	      SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+	     URL url = new URL(requestUrl);
+	      HttpsURLConnection conn = (HttpsURLConnection)url.openConnection(); //https 
+	      conn.setSSLSocketFactory(ssf);
+
+	      conn.setDoOutput(true);
+	      conn.setDoInput(true);
+	      conn.setUseCaches(false);
+
+	      if(getCookie() !=null){
+	    	  
+	      conn.setRequestProperty("Cookie", firstCookie);  
+	      
+	      }
+	      
+	      
+	      conn.setRequestMethod(requestMethod);
+
+
+	      if ("GET".equalsIgnoreCase(requestMethod)) {
+	        conn.connect();
+	      }
+
+	      if (outputStr != null) {
+	        OutputStream outputStream = conn.getOutputStream();
+	        outputStream.write(String.valueOf(outputStr).getBytes("UTF-8"));
+	        outputStream.close();
+	      }
+
+	      InputStream inputStream = conn.getInputStream();
+	      InputStreamReader inputStreamReader = new InputStreamReader(
+	        inputStream, "utf-8");
+	      BufferedReader bufferedReader = new BufferedReader(
+	        inputStreamReader);
+	      
+	    
+	      String str = null;
+	      StringBuffer buffer = new StringBuffer();
+	      while ((str = bufferedReader.readLine()) != null) {
+	        buffer.append(str);
+	      }
+	      System.out.println("\r返回内容:" + buffer.toString());
+
+	      if(firstCookie ==null || "".equals(firstCookie)){
+	    	  System.out.println("map:"+conn.getHeaderFields().toString());
+	    	  setCookie(conn.getHeaderFields()); 
+	      }
+	      
+	      bufferedReader.close();
+	      inputStreamReader.close();
+	      inputStream.close();
+	      inputStream = null;
+	      conn.disconnect();
+	      j=new JSONObject(buffer.toString());
+	      return j;
+	    }
+	    catch (ConnectException ce) {
+	      log.error("连接超时：{}", ce);
+	      return null;//httpsRequest(requestUrl, requestMethod, outputStr);
+	    } catch (Exception e) {
+	      log.error("https请求异常：{}", e);
+	    }return j;
+	  }
+	 
+	 
+	 public static String getSessionMap(String requestUrl, String requestMethod, Map<String,Object> outputStr)
+	  {
+	    /*
+	     * 测试
+	     * Map<String,Object> map=new HashMap<String,Object>();
+		map.put("userno", "admin");
+		map.put("password", "1");
+		
+		String session=CommonUtils.getSessionMap("https://weixin.fxsoft88.com/managelogin/login.do","POST",map);
+		
+		System.out.println("sessionKKKK:"+session);;
+	     * 
+	     * */
+	    try
+	    {
+	      TrustManager[] tm = { new MyX509TrustManager() };
+	      SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+	      sslContext.init(null, tm, new SecureRandom());
+
+	      SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+	     URL url = new URL(requestUrl);
+	      HttpsURLConnection conn = (HttpsURLConnection)url.openConnection(); //https 
+	      conn.setSSLSocketFactory(ssf);
+
+	      conn.setDoOutput(true);
+	      conn.setDoInput(true);
+	      conn.setUseCaches(false);
+
+	      if(getCookie() !=null){
+	    	  
+	      conn.setRequestProperty("Cookie", firstCookie);  
+	      
+	      }
+	      
+	      
+	      conn.setRequestMethod(requestMethod);
+
+
+	      if ("GET".equalsIgnoreCase(requestMethod)) {
+	        conn.connect();
+	      }
+
+	      if (outputStr != null) {
+	        OutputStream outputStream = conn.getOutputStream();
+	        outputStream.write(String.valueOf(outputStr).getBytes("UTF-8"));
+	        outputStream.close();
+	      }
+
+	      InputStream inputStream = conn.getInputStream();
+	      InputStreamReader inputStreamReader = new InputStreamReader(
+	        inputStream, "utf-8");
+	      BufferedReader bufferedReader = new BufferedReader(
+	        inputStreamReader);
+	      
+	    
+	      String str = null;
+	      StringBuffer buffer = new StringBuffer();
+	      while ((str = bufferedReader.readLine()) != null) {
+	        buffer.append(str);
+	      }
+	      System.out.println("\r返回内容:" + buffer.toString());
+
+	      if(firstCookie ==null || "".equals(firstCookie)){
+	    	  System.out.println("map:"+conn.getHeaderFields().toString());
+	    	  setCookie(conn.getHeaderFields()); 
+	      }
+	      
+	      bufferedReader.close();
+	      inputStreamReader.close();
+	      inputStream.close();
+	      inputStream = null;
+	      conn.disconnect();
+	      return firstCookie;//new JSONObject(buffer.toString());
+	    }
+	    catch (ConnectException ce) {
+	      log.error("连接超时：{}", ce);
+	      return null;//httpsRequest(requestUrl, requestMethod, outputStr);
+	    } catch (Exception e) {
+	      log.error("https请求异常：{}", e);
+	    }return firstCookie;
+	  }
+	 
+	 public static String getSession(String requestUrl, String requestMethod, String outputStr)
+	  {
+	    JSONObject jsonObject = null;
+	    try
+	    {
+	      TrustManager[] tm = { new MyX509TrustManager() };
+	      SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+	      sslContext.init(null, tm, new SecureRandom());
+
+	      SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+	     URL url = new URL(requestUrl);
+	      HttpsURLConnection conn = (HttpsURLConnection)url.openConnection(); //https 
+	      conn.setSSLSocketFactory(ssf);
+
+	      conn.setDoOutput(true);
+	      conn.setDoInput(true);
+	      conn.setUseCaches(false);
+
+	      if(getCookie() !=null){
+	    	  
+	      conn.setRequestProperty("Cookie", firstCookie);  
+	      
+	      }
+	      
+	      
+	      conn.setRequestMethod(requestMethod);
+
+
+	      if ("GET".equalsIgnoreCase(requestMethod)) {
+	        conn.connect();
+	      }
+
+	      if (outputStr != null) {
+	        OutputStream outputStream = conn.getOutputStream();
+	        outputStream.write(outputStr.getBytes("UTF-8"));
+	        outputStream.close();
+	      }
+
+	      InputStream inputStream = conn.getInputStream();
+	      InputStreamReader inputStreamReader = new InputStreamReader(
+	        inputStream, "utf-8");
+	      BufferedReader bufferedReader = new BufferedReader(
+	        inputStreamReader);
+	      
+	    
+	      String str = null;
+	      StringBuffer buffer = new StringBuffer();
+	      while ((str = bufferedReader.readLine()) != null) {
+	        buffer.append(str);
+	      }
+	      System.out.println("\r返回内容:" + buffer.toString());
+
+	      if(firstCookie ==null || "".equals(firstCookie)){
+	    	  System.out.println("map:"+conn.getHeaderFields().toString());
+	    	  setCookie(conn.getHeaderFields()); 
+	      }
+	      
+	      bufferedReader.close();
+	      inputStreamReader.close();
+	      inputStream.close();
+	      inputStream = null;
+	      conn.disconnect();
+	      return firstCookie;//new JSONObject(buffer.toString());
+	    }
+	    catch (ConnectException ce) {
+	      log.error("连接超时：{}", ce);
+	      return null;//httpsRequest(requestUrl, requestMethod, outputStr);
+	    } catch (Exception e) {
+	      log.error("https请求异常：{}", e);
+	    }return firstCookie;
+	  }
 
 	  public static JSONObject httpsRequest(String requestUrl, String requestMethod, String outputStr)
 	  {
@@ -63,9 +390,116 @@ public class CommonUtils {
 
 	      SSLSocketFactory ssf = sslContext.getSocketFactory();
 
-	    URL url = new URL(requestUrl);
+	     URL url = new URL(requestUrl);
 	      HttpsURLConnection conn = (HttpsURLConnection)url.openConnection(); //https 
-	     conn.setSSLSocketFactory(ssf);
+	      conn.setSSLSocketFactory(ssf);
+
+	      conn.setDoOutput(true);
+	      conn.setDoInput(true);
+	      conn.setUseCaches(false);
+
+	      if(getCookie() !=null){
+	    	  
+	      conn.setRequestProperty("Cookie", firstCookie);  
+	      
+	      }
+	      
+	      
+	      conn.setRequestMethod(requestMethod);
+
+
+	      if ("GET".equalsIgnoreCase(requestMethod)) {
+	        conn.connect();
+	      }
+
+	      if (outputStr != null) {
+	        OutputStream outputStream = conn.getOutputStream();
+	        outputStream.write(outputStr.getBytes("UTF-8"));
+	        outputStream.close();
+	      }
+
+	      InputStream inputStream = conn.getInputStream();
+	      InputStreamReader inputStreamReader = new InputStreamReader(
+	        inputStream, "utf-8");
+	      BufferedReader bufferedReader = new BufferedReader(
+	        inputStreamReader);
+	      
+	    
+	      String str = null;
+	      StringBuffer buffer = new StringBuffer();
+	      while ((str = bufferedReader.readLine()) != null) {
+	        buffer.append(str);
+	      }
+	      System.out.println("\r返回内容:" + buffer.toString());
+
+	      if(firstCookie ==null || "".equals(firstCookie)){
+	    	  System.out.println("map:"+conn.getHeaderFields().toString());
+	    	  setCookie(conn.getHeaderFields()); 
+	      }
+	      
+	      bufferedReader.close();
+	      inputStreamReader.close();
+	      inputStream.close();
+	      inputStream = null;
+	      conn.disconnect();
+	      return new JSONObject(buffer.toString());
+	    }
+	    catch (ConnectException ce) {
+	      log.error("连接超时：{}", ce);
+	      return httpsRequest(requestUrl, requestMethod, outputStr);
+	    } catch (Exception e) {
+	      log.error("https请求异常：{}", e);
+	    }return jsonObject;
+	  }
+
+	  
+	 //setCookie 获取返回的cookie  HttpsURLConnection
+	  //Map<String,List<String>> map=conn.getHeaderFields();  
+	  
+	public static void setCookie(Map<String,List<String>> map){
+		
+	       Set<String> set=map.keySet();  
+	     //   for (Iterator iterator = set.iterator(); iterator.hasNext();) {  
+	     //      String key = (String) iterator.next();  
+	    //        System.out.println("key=" + key);  
+	            //key.equals("Set-Cookie")
+	       
+	            if (map.containsKey("Set-Cookie")){  
+	             //   System.out.println("key=" + key+",开始获取cookie");  
+	                List<String> list = map.get("Set-Cookie");  
+	                StringBuilder builder = new StringBuilder();  
+	                System.out.println("list:"+list.toString());
+	                for (String str : list) {  
+	                    builder.append(str).toString();  
+	                }  
+	                firstCookie=builder.toString().substring(0,builder.toString().indexOf(";"));  
+	                System.out.println("第一次得到的cookie="+firstCookie);  
+	            }  
+	       // } 	
+	
+	}
+	public static String getCookie(){
+		return firstCookie;
+	}
+	
+	  
+	  
+	  
+
+	  public static org.json.JSONObject JhttpRequest(String requestUrl, String requestMethod, String outputStr)
+	  {
+		  org.json.JSONObject jsonObject = null;
+	    try
+	    {
+	    /*  TrustManager[] tm = { new MyX509TrustManager() };
+	      SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+	      sslContext.init(null, tm, new SecureRandom());
+
+	      SSLSocketFactory ssf = sslContext.getSocketFactory(); */
+
+	     URL url = new URL(requestUrl);
+	      HttpURLConnection conn = (HttpURLConnection)url.openConnection(); //https 
+	    // conn.setSSLSocketFactory(ssf);
 
 	      conn.setDoOutput(true);
 	      conn.setDoInput(true);
@@ -101,16 +535,26 @@ public class CommonUtils {
 	      inputStream.close();
 	      inputStream = null;
 	      conn.disconnect();
-	      return JSONObject.fromObject(buffer.toString());
+	      jsonObject=new org.json.JSONObject(buffer.toString());
+	      return jsonObject;//JSONObject.fromObject(buffer.toString());
 	    }
 	    catch (ConnectException ce) {
 	      log.error("连接超时：{}", ce);
-	      return httpsRequest(requestUrl, requestMethod, outputStr);
+	      return JhttpRequest(requestUrl, requestMethod, outputStr);
 	    } catch (Exception e) {
 	      log.error("https请求异常：{}", e);
 	    }return jsonObject;
 	  }
-
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  public static String httpRequest(String requestUrl, String requestMethod, String outputStr)
 	  {
 		  //JSONArray json=null;
@@ -129,6 +573,10 @@ public class CommonUtils {
 	            conn.setDoOutput(true);
 	            OutputStream os = conn.getOutputStream();//向服务器提交时，这句有问题，异常，待排查
 	            os.write(data.getBytes());
+	            
+	            System.out.println(String.valueOf(data.getBytes()));
+	            
+	            
 	            int code = conn.getResponseCode();
 	            System.out.println(code);
 	            if (code == 200) {

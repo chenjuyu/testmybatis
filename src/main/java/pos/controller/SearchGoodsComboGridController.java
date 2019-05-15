@@ -40,26 +40,35 @@ public class SearchGoodsComboGridController {
 		
 		String keyword=request.getParameter("keyword");
 		
-		String q=request.getParameter("q");
-		
+	//	String q=request.getParameter("q");
+		String conditions;
 		if (keyword==null || "".equals(keyword)){
-			
-			keyword=q;
+			conditions=null;
+	//		keyword=q;
+		}else{
+			conditions=" a.goodsid='"+keyword+"' ";
 		}
 		
-		System.out.println(q);
+		//System.out.println(q);
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
 		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
 		
-		String conditions=" a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%'";
+		System.out.println("keyword的值："+keyword);
+		
+		//String conditions=" a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%'";
+		
+		
 		
 		HashMap<String,Object> m=goodsserive.goodslist(conditions, pageno, pagesize);
 		JSONObject j=new JSONObject();
-		j.put("total", m.get("total"));
-		j.put("rows", m.get("rows"));
-		
+		//j.put("total", m.get("total"));
+		//j.put("rows", m.get("rows"));
+		j.put("code", 0);
+		j.put("msg", "返回成功");
+		j.put("count", m.get("total"));
+		j.put("data", m.get("rows"));
 		
 		PrintWriter p=null;
 		response.setContentType("text/html;charset=utf-8");//解决返回乱码
@@ -81,12 +90,58 @@ public class SearchGoodsComboGridController {
 		c.andNameLike(keyword);
 		c.andSuppliercodeLike(keyword);	
 		List<Goods> goods=	goodsserive.selectByExample(example);
-		*/
-	
+		*/	
+	}
+	@RequestMapping(value="/autocompete")
+	public void auto(HttpServletRequest request,HttpServletResponse response){
+		
+		String keyword=request.getParameter("keyword");
+		
+		String q=request.getParameter("q");
+		
+		if (keyword==null || "".equals(keyword)){
+			
+			keyword=q;
+		}
 		
 		
+		int pageno = 1;
+		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
+				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
+		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
+		
+		String conditions=" a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%'";
+		
+		HashMap<String,Object> m=goodsserive.goodslist(conditions, pageno, pagesize);
+		JSONObject j=new JSONObject();
+		//j.put("total", m.get("total"));
+		//j.put("rows", m.get("rows"));
+		j.put("code", 0);
+		j.put("msg", "返回成功");
+		j.put("count", m.get("total"));
+		j.put("content", m.get("rows"));
+		
+		PrintWriter p=null;
+		response.setContentType("text/html;charset=utf-8");//解决返回乱码
+		try {
+			p=response.getWriter();
+			p.write(j.toString());
+		    p.flush();
+		    p.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
+		/*
+		GoodsExample example=new GoodsExample();
+		GoodsExample.Criteria c=example.createCriteria();
+		c.andCodeLike(keyword);
+		c.andNameLike(keyword);
+		c.andSuppliercodeLike(keyword);	
+		List<Goods> goods=	goodsserive.selectByExample(example);
+		*/	
 	}
 	
 	

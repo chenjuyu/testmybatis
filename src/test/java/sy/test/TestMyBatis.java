@@ -1,8 +1,5 @@
 package sy.test;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,13 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
+import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -25,12 +18,14 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
-import com.sun.prism.impl.Disposer.Record;
+import com.alibaba.fastjson.JSON;
 
 import pos.model.Barcode;
 import pos.model.BorrowingLog;
+import pos.model.Employee;
 import pos.service.BarCodeService;
 import pos.service.BorService;
+import pos.service.SysData;
 import web.util.Paging;
 
 //TODO
@@ -151,6 +146,7 @@ public class TestMyBatis {
 	     
 	}
 	
+
 	
 	
 	

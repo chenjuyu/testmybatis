@@ -2,7 +2,7 @@ package web.util;
 
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONObject;
+//import com.alibaba.fastjson.JSONObject;
 
 /*
  * 转javascript 对象为前台接收
@@ -37,7 +37,7 @@ public class AjaxJson {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	
+	/*
 	public String getJsonString(){
 	JSONObject j=new JSONObject();
 	j.put("success", this.success);
@@ -49,7 +49,7 @@ public class AjaxJson {
 		
 		
 		
-	}
+	} */
 	
 
 }

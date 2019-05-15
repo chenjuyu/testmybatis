@@ -1,71 +1,113 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  
-    pageEncoding="UTF-8"%>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-<!DOCTYPE HTML>
-<html>
-  <head>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%
+ String path = request.getContextPath();
+ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+ 
+ //String DepartmentID =request.getParameter("DepartmentID");
+  //System.out.println(map.DepartmentID);
+ 
+ %>  
+ <!doctype html>
+<html  class="x-admin-sm">
+<head>
     <base href="<%=basePath%>">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
-<title>登录</title>  
-<script type="text/javascript" src="js/jquery-1.8.3.js"></script>  
-<script>
-$(document).ready(function(){//这个就是jQueryready,它就像C语言的main 所有操作包含在它里面
-$("#sub").click(function(){
-login(); //点击ID为"button_login"的按钮后触发函数 login();
-});
-});
-function login(){ //函数 login();
-//alert("login");
-var username = $("#username").val();//取框中的用户名
-var password = $("#password").val();//取框中的密码
-$.ajax({ //一个Ajax过程
-type: "post",  //以post方式与后台沟通
-url : "user/ret.html", //与此php页面沟通
-dataType:"json",//从php返回的值以 JSON方式 解释
-async : false, // 设为false就是同步请求
-data:  "username="+username+"&password="+password, //发给php的数据有两项，分别是上面传来的u和p   
-success: function(result){//如果调用php成功
-//alert(json.username+'\n'+json.password); //把php中的返回值（json.username）给 alert出来
-var s=result  ;//                       JSON.stringify(result);
-alert("返回标志:"+s)
-if (s =="true"){
-alert("返回标志:"+"登录成功")
-}else{
-alert("返回标志:"+"登录失败")
-}
+	<meta charset="UTF-8">
+	<title>后台登录</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="./ui/css/font.css">
+    <link rel="stylesheet" href="./ui/css/login.css">
+	  <link rel="stylesheet" href="./ui/css/xadmin.css">
+    <script type="text/javascript" src="./ui/js/jquery.min.js"></script>
+    <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="login-bg">
+    
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">管理登录</div>
+        <div id="darkbannerwrap"></div>
+        
+        <form method="post" class="layui-form" >
+            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+        </form>
+    </div>
 
-//$('#result').html("返回标志:" + result.loginFlag)//$('#result').html("姓名:" + json.username + "<br/>密码:" + json.password); //把php中的返回值显示在预定义的result定位符位置
-}
-});
-}
-
-
-
-</script>
-</head>  
-<body>  
-<form action="" method="post" id="loginForm">  
-<table>  
-<tbody>  
-<tr>  
-<th>用户名：</th><td><input name="username" id="username"  /></td>  
-</tr>  
-<tr>  
-<th>密码：</th><td><input name="password"  type="password" id="password"/></td>  
-</tr>  
-<tr>  
-<td colspan="2"><input type="button" value="登录" id="sub"/><input type="reset" value="重置"/></td>  
-</tr>  
-</tbody>  
-</table>  
-</form> 
-<div id="result" ></div> 
-</body>  
-</html>  
+    <script>
+        $(function  () {
+            layui.use('form', function(){
+              var form = layui.form;
+              // layer.msg('玩命卖萌中', function(){
+              //   //关闭后的操作
+              //   });
+              //监听提交
+              form.on('submit(login)', function(data){
+                // alert(888)
+              /*  layer.msg(JSON.stringify(data.field),function(){
+                    //location.href='index.html'
+                }); */
+                
+                $.ajax({
+                	type: "post",  //数据提交方式（post/get）
+                	url: "./user/loginCheck.do",  //提交到的url
+                	data: {
+                		"username":data.field.username,
+                		"password":data.field.password
+                	},
+                	dataType: "json",//返回的数据类型格式
+                	 success: function (msg) {
+                         if (msg.success) {  //成功
+                             //关闭编辑窗口
+                             layer.closeAll();
+                             //弹出提示窗口
+                           //  layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作成功'});
+                             var map=msg.attribute;  //返回的map
+                             console.log("map的值:"+map)
+                             window.location.href='<%=basePath%>main/index.do?map='+encodeURI(encodeURI(JSON.stringify(map)));
+                             //刷新parts_table
+                           //  table.reload('partslist');
+                         } else {  //失败
+                             layer.open({
+                                 icon: 2,
+                                 // time:1500,
+                                 type: 0,
+                                 title: '操作失败',
+                                 content: msg.msg,
+                                 area: ['500px', '300px']
+                             });
+                         }
+                     }
+                });
+                
+                
+                
+                return false;
+              });
+            });
+        })
+    </script>
+    <!-- 底部结束 -->
+    <script>
+    //百度统计可去掉
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>
