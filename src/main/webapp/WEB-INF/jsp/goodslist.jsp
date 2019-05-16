@@ -41,7 +41,7 @@
  
 <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">同步数据</button>
     <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
     <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
   </div>
@@ -143,7 +143,7 @@ layui.use(['table','laydate','form','autocomplete'], function(){
       ,{field:'SupplierCode', title:'厂商货品编码', width:120}
       ,{field:'Model', title:'型号规格', width:100}
       ,{field:'Season', title:'季节', width:120}
-      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+     // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
     ]]
     ,id: 'goodslist'  
     ,page: true
@@ -157,6 +157,7 @@ layui.use(['table','laydate','form','autocomplete'], function(){
       case 'getCheckData':
         var data = checkStatus.data;
         layer.alert(JSON.stringify(data));
+       Send(JSON.stringify(data))
       break;
       case 'getCheckLength':
         var data = checkStatus.data;
@@ -230,6 +231,30 @@ layui.use(['table','laydate','form','autocomplete'], function(){
               $('input[name=keyword]').attr("alt",resp.GoodsID)
             }
         })
+        
+ function  Send(data){
+	  var datastr =data;
+	  $.ajax({
+		 	type: "post",  //数据提交方式（post/get）
+        	url: "<%=basePath%>main/jdgoods.do",  //提交到的url
+        	data: {
+        		"datas":datastr
+        	},
+        	dataType: "json",//返回的数据类型格式  
+        	success: function (msg) {
+        		layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作成功'});
+        	}
+        	,error:function (){
+        		
+        		layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作失败'});
+        	}
+		  
+	  });  
+	  
+	  
+  } 
+        
+        
   
   
 });

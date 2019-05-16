@@ -17,6 +17,16 @@
             <version>2.4</version>
             <configuration>
                 <failOnMissingWebXml>false</failOnMissingWebXml>
+                   <webResources>
+                        <resource>
+                            <directory>${project.basedir}/lib</directory>
+                            <targetPath>WEB-INF/lib</targetPath>
+                            <filtering>false</filtering>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
             </configuration>
             
             
@@ -323,6 +333,8 @@
     <artifactId>android-core</artifactId>
     <version>3.3.0</version>
 </dependency>
+
+
 		
 
 		

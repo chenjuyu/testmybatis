@@ -44,11 +44,9 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-             <c:forEach items="${map}" var="item" >     
-            <c:if test="${item.key=='username'}">  
-             <a href="#">后台用户:${item.value}</a></div>  
-             </c:if>     
-            </c:forEach>
+         
+             <a href="#">后台用户:${user.username}</a></div>  
+  
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -131,7 +129,7 @@
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src='./welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                      <!--   <iframe src='./welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe> --> 
                     </div>
                 </div>
                 <div id="tab_show"></div>

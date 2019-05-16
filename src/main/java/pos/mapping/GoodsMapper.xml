@@ -1801,7 +1801,7 @@
   
   <select id="goodslist" resultType="java.util.HashMap" parameterType="java.util.HashMap">
       
-   select a.* from Goods a
+   select a.GoodsID,a.Code,a.Name,a.Age,a.RetailSales,a.PointRate,a.SupplierCode,a.Model,a.Season,Convert(varchar(19),a.ModifyDate,121) ModifyDate from Goods a
    <if test="conditions != null and conditions != ''">
    where 
    ${conditions}

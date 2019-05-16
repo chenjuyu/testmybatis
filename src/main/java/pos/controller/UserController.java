@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 import pos.model.User;
 import pos.service.userService;
 import web.util.AjaxJson;
+import web.util.LoginUtilParameter;
 import web.util.OAuth;
 import web.util.Common;
 import web.util.ResourceUtil;
@@ -184,6 +185,7 @@ public class UserController {
 		 if(u !=null){
 			 session.setAttribute("userid", u.getUserid());  //保存session
 			 map.put("user", u);
+			 LoginUtilParameter.user=u;
 			 j.setMsg("登录成功");
 			 j.setSuccess(true);
 		 }else{

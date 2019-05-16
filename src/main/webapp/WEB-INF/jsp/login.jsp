@@ -73,9 +73,10 @@
                              layer.closeAll();
                              //弹出提示窗口
                            //  layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作成功'});
-                             var map=msg.attribute;  //返回的map
-                             console.log("map的值:"+map)
-                             window.location.href='<%=basePath%>main/index.do?map='+encodeURI(encodeURI(JSON.stringify(map)));
+                             //var map=msg.attribute;  //返回的map
+                             //console.log("map的值:"+map)
+                          window.location.href='<%=basePath%>main/index.do'
+                             //  window.location.href='<%=basePath%>main/index.do?map='+encodeURI(encodeURI(JSON.stringify(map)));
                              //刷新parts_table
                            //  table.reload('partslist');
                          } else {  //失败
