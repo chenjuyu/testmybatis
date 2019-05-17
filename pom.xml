@@ -8,30 +8,30 @@
 	<name>testmybatis Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<build>
-	    
+
 		<plugins>
-		<!-- maven-war-plugin:pom:2.1.1 报错 -->
-		 <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.4</version>
-            <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-                   <webResources>
-                        <resource>
-                            <directory>${project.basedir}/lib</directory>
-                            <targetPath>WEB-INF/lib</targetPath>
-                            <filtering>false</filtering>
-                            <includes>
-                                <include>**/*.jar</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-            </configuration>
-            
-            
-        </plugin>
-        
+			<!-- maven-war-plugin:pom:2.1.1 报错 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<webResources>
+						<resource>
+							<directory>${project.basedir}/lib</directory>
+							<targetPath>WEB-INF/lib</targetPath>
+							<filtering>false</filtering>
+							<includes>
+								<include>**/*.jar</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+
+
+			</plugin>
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -63,8 +63,8 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>utf-8</encoding>
-					
-		 <!--解决  install 时候报错“编码 gbk 的不可映射字符”的解决方法 -->			
+
+					<!--解决 install 时候报错“编码 gbk 的不可映射字符”的解决方法 -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -75,30 +75,30 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-<!-- eclipse+maven+mybatis自动生成entity、dao层 -->
-	<plugin>
-		<groupId>org.mybatis.generator</groupId>
-		<artifactId>mybatis-generator-maven-plugin</artifactId>
-		<version>1.3.2</version>
-		<configuration>
-		</configuration>
-	</plugin>
-       
-       	 <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>2.5</version>
-            <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-            </configuration>
-        </plugin>
+			<!-- eclipse+maven+mybatis自动生成entity、dao层 -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
 
 
 		</plugins>
 	</build>
 
 	<dependencies>
-	    <dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>4.0.3.RELEASE</version>
@@ -113,14 +113,14 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>4.0.3.RELEASE</version>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>4.0.3.RELEASE</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>4.0.3.RELEASE</version>
@@ -130,73 +130,64 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>4.2.0.RELEASE</version>
 		</dependency>
-		
-			<!-- 加分类报错这个 -->
-	<dependency>
-		<groupId>org.springframework.session</groupId>
-		<artifactId>spring-session</artifactId>
-		<version>1.3.1.RELEASE</version>
-	</dependency>
-		
-		
+
+		<!-- 加分类报错这个 -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+			<version>1.3.1.RELEASE</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.2.7</version>
 		</dependency>
-	<!-- jdbc 报错-->	
-<dependency>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-jdbc</artifactId>
-	<version>4.0.3.RELEASE</version>
-</dependency>
-		
+		<!-- jdbc 报错 -->
 		<dependency>
-    <groupId>com.github.pagehelper</groupId>
-    <artifactId>pagehelper</artifactId>
-    <version>3.6.3</version>
-</dependency>
-		
-		 <dependency>
-      <groupId>com.github.jsqlparser</groupId>
-      <artifactId>jsqlparser</artifactId>
-      <version>0.9.1</version>
-    </dependency>
-<!--     <dependency>
-      <groupId>org.mybatis</groupId>
-      <artifactId>mybatis</artifactId>
-      <version>3.2.6</version>
-      <scope>compile</scope>
-      <optional>true</optional>
-    </dependency>
-		 -->
-		
-		
-	<!-- 	
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.0.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.mybatis</groupId> <artifactId>mybatis</artifactId> 
+			<version>3.2.6</version> <scope>compile</scope> <optional>true</optional> 
+			</dependency> -->
+
+
+		<!-- <dependency> <groupId>org.mybatis</groupId> <artifactId>mybatis-spring</artifactId> 
+			<version>1.1.1</version> </dependency> -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
-			<version>1.1.1</version>
-		</dependency> -->
-	<dependency>
-		<groupId>org.mybatis</groupId>
-		<artifactId>mybatis-spring</artifactId>
-		<version>1.2.2</version>
-	</dependency>
+			<version>1.2.2</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.21</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		  <!-- 另一种数据源dbcp方式，现还没用到，如果报错可以去掉 -->
-         <dependency>
+		<!-- 另一种数据源dbcp方式，现还没用到，如果报错可以去掉 -->
+		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
@@ -207,22 +198,16 @@
 			<version>1.6</version>
 		</dependency>
 		<!-- 另一种数据源dbcp方式，现还没用到，如果报错可以去掉 -->
-		<!--druid  sql2005正确的语句报错，所以换个版本看看  1.0.13参数提示不易看 换成  -->
-		<!-- <dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>0.2.9</version>
-		</dependency> -->
-		<!-- druid先屏蔽因为了dbcp数据源方式  -->
-		<!-- <dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.0.13</version>
-		</dependency> -->
-       <!-- druid先屏蔽因为了dbcp数据源方式  -->
-		
+		<!--druid sql2005正确的语句报错，所以换个版本看看 1.0.13参数提示不易看 换成 -->
+		<!-- <dependency> <groupId>com.alibaba</groupId> <artifactId>druid</artifactId> 
+			<version>0.2.9</version> </dependency> -->
+		<!-- druid先屏蔽因为了dbcp数据源方式 -->
+		<!-- <dependency> <groupId>com.alibaba</groupId> <artifactId>druid</artifactId> 
+			<version>1.0.13</version> </dependency> -->
+		<!-- druid先屏蔽因为了dbcp数据源方式 -->
+
 		<dependency>
-		
+
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.7.1</version>
@@ -238,25 +223,25 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-  <!-- 畗文本框用到的配置 -->
-	<dependency>
-		<groupId>commons-io</groupId>
-		<artifactId>commons-io</artifactId>
-		<version>2.4</version>
-	</dependency>
-	<dependency>
-    <groupId>com.googlecode.json-simple</groupId>
-    <artifactId>json-simple</artifactId>
-    <version>1.1</version>
-    </dependency>	
-	 <!-- 畗文本框用到的配置  eclipse jsp没有自动载入在把jspAPI载入-->	
+		<!-- 畗文本框用到的配置 -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<!-- 畗文本框用到的配置 eclipse jsp没有自动载入在把jspAPI载入 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>3.0-alpha-1</version>
 		</dependency>
-	
-		
+
+
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -268,12 +253,9 @@
 			<version>1.1.2</version>
 		</dependency>
 
-	  <!--   <dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.5.0-b01</version>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId> 
+			<version>1.5.0-b01</version> </dependency> -->
+
 
 
 
@@ -288,24 +270,24 @@
 			<version>1.1.26</version>
 		</dependency>
 		<dependency>
-        <groupId>net.sf.json-lib</groupId>    
-        <artifactId>json-lib</artifactId>    
-        <version>2.4</version>    
-         <classifier>jdk15</classifier>
-       </dependency> 
-       
-		 <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.25</version>
-            <!-- <scope>test</scope> -->
-        </dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.25</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
 		<!--2014年10月2日，用下面这个货链接sqlserver报错：找不到对象，直接把SqlServer.jar包扔进去就可以，气死我了 -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -313,34 +295,41 @@
 			<version>4.0</version>
 		</dependency>
 
-	<dependency>
-		<groupId>xom</groupId>
-		<artifactId>xom</artifactId>
-		<version>1.1</version>
-	</dependency>
-		
-	
-			<!-- 引入org.json所需依赖 -->
+		<dependency>
+			<groupId>xom</groupId>
+			<artifactId>xom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+
+		<!-- 引入org.json所需依赖 -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20160810</version>
 		</dependency>
-	
+
 		<!-- https://mvnrepository.com/artifact/com.google.zxing/android-core -->
-<dependency>
-    <groupId>com.google.zxing</groupId>
-    <artifactId>android-core</artifactId>
-    <version>3.3.0</version>
-</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>android-core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+		<!-- 加载本地jar -->
+		<dependency>
+			<groupId>com.jd</groupId>
+			<artifactId>open-api-sdk</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/open-api-sdk-2.0.jar</systemPath>
+		</dependency>
 
 
-		
 
-		
 	</dependencies>
-	
-	
-	
+
+
+
 
 </project>

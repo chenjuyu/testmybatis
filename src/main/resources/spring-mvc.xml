@@ -9,6 +9,21 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<context:component-scan base-package="pos.controller" />
+	
+	
+	  <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截任意的请求 -->
+            <mvc:mapping path="/**"/>
+            <!-- 排除对指定路径的拦截 -->
+            <mvc:exclude-mapping path="/user/login.do"/>
+             <mvc:exclude-mapping path="/user/loginCheck.do"/>
+            <bean class="pos.interceptor.UserInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+	
+	
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">

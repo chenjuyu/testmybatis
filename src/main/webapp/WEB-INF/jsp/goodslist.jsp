@@ -37,15 +37,44 @@
                                 </div>
                             </div>
    </div>
-<table class="layui-hide" id="test"  lay-filter="test"></table>
+   
  
-<script type="text/html" id="toolbarDemo">
+   <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" data-type="getCheckData">同步数据</button>
+    <button class="layui-btn layui-btn-sm" data-type="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button>
+  </div>
+ 
+   
+   
+   <div class="layui-tab layui-tab-brief" lay-filter="demo">
+  <ul class="layui-tab-title">
+    <li class="layui-this">全部</li>
+    <li>未同步</li>
+    <li>已同步</li>
+  </ul>
+  <div class="layui-tab-content" style="height: auto;">
+  <table class="layui-hide" id="test"  lay-filter="test"></table>
+  <!--    <div class="layui-tab-item layui-show">
+    
+    </div>
+    <div class="layui-tab-item">内容2</div>
+    <div class="layui-tab-item">内容3</div>
+    <div class="layui-tab-item">内容4</div>
+    <div class="layui-tab-item">内容5</div>
+    -->
+  </div>
+</div> 
+   
+
+    <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
     <button class="layui-btn layui-btn-sm" lay-event="getCheckData">同步数据</button>
     <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
     <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
   </div>
 </script>
+
  
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -71,7 +100,7 @@
         }); //ui/lib/layui/*/
         
         layui.config({
-        	  base: '<%=basePath%>/ui/js/' //假设这是你存放拓展模块的根目录
+        	  base: '<%=basePath%>ui/js/' //假设这是你存放拓展模块的根目录
         	}).extend({ //设定模块别名
         	 // mymod: 'mymod' //如果 mymod.js 是在根目录，也可以不用设定别名
         	 // ,mod1: 'admin/mod1' //相对于上述 base 目录的子目录
@@ -81,13 +110,17 @@
  
 <script>
 //$(function  () {
-layui.use(['table','laydate','form','autocomplete'], function(){
+layui.use(['element','table','laydate','form','autocomplete'], function(){
   var laydate = layui.laydate;	
   var form = layui.form;
   
   var autocomplete=layui.autocomplete;
   
   var table = layui.table;
+  
+  var element = layui.element;
+  
+  var issyn=0
   
   
   
@@ -105,8 +138,8 @@ layui.use(['table','laydate','form','autocomplete'], function(){
     elem: '#test'
     ,url:'<%=basePath%>goods/search.do'
     ,method:'post'
-    ,where:{keyword:'',q:''}
-    ,toolbar: '#toolbarDemo'
+    ,where:{'keyword':'','issyn':issyn}
+  //  ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
     ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
   /*  ,parseData: function(res){ //res 即为原始返回的数据
         return {
@@ -208,7 +241,8 @@ layui.use(['table','laydate','form','autocomplete'], function(){
 		        ,where: {
 		          //key: {
 		        	  //keyword: keyword.val()
-		        	  keyword:keyword
+		        	  'keyword':keyword,
+		        	  'issyn':issyn
 		        //  }
 		        }
 		      });
@@ -217,8 +251,47 @@ layui.use(['table','laydate','form','autocomplete'], function(){
   
   $('.layui-card-body .layui-btn').on('click', function(){
 	    var type = $(this).data('type');
+	    console.log("type的值："+type)
+	    console.log("active[type]的值："+active[type])
 	    active[type] ? active[type].call(this) : '';
 	  });
+  
+  //一些事件监听 选项卡监听
+  element.on('tab(demo)', function(data){
+    console.log(data);
+    console.log("index的值："+data.index);
+    issyn=data.index
+    active['reload'].call(this);
+    
+  });
+  
+  $('.layui-btn-container .layui-btn').on('click', function(){
+	  
+	  console.log("执行到这里了")
+	 var type = $(this).data('type');
+	  var checkStatus = table.checkStatus('goodslist');
+	    switch(type){
+	      case 'getCheckData':
+	        var data = checkStatus.data;
+	        console.log(data)
+	        layer.alert(JSON.stringify(data));
+	       if(data.length>0){
+	        Send(JSON.stringify(data))
+	       }
+	      break;
+	      case 'getCheckLength':
+	        var data = checkStatus.data;
+	        layer.msg('选中了：'+ data.length + ' 个');
+	      break;
+	      case 'isAll':
+	        layer.msg(checkStatus.isAll ? '全选': '未全选');
+	      break;
+	    };
+	  
+	  
+  })
+  
+  
     
   //自动输入提示
   autocomplete.render({
@@ -249,11 +322,9 @@ layui.use(['table','laydate','form','autocomplete'], function(){
         		layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作失败'});
         	}
 		  
-	  });  
-	  
-	  
+	  });   
   } 
-        
+       
         
   
   

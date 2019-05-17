@@ -39,6 +39,9 @@ public class SearchGoodsComboGridController {
 	public void search(HttpServletRequest request,HttpServletResponse response){
 		
 		String keyword=request.getParameter("keyword");
+		int issyn=Integer.parseInt(request.getParameter("issyn"));
+		
+		System.out.print("issyn的值："+issyn);
 		
 	//	String q=request.getParameter("q");
 		String conditions;
