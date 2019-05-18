@@ -164,12 +164,12 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
-      ,{field:'Code', title:'货品编码', width:120, edit: 'text'}
-      ,{field:'Name', title:'货品名称', width:120, edit: 'text'}
+      ,{field:'Code', title:'货品编码', width:120, unresize: true}//, edit: 'text'
+      ,{field:'Name', title:'货品名称', width:120}//, edit: 'text'
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
       }} */
-      ,{field:'Age', title:'年份', width:80, edit: 'text' }//sort: true
+      ,{field:'Age', title:'年份', width:80 }//sort: true , edit: 'text'
       ,{field:'PurchasePrice', title:'参考进价', width:100,hide:true}
       ,{field:'RetailSales', title:'零售价',width:80}
       ,{field:'PointRate', title:'积分倍数', width:100}
@@ -274,9 +274,10 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	      case 'getCheckData':
 	        var data = checkStatus.data;
 	        console.log(data)
-	        layer.alert(JSON.stringify(data));
+	       // layer.alert(JSON.stringify(data));
 	       if(data.length>0){
 	        Send(JSON.stringify(data))
+	        layer.msg('同步成功');
 	       }
 	      break;
 	      case 'getCheckLength':

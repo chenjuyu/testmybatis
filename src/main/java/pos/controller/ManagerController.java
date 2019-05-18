@@ -9,12 +9,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import pos.model.Goods;
+import pos.model.Jdgoods;
+import pos.model.JdgoodsExample;
+import pos.service.IJdgoods;
 
 import com.alibaba.fastjson.JSON;
 
@@ -34,6 +38,9 @@ import com.jd.open.api.sdk.response.ECLP.EclpGoodsTransportGoodsInfoResponse;
 @Controller
 @RequestMapping("main")
 public class ManagerController {
+	
+	@Autowired
+	private IJdgoods jdgoodsservice;
 	
 	public JdClient client;
 	
@@ -72,6 +79,7 @@ public class ManagerController {
 		System.out.println("jsonstr:"+jsonstr);
 		
 		List<Map> list=JSON.parseArray(jsonstr, Map.class);
+		
 		
 		Map<String,Object> map=OAuth.transToken();
 		
@@ -242,6 +250,33 @@ public class ManagerController {
 			try {
 				EclpGoodsTransportGoodsInfoResponse response=client.execute(request);
 				
+				if(response.getGoodsNo() !=null || !"".equals(response.getGoodsNo())){
+					Jdgoods jdgoods=new Jdgoods();
+					jdgoods.setGoodsid(String.valueOf(m.get("GoodsID")));
+					jdgoods.setCode(String.valueOf(m.get("Code")));
+					jdgoods.setName(String.valueOf(m.get("Name")));
+					jdgoods.setBarcodes(String.valueOf(m.get("Barcodes")));
+					jdgoods.setGoodsno(response.getGoodsNo());
+					
+					JdgoodsExample example=new JdgoodsExample();	
+					JdgoodsExample.Criteria cr= example.createCriteria();
+					cr.andGoodsidEqualTo(String.valueOf(m.get("GoodsID")));
+			    	int count=jdgoodsservice.countByExample(example);
+				
+	                 if(count > 0){
+	                	 jdgoodsservice.updateByPrimaryKey(jdgoods);
+	           
+	                 }else{
+	                	 jdgoodsservice.insert(jdgoods);
+	                 }			
+					
+					
+					
+					
+					
+				}
+				
+				
 				System.out.println("getGoodsNo值:"+response.getGoodsNo());
 				
 			} catch (JdException e) {
@@ -258,7 +293,11 @@ public class ManagerController {
 		return j;
 	}
 	
-	
+		
+	@RequestMapping("/jdindex")
+	public ModelAndView jdindex(HttpServletRequest re,HttpServletResponse rp){
+		return new ModelAndView("jdindex");
+	}
 	
 	
 	

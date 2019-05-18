@@ -110,6 +110,21 @@
                             </li>
                         </ul>
                     </li>
+                    
+                      <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="京东授权">&#xe6b4;</i>
+                            <cite>京东授权</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                           <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('京东授权','./main/jdindex.html')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>京东授权</cite></a>
+                            </li>
+                       
+                        </ul>
+                    </li>
                  
                  </ul>
             </div>

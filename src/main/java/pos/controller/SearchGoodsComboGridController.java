@@ -44,12 +44,19 @@ public class SearchGoodsComboGridController {
 		System.out.print("issyn的值："+issyn);
 		
 	//	String q=request.getParameter("q");
-		String conditions;
+		String conditions="";
 		if (keyword==null || "".equals(keyword)){
-			conditions=null;
+			conditions="";
 	//		keyword=q;
 		}else{
-			conditions=" a.goodsid='"+keyword+"' ";
+			conditions=" and a.goodsid='"+keyword+"' ";
+		}
+		if (issyn==1){
+			conditions=conditions+" and not exists(select GoodsID from jdgoods b where a.GoodsID=b.GoodsID)";
+		}
+		if (issyn==2){ //已同步
+		    conditions=conditions+" and exists(select GoodsID from jdgoods b where a.GoodsID=b.GoodsID)";	
+			
 		}
 		
 		//System.out.println(q);
@@ -113,7 +120,7 @@ public class SearchGoodsComboGridController {
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
 		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
 		
-		String conditions=" a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%'";
+		String conditions=" and (a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%')";
 		
 		HashMap<String,Object> m=goodsserive.goodslist(conditions, pageno, pagesize);
 		JSONObject j=new JSONObject();

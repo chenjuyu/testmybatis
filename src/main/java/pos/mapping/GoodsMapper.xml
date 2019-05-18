@@ -1802,8 +1802,8 @@
   <select id="goodslist" resultType="java.util.HashMap" parameterType="java.util.HashMap">
       
    select a.GoodsID,a.Code,a.Name,a.Age,a.RetailSales,a.PointRate,a.SupplierCode,a.Model,a.Season,Convert(varchar(19),a.ModifyDate,121) ModifyDate from Goods a
-   <if test="conditions != null and conditions != ''">
-   where 
+   where 1=1 
+   <if test="conditions != null and conditions != ''"> 
    ${conditions}
    </if>
    order by GoodsID
@@ -1812,9 +1812,9 @@
   
     <select id="goodscount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
       
-   select count(1) from Goods a
+   select count(1) from Goods a where 1=1 
    <if test="conditions != null and conditions != ''">
-   where 
+    
    ${conditions}
    </if>
 
