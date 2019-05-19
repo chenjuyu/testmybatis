@@ -59,6 +59,13 @@
     <servlet-name>default</servlet-name>
     <url-pattern>/ui/*</url-pattern>
   </servlet-mapping>
+  
+    <!-- 让特定文件夹 通过访问 -->
+    <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/css/*</url-pattern>
+  </servlet-mapping>
+  
     <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.js</url-pattern>

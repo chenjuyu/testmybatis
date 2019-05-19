@@ -19,7 +19,7 @@
 </head>
 <body>
  
-<div class="layui-carousel" id="test1">
+<!-- <div class="layui-carousel" id="test1">
   <div carousel-item>
     <div>条目1</div>
     <div>条目2</div>
@@ -27,7 +27,18 @@
     <div>条目4</div>
     <div>条目5</div>
   </div>
+</div> -->
+
+<div class="layui-carousel" id="test10">
+  <div carousel-item="">
+    <div><img src="./css/images/1.png"></div>
+    <div><img src="./css/images/2.png"></div>
+    <div><img src="./css/images/3.png"></div>
+    <div><img src="./css/images/4.png"></div>
+
+  </div>
 </div>
+
 <!-- 条目中可以是任意内容，如：<img src=""> -->
  
 <script src="./ui/lib/layui/layui.js"></script>
@@ -36,8 +47,9 @@ layui.use('carousel', function(){
   var carousel = layui.carousel;
   //建造实例
   carousel.render({
-    elem: '#test1'
+    elem: '#test10'
     ,width: '100%' //设置容器宽度
+    ,height:'450px'
     ,arrow: 'always' //始终显示箭头
     //,anim: 'updown' //切换动画方式
   });
