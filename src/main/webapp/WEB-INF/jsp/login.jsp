@@ -24,6 +24,7 @@
 	  <link rel="stylesheet" href="./ui/css/xadmin.css">
     <script type="text/javascript" src="./ui/js/jquery.min.js"></script>
     <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
+
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -44,11 +45,18 @@
             <hr class="hr20" >
         </form>
     </div>
+    
+    
 
+    
     <script>
-        $(function  () {
-            layui.use('form', function(){
+
+            layui.use(['form'], function(){
               var form = layui.form;
+               
+              var $ =layui.$
+              
+            
               // layer.msg('玩命卖萌中', function(){
               //   //关闭后的操作
               //   });
@@ -73,9 +81,26 @@
                              layer.closeAll();
                              //弹出提示窗口
                            //  layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作成功'});
-                             //var map=msg.attribute;  //返回的map
-                             //console.log("map的值:"+map)
-                          window.location.href='<%=basePath%>main/index.do'
+                             var map=msg.attribute.user;  //返回的map
+                           //   console.log("map的值:"+map)
+                            //  delCookie('usermap')
+                             // setCookie('usermap',JSON.stringify(map),7)//JSON.stringify(map)
+                              
+                           //   var json=JSON.parse(getCookie('usermap'));
+                           //  console.log(typeof getCookie('usermap'))
+                            // console.log("getCookie:"+getCookie('usermap'))
+                            // var obj = eval('(' + getCookie('usermap').substring(0,getCookie('usermap').length-1) + ')');
+                             // console.log("cookie的username值:"+obj.username)
+                         //    localStorage 持久化存储：layui.data(table, settings)，数据会永久存在，除非物理删除。
+                          //    sessionStorage 会话性存储：layui.sessionData(table, settings)，页面关闭后即失效。注：layui 2.2.5 新增
+                             layui.data('user',{key:'user',
+                            	      value:JSON.stringify(map)})
+                             //跳转就没有了
+                           //  layui.sessionData('suser', {key:'u1',value:JSON.stringify(map)})	      
+                            	      
+                             // window.localStorage.setItem('usermap',JSON.stringify(map));
+                               window.location.href='<%=basePath%>main/index.do'
+                        	 
                              //  window.location.href='<%=basePath%>main/index.do?map='+encodeURI(encodeURI(JSON.stringify(map)));
                              //刷新parts_table
                            //  table.reload('partslist');
@@ -97,7 +122,10 @@
                 return false;
               });
             });
-        })
+    
+
+      
+        
     </script>
     <!-- 底部结束 -->
     <script>

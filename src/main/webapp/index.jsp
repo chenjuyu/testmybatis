@@ -15,7 +15,7 @@
  <base href="<%=basePath%>">
   <meta charset="utf-8">
   <title>首页</title>
-  <link rel="stylesheet" href="ui/lib/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="./ui/lib/layui/css/layui.css" media="all">
 </head>
 <body>
  
@@ -30,7 +30,7 @@
 </div>
 <!-- 条目中可以是任意内容，如：<img src=""> -->
  
-<script src="/ui/lib/layui/layui.js"></script>
+<script src="./ui/lib/layui/layui.js"></script>
 <script>
 layui.use('carousel', function(){
   var carousel = layui.carousel;
