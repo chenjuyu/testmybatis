@@ -296,8 +296,17 @@ public class ManagerController {
 		
 	@RequestMapping("/jdindex")
 	public ModelAndView jdindex(HttpServletRequest re,HttpServletResponse rp){
+		
 		return new ModelAndView("jdindex");
 	}
+	
+	
+	@RequestMapping("/stock")
+	public ModelAndView stock(HttpServletRequest re,HttpServletResponse rp){
+		
+		return new ModelAndView("stock");
+	}
+	
 	
 	
 	

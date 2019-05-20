@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.StockdetailMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Stockdetail" >
+    <id column="StockID" property="stockid" jdbcType="VARCHAR" />
+    <id column="GoodsID" property="goodsid" jdbcType="VARCHAR" />
+    <id column="ColorID" property="colorid" jdbcType="VARCHAR" />
+    <id column="SizeID" property="sizeid" jdbcType="VARCHAR" />
+    <result column="Quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="UnitPrice" property="unitprice" jdbcType="DECIMAL" />
+    <result column="Amount" property="amount" jdbcType="DECIMAL" />
+    <result column="BatchNo" property="batchno" jdbcType="VARCHAR" />
+    <result column="BatchBalance" property="batchbalance" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    StockID, GoodsID, ColorID, SizeID, Quantity, UnitPrice, Amount, BatchNo, BatchBalance
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.StockdetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from StockDetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pos.model.StockdetailKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from StockDetail
+    where StockID = #{stockid,jdbcType=VARCHAR}
+      and GoodsID = #{goodsid,jdbcType=VARCHAR}
+      and ColorID = #{colorid,jdbcType=VARCHAR}
+      and SizeID = #{sizeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pos.model.StockdetailKey" >
+    delete from StockDetail
+    where StockID = #{stockid,jdbcType=VARCHAR}
+      and GoodsID = #{goodsid,jdbcType=VARCHAR}
+      and ColorID = #{colorid,jdbcType=VARCHAR}
+      and SizeID = #{sizeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Stockdetail" >
+    insert into StockDetail (StockID, GoodsID, ColorID, 
+      SizeID, Quantity, UnitPrice, 
+      Amount, BatchNo, BatchBalance
+      )
+    values (#{stockid,jdbcType=VARCHAR}, #{goodsid,jdbcType=VARCHAR}, #{colorid,jdbcType=VARCHAR}, 
+      #{sizeid,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{unitprice,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{batchno,jdbcType=VARCHAR}, #{batchbalance,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Stockdetail" >
+    insert into StockDetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        StockID,
+      </if>
+      <if test="goodsid != null" >
+        GoodsID,
+      </if>
+      <if test="colorid != null" >
+        ColorID,
+      </if>
+      <if test="sizeid != null" >
+        SizeID,
+      </if>
+      <if test="quantity != null" >
+        Quantity,
+      </if>
+      <if test="unitprice != null" >
+        UnitPrice,
+      </if>
+      <if test="amount != null" >
+        Amount,
+      </if>
+      <if test="batchno != null" >
+        BatchNo,
+      </if>
+      <if test="batchbalance != null" >
+        BatchBalance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        #{stockid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=VARCHAR},
+      </if>
+      <if test="colorid != null" >
+        #{colorid,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeid != null" >
+        #{sizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="unitprice != null" >
+        #{unitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="batchno != null" >
+        #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="batchbalance != null" >
+        #{batchbalance,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.StockdetailExample" resultType="java.lang.Integer" >
+    select count(*) from StockDetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Stockdetail" >
+    update StockDetail
+    <set >
+      <if test="quantity != null" >
+        Quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="unitprice != null" >
+        UnitPrice = #{unitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        Amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="batchno != null" >
+        BatchNo = #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="batchbalance != null" >
+        BatchBalance = #{batchbalance,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where StockID = #{stockid,jdbcType=VARCHAR}
+      and GoodsID = #{goodsid,jdbcType=VARCHAR}
+      and ColorID = #{colorid,jdbcType=VARCHAR}
+      and SizeID = #{sizeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Stockdetail" >
+    update StockDetail
+    set Quantity = #{quantity,jdbcType=INTEGER},
+      UnitPrice = #{unitprice,jdbcType=DECIMAL},
+      Amount = #{amount,jdbcType=DECIMAL},
+      BatchNo = #{batchno,jdbcType=VARCHAR},
+      BatchBalance = #{batchbalance,jdbcType=VARCHAR}
+    where StockID = #{stockid,jdbcType=VARCHAR}
+      and GoodsID = #{goodsid,jdbcType=VARCHAR}
+      and ColorID = #{colorid,jdbcType=VARCHAR}
+      and SizeID = #{sizeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

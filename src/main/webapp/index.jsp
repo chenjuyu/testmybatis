@@ -16,6 +16,7 @@
   <meta charset="utf-8">
   <title>首页</title>
   <link rel="stylesheet" href="./ui/lib/layui/css/layui.css" media="all">
+  
 </head>
 <body>
  
@@ -28,6 +29,8 @@
     <div>条目5</div>
   </div>
 </div> -->
+
+<button class="layui-btn layui-btn-radius layui-btn-warm">一个标准的按钮</button>
 
 <div class="layui-carousel" id="test10">
   <div carousel-item="">
@@ -42,6 +45,7 @@
 <!-- 条目中可以是任意内容，如：<img src=""> -->
  
 <script src="./ui/lib/layui/layui.js"></script>
+<script type="text/javascript" src="./ui/js/xadmin.js"></script>
 <script>
 layui.use('carousel', function(){
   var carousel = layui.carousel;
@@ -53,6 +57,24 @@ layui.use('carousel', function(){
     ,arrow: 'always' //始终显示箭头
     //,anim: 'updown' //切换动画方式
   });
+  
+  var $=layui.$
+  
+  var stockin=layui.data('stockin')
+  
+  console.log("goodsid的值："+stockin.goodsid)
+  
+  $('.layui-btn-warm').on("click",function(){
+	  
+	  console.log("aaa")
+	  location.href='./main/goods.html'
+	//  xadmin.del_tab()
+	 // xadmin.add_tab('货品','./main/goods.html')
+  })
+  
+  
+  
+  
 });
 </script>
 </body>

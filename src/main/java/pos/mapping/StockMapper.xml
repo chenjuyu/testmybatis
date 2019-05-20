@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.StockMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Stock" >
+    <id column="StockID" property="stockid" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="VARCHAR" />
+    <result column="No" property="no" jdbcType="VARCHAR" />
+    <result column="Date" property="date" jdbcType="TIMESTAMP" />
+    <result column="WarehouseID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="DepartmentID" property="departmentid" jdbcType="VARCHAR" />
+    <result column="EmployeeID" property="employeeid" jdbcType="VARCHAR" />
+    <result column="QuantitySum" property="quantitysum" jdbcType="INTEGER" />
+    <result column="AmountSum" property="amountsum" jdbcType="DECIMAL" />
+    <result column="MadeBy" property="madeby" jdbcType="VARCHAR" />
+    <result column="MadeByDate" property="madebydate" jdbcType="TIMESTAMP" />
+    <result column="Audit" property="audit" jdbcType="VARCHAR" />
+    <result column="AuditDate" property="auditdate" jdbcType="TIMESTAMP" />
+    <result column="AuditFlag" property="auditflag" jdbcType="BIT" />
+    <result column="TallyFlag" property="tallyflag" jdbcType="BIT" />
+    <result column="OutportEndFlag" property="outportendflag" jdbcType="BIT" />
+    <result column="SendFlag" property="sendflag" jdbcType="BIT" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="RelationID" property="relationid" jdbcType="VARCHAR" />
+    <result column="RelationNo" property="relationno" jdbcType="VARCHAR" />
+    <result column="Direction" property="direction" jdbcType="SMALLINT" />
+    <result column="Year" property="year" jdbcType="VARCHAR" />
+    <result column="Month" property="month" jdbcType="VARCHAR" />
+    <result column="ReceivalInt" property="receivalint" jdbcType="INTEGER" />
+    <result column="SalesOrderNo" property="salesorderno" jdbcType="VARCHAR" />
+    <result column="ReceivalID" property="receivalid" jdbcType="VARCHAR" />
+    <result column="ReceivalFlag" property="receivalflag" jdbcType="BIT" />
+    <result column="VoucherFlag" property="voucherflag" jdbcType="BIT" />
+    <result column="DisplaySizeGroup" property="displaysizegroup" jdbcType="VARCHAR" />
+    <result column="CostFlag" property="costflag" jdbcType="SMALLINT" />
+    <result column="CSID" property="csid" jdbcType="VARCHAR" />
+    <result column="RelationWarehouseID" property="relationwarehouseid" jdbcType="VARCHAR" />
+    <result column="CommandFlag" property="commandflag" jdbcType="VARCHAR" />
+    <result column="RetailAmountSum" property="retailamountsum" jdbcType="DECIMAL" />
+    <result column="PurchaseAmountSum" property="purchaseamountsum" jdbcType="DECIMAL" />
+    <result column="CostWarehouseID" property="costwarehouseid" jdbcType="VARCHAR" />
+    <result column="RelationStuffStockID" property="relationstuffstockid" jdbcType="VARCHAR" />
+    <result column="RelationStockID" property="relationstockid" jdbcType="VARCHAR" />
+    <result column="ExportFlag" property="exportflag" jdbcType="BIT" />
+    <result column="CustomerID" property="customerid" jdbcType="VARCHAR" />
+    <result column="FixExportFlag" property="fixexportflag" jdbcType="BIT" />
+    <result column="BrandID" property="brandid" jdbcType="VARCHAR" />
+    <result column="RelationAmountSum" property="relationamountsum" jdbcType="DECIMAL" />
+    <result column="SupplierID" property="supplierid" jdbcType="VARCHAR" />
+    <result column="RelationType" property="relationtype" jdbcType="VARCHAR" />
+    <result column="OtherAmount" property="otheramount" jdbcType="DECIMAL" />
+    <result column="TradeAmountSum" property="tradeamountsum" jdbcType="DECIMAL" />
+    <result column="SalesNo" property="salesno" jdbcType="VARCHAR" />
+    <result column="RelationDirection" property="relationdirection" jdbcType="SMALLINT" />
+    <result column="CheckFlag" property="checkflag" jdbcType="BIT" />
+    <result column="BusinessDeptID" property="businessdeptid" jdbcType="VARCHAR" />
+    <result column="RelationOrderID" property="relationorderid" jdbcType="VARCHAR" />
+    <result column="PrintMen" property="printmen" jdbcType="VARCHAR" />
+    <result column="PrintCount" property="printcount" jdbcType="INTEGER" />
+    <result column="IsReserved" property="isreserved" jdbcType="BIT" />
+    <result column="IsRebate" property="isrebate" jdbcType="BIT" />
+    <result column="PassEditor" property="passeditor" jdbcType="VARCHAR" />
+    <result column="PassDate" property="passdate" jdbcType="TIMESTAMP" />
+    <result column="PassFlag" property="passflag" jdbcType="BIT" />
+    <result column="FreightCorpID" property="freightcorpid" jdbcType="VARCHAR" />
+    <result column="FreightModeID" property="freightmodeid" jdbcType="VARCHAR" />
+    <result column="SendIntTag" property="sendinttag" jdbcType="INTEGER" />
+    <result column="InsuranceFlag" property="insuranceflag" jdbcType="BIT" />
+    <result column="HasOutFlag" property="hasoutflag" jdbcType="BIT" />
+    <result column="OutToInInDexNo" property="outtoinindexno" jdbcType="INTEGER" />
+    <result column="CanOutFlag" property="canoutflag" jdbcType="BIT" />
+    <result column="CustAddress" property="custaddress" jdbcType="VARCHAR" />
+    <result column="LastNeedRAmount" property="lastneedramount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    StockID, Type, No, Date, WarehouseID, DepartmentID, EmployeeID, QuantitySum, AmountSum, 
+    MadeBy, MadeByDate, Audit, AuditDate, AuditFlag, TallyFlag, OutportEndFlag, SendFlag, 
+    Memo, RelationID, RelationNo, Direction, Year, Month, ReceivalInt, SalesOrderNo, 
+    ReceivalID, ReceivalFlag, VoucherFlag, DisplaySizeGroup, CostFlag, CSID, RelationWarehouseID, 
+    CommandFlag, RetailAmountSum, PurchaseAmountSum, CostWarehouseID, RelationStuffStockID, 
+    RelationStockID, ExportFlag, CustomerID, FixExportFlag, BrandID, RelationAmountSum, 
+    SupplierID, RelationType, OtherAmount, TradeAmountSum, SalesNo, RelationDirection, 
+    CheckFlag, BusinessDeptID, RelationOrderID, PrintMen, PrintCount, IsReserved, IsRebate, 
+    PassEditor, PassDate, PassFlag, FreightCorpID, FreightModeID, SendIntTag, InsuranceFlag, 
+    HasOutFlag, OutToInInDexNo, CanOutFlag, CustAddress, LastNeedRAmount
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.StockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Stock
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Stock
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Stock" >
+    insert into Stock (StockID, Type, No, 
+      Date, WarehouseID, DepartmentID, 
+      EmployeeID, QuantitySum, AmountSum, 
+      MadeBy, MadeByDate, Audit, 
+      AuditDate, AuditFlag, TallyFlag, 
+      OutportEndFlag, SendFlag, Memo, 
+      RelationID, RelationNo, Direction, 
+      Year, Month, ReceivalInt, 
+      SalesOrderNo, ReceivalID, ReceivalFlag, 
+      VoucherFlag, DisplaySizeGroup, CostFlag, 
+      CSID, RelationWarehouseID, CommandFlag, 
+      RetailAmountSum, PurchaseAmountSum, CostWarehouseID, 
+      RelationStuffStockID, RelationStockID, 
+      ExportFlag, CustomerID, FixExportFlag, 
+      BrandID, RelationAmountSum, SupplierID, 
+      RelationType, OtherAmount, TradeAmountSum, 
+      SalesNo, RelationDirection, CheckFlag, 
+      BusinessDeptID, RelationOrderID, PrintMen, 
+      PrintCount, IsReserved, IsRebate, 
+      PassEditor, PassDate, PassFlag, 
+      FreightCorpID, FreightModeID, SendIntTag, 
+      InsuranceFlag, HasOutFlag, OutToInInDexNo, 
+      CanOutFlag, CustAddress, LastNeedRAmount
+      )
+    values (#{stockid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{warehouseid,jdbcType=VARCHAR}, #{departmentid,jdbcType=VARCHAR}, 
+      #{employeeid,jdbcType=VARCHAR}, #{quantitysum,jdbcType=INTEGER}, #{amountsum,jdbcType=DECIMAL}, 
+      #{madeby,jdbcType=VARCHAR}, #{madebydate,jdbcType=TIMESTAMP}, #{audit,jdbcType=VARCHAR}, 
+      #{auditdate,jdbcType=TIMESTAMP}, #{auditflag,jdbcType=BIT}, #{tallyflag,jdbcType=BIT}, 
+      #{outportendflag,jdbcType=BIT}, #{sendflag,jdbcType=BIT}, #{memo,jdbcType=VARCHAR}, 
+      #{relationid,jdbcType=VARCHAR}, #{relationno,jdbcType=VARCHAR}, #{direction,jdbcType=SMALLINT}, 
+      #{year,jdbcType=VARCHAR}, #{month,jdbcType=VARCHAR}, #{receivalint,jdbcType=INTEGER}, 
+      #{salesorderno,jdbcType=VARCHAR}, #{receivalid,jdbcType=VARCHAR}, #{receivalflag,jdbcType=BIT}, 
+      #{voucherflag,jdbcType=BIT}, #{displaysizegroup,jdbcType=VARCHAR}, #{costflag,jdbcType=SMALLINT}, 
+      #{csid,jdbcType=VARCHAR}, #{relationwarehouseid,jdbcType=VARCHAR}, #{commandflag,jdbcType=VARCHAR}, 
+      #{retailamountsum,jdbcType=DECIMAL}, #{purchaseamountsum,jdbcType=DECIMAL}, #{costwarehouseid,jdbcType=VARCHAR}, 
+      #{relationstuffstockid,jdbcType=VARCHAR}, #{relationstockid,jdbcType=VARCHAR}, 
+      #{exportflag,jdbcType=BIT}, #{customerid,jdbcType=VARCHAR}, #{fixexportflag,jdbcType=BIT}, 
+      #{brandid,jdbcType=VARCHAR}, #{relationamountsum,jdbcType=DECIMAL}, #{supplierid,jdbcType=VARCHAR}, 
+      #{relationtype,jdbcType=VARCHAR}, #{otheramount,jdbcType=DECIMAL}, #{tradeamountsum,jdbcType=DECIMAL}, 
+      #{salesno,jdbcType=VARCHAR}, #{relationdirection,jdbcType=SMALLINT}, #{checkflag,jdbcType=BIT}, 
+      #{businessdeptid,jdbcType=VARCHAR}, #{relationorderid,jdbcType=VARCHAR}, #{printmen,jdbcType=VARCHAR}, 
+      #{printcount,jdbcType=INTEGER}, #{isreserved,jdbcType=BIT}, #{isrebate,jdbcType=BIT}, 
+      #{passeditor,jdbcType=VARCHAR}, #{passdate,jdbcType=TIMESTAMP}, #{passflag,jdbcType=BIT}, 
+      #{freightcorpid,jdbcType=VARCHAR}, #{freightmodeid,jdbcType=VARCHAR}, #{sendinttag,jdbcType=INTEGER}, 
+      #{insuranceflag,jdbcType=BIT}, #{hasoutflag,jdbcType=BIT}, #{outtoinindexno,jdbcType=INTEGER}, 
+      #{canoutflag,jdbcType=BIT}, #{custaddress,jdbcType=VARCHAR}, #{lastneedramount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Stock" >
+    insert into Stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        StockID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="no != null" >
+        No,
+      </if>
+      <if test="date != null" >
+        Date,
+      </if>
+      <if test="warehouseid != null" >
+        WarehouseID,
+      </if>
+      <if test="departmentid != null" >
+        DepartmentID,
+      </if>
+      <if test="employeeid != null" >
+        EmployeeID,
+      </if>
+      <if test="quantitysum != null" >
+        QuantitySum,
+      </if>
+      <if test="amountsum != null" >
+        AmountSum,
+      </if>
+      <if test="madeby != null" >
+        MadeBy,
+      </if>
+      <if test="madebydate != null" >
+        MadeByDate,
+      </if>
+      <if test="audit != null" >
+        Audit,
+      </if>
+      <if test="auditdate != null" >
+        AuditDate,
+      </if>
+      <if test="auditflag != null" >
+        AuditFlag,
+      </if>
+      <if test="tallyflag != null" >
+        TallyFlag,
+      </if>
+      <if test="outportendflag != null" >
+        OutportEndFlag,
+      </if>
+      <if test="sendflag != null" >
+        SendFlag,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="relationid != null" >
+        RelationID,
+      </if>
+      <if test="relationno != null" >
+        RelationNo,
+      </if>
+      <if test="direction != null" >
+        Direction,
+      </if>
+      <if test="year != null" >
+        Year,
+      </if>
+      <if test="month != null" >
+        Month,
+      </if>
+      <if test="receivalint != null" >
+        ReceivalInt,
+      </if>
+      <if test="salesorderno != null" >
+        SalesOrderNo,
+      </if>
+      <if test="receivalid != null" >
+        ReceivalID,
+      </if>
+      <if test="receivalflag != null" >
+        ReceivalFlag,
+      </if>
+      <if test="voucherflag != null" >
+        VoucherFlag,
+      </if>
+      <if test="displaysizegroup != null" >
+        DisplaySizeGroup,
+      </if>
+      <if test="costflag != null" >
+        CostFlag,
+      </if>
+      <if test="csid != null" >
+        CSID,
+      </if>
+      <if test="relationwarehouseid != null" >
+        RelationWarehouseID,
+      </if>
+      <if test="commandflag != null" >
+        CommandFlag,
+      </if>
+      <if test="retailamountsum != null" >
+        RetailAmountSum,
+      </if>
+      <if test="purchaseamountsum != null" >
+        PurchaseAmountSum,
+      </if>
+      <if test="costwarehouseid != null" >
+        CostWarehouseID,
+      </if>
+      <if test="relationstuffstockid != null" >
+        RelationStuffStockID,
+      </if>
+      <if test="relationstockid != null" >
+        RelationStockID,
+      </if>
+      <if test="exportflag != null" >
+        ExportFlag,
+      </if>
+      <if test="customerid != null" >
+        CustomerID,
+      </if>
+      <if test="fixexportflag != null" >
+        FixExportFlag,
+      </if>
+      <if test="brandid != null" >
+        BrandID,
+      </if>
+      <if test="relationamountsum != null" >
+        RelationAmountSum,
+      </if>
+      <if test="supplierid != null" >
+        SupplierID,
+      </if>
+      <if test="relationtype != null" >
+        RelationType,
+      </if>
+      <if test="otheramount != null" >
+        OtherAmount,
+      </if>
+      <if test="tradeamountsum != null" >
+        TradeAmountSum,
+      </if>
+      <if test="salesno != null" >
+        SalesNo,
+      </if>
+      <if test="relationdirection != null" >
+        RelationDirection,
+      </if>
+      <if test="checkflag != null" >
+        CheckFlag,
+      </if>
+      <if test="businessdeptid != null" >
+        BusinessDeptID,
+      </if>
+      <if test="relationorderid != null" >
+        RelationOrderID,
+      </if>
+      <if test="printmen != null" >
+        PrintMen,
+      </if>
+      <if test="printcount != null" >
+        PrintCount,
+      </if>
+      <if test="isreserved != null" >
+        IsReserved,
+      </if>
+      <if test="isrebate != null" >
+        IsRebate,
+      </if>
+      <if test="passeditor != null" >
+        PassEditor,
+      </if>
+      <if test="passdate != null" >
+        PassDate,
+      </if>
+      <if test="passflag != null" >
+        PassFlag,
+      </if>
+      <if test="freightcorpid != null" >
+        FreightCorpID,
+      </if>
+      <if test="freightmodeid != null" >
+        FreightModeID,
+      </if>
+      <if test="sendinttag != null" >
+        SendIntTag,
+      </if>
+      <if test="insuranceflag != null" >
+        InsuranceFlag,
+      </if>
+      <if test="hasoutflag != null" >
+        HasOutFlag,
+      </if>
+      <if test="outtoinindexno != null" >
+        OutToInInDexNo,
+      </if>
+      <if test="canoutflag != null" >
+        CanOutFlag,
+      </if>
+      <if test="custaddress != null" >
+        CustAddress,
+      </if>
+      <if test="lastneedramount != null" >
+        LastNeedRAmount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        #{stockid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseid != null" >
+        #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="quantitysum != null" >
+        #{quantitysum,jdbcType=INTEGER},
+      </if>
+      <if test="amountsum != null" >
+        #{amountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="madeby != null" >
+        #{madeby,jdbcType=VARCHAR},
+      </if>
+      <if test="madebydate != null" >
+        #{madebydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="auditdate != null" >
+        #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditflag != null" >
+        #{auditflag,jdbcType=BIT},
+      </if>
+      <if test="tallyflag != null" >
+        #{tallyflag,jdbcType=BIT},
+      </if>
+      <if test="outportendflag != null" >
+        #{outportendflag,jdbcType=BIT},
+      </if>
+      <if test="sendflag != null" >
+        #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="relationid != null" >
+        #{relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationno != null" >
+        #{relationno,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=SMALLINT},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="receivalint != null" >
+        #{receivalint,jdbcType=INTEGER},
+      </if>
+      <if test="salesorderno != null" >
+        #{salesorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="receivalid != null" >
+        #{receivalid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivalflag != null" >
+        #{receivalflag,jdbcType=BIT},
+      </if>
+      <if test="voucherflag != null" >
+        #{voucherflag,jdbcType=BIT},
+      </if>
+      <if test="displaysizegroup != null" >
+        #{displaysizegroup,jdbcType=VARCHAR},
+      </if>
+      <if test="costflag != null" >
+        #{costflag,jdbcType=SMALLINT},
+      </if>
+      <if test="csid != null" >
+        #{csid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationwarehouseid != null" >
+        #{relationwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="commandflag != null" >
+        #{commandflag,jdbcType=VARCHAR},
+      </if>
+      <if test="retailamountsum != null" >
+        #{retailamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseamountsum != null" >
+        #{purchaseamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="costwarehouseid != null" >
+        #{costwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationstuffstockid != null" >
+        #{relationstuffstockid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationstockid != null" >
+        #{relationstockid,jdbcType=VARCHAR},
+      </if>
+      <if test="exportflag != null" >
+        #{exportflag,jdbcType=BIT},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="fixexportflag != null" >
+        #{fixexportflag,jdbcType=BIT},
+      </if>
+      <if test="brandid != null" >
+        #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationamountsum != null" >
+        #{relationamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationtype != null" >
+        #{relationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="otheramount != null" >
+        #{otheramount,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeamountsum != null" >
+        #{tradeamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="salesno != null" >
+        #{salesno,jdbcType=VARCHAR},
+      </if>
+      <if test="relationdirection != null" >
+        #{relationdirection,jdbcType=SMALLINT},
+      </if>
+      <if test="checkflag != null" >
+        #{checkflag,jdbcType=BIT},
+      </if>
+      <if test="businessdeptid != null" >
+        #{businessdeptid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationorderid != null" >
+        #{relationorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="printmen != null" >
+        #{printmen,jdbcType=VARCHAR},
+      </if>
+      <if test="printcount != null" >
+        #{printcount,jdbcType=INTEGER},
+      </if>
+      <if test="isreserved != null" >
+        #{isreserved,jdbcType=BIT},
+      </if>
+      <if test="isrebate != null" >
+        #{isrebate,jdbcType=BIT},
+      </if>
+      <if test="passeditor != null" >
+        #{passeditor,jdbcType=VARCHAR},
+      </if>
+      <if test="passdate != null" >
+        #{passdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passflag != null" >
+        #{passflag,jdbcType=BIT},
+      </if>
+      <if test="freightcorpid != null" >
+        #{freightcorpid,jdbcType=VARCHAR},
+      </if>
+      <if test="freightmodeid != null" >
+        #{freightmodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendinttag != null" >
+        #{sendinttag,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceflag != null" >
+        #{insuranceflag,jdbcType=BIT},
+      </if>
+      <if test="hasoutflag != null" >
+        #{hasoutflag,jdbcType=BIT},
+      </if>
+      <if test="outtoinindexno != null" >
+        #{outtoinindexno,jdbcType=INTEGER},
+      </if>
+      <if test="canoutflag != null" >
+        #{canoutflag,jdbcType=BIT},
+      </if>
+      <if test="custaddress != null" >
+        #{custaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lastneedramount != null" >
+        #{lastneedramount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.StockExample" resultType="java.lang.Integer" >
+    select count(*) from Stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Stock" >
+    update Stock
+    <set >
+      <if test="type != null" >
+        Type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        No = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        Date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseid != null" >
+        WarehouseID = #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        DepartmentID = #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="quantitysum != null" >
+        QuantitySum = #{quantitysum,jdbcType=INTEGER},
+      </if>
+      <if test="amountsum != null" >
+        AmountSum = #{amountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="madeby != null" >
+        MadeBy = #{madeby,jdbcType=VARCHAR},
+      </if>
+      <if test="madebydate != null" >
+        MadeByDate = #{madebydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="audit != null" >
+        Audit = #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="auditdate != null" >
+        AuditDate = #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditflag != null" >
+        AuditFlag = #{auditflag,jdbcType=BIT},
+      </if>
+      <if test="tallyflag != null" >
+        TallyFlag = #{tallyflag,jdbcType=BIT},
+      </if>
+      <if test="outportendflag != null" >
+        OutportEndFlag = #{outportendflag,jdbcType=BIT},
+      </if>
+      <if test="sendflag != null" >
+        SendFlag = #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="relationid != null" >
+        RelationID = #{relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationno != null" >
+        RelationNo = #{relationno,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        Direction = #{direction,jdbcType=SMALLINT},
+      </if>
+      <if test="year != null" >
+        Year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null" >
+        Month = #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="receivalint != null" >
+        ReceivalInt = #{receivalint,jdbcType=INTEGER},
+      </if>
+      <if test="salesorderno != null" >
+        SalesOrderNo = #{salesorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="receivalid != null" >
+        ReceivalID = #{receivalid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivalflag != null" >
+        ReceivalFlag = #{receivalflag,jdbcType=BIT},
+      </if>
+      <if test="voucherflag != null" >
+        VoucherFlag = #{voucherflag,jdbcType=BIT},
+      </if>
+      <if test="displaysizegroup != null" >
+        DisplaySizeGroup = #{displaysizegroup,jdbcType=VARCHAR},
+      </if>
+      <if test="costflag != null" >
+        CostFlag = #{costflag,jdbcType=SMALLINT},
+      </if>
+      <if test="csid != null" >
+        CSID = #{csid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationwarehouseid != null" >
+        RelationWarehouseID = #{relationwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="commandflag != null" >
+        CommandFlag = #{commandflag,jdbcType=VARCHAR},
+      </if>
+      <if test="retailamountsum != null" >
+        RetailAmountSum = #{retailamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseamountsum != null" >
+        PurchaseAmountSum = #{purchaseamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="costwarehouseid != null" >
+        CostWarehouseID = #{costwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationstuffstockid != null" >
+        RelationStuffStockID = #{relationstuffstockid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationstockid != null" >
+        RelationStockID = #{relationstockid,jdbcType=VARCHAR},
+      </if>
+      <if test="exportflag != null" >
+        ExportFlag = #{exportflag,jdbcType=BIT},
+      </if>
+      <if test="customerid != null" >
+        CustomerID = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="fixexportflag != null" >
+        FixExportFlag = #{fixexportflag,jdbcType=BIT},
+      </if>
+      <if test="brandid != null" >
+        BrandID = #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationamountsum != null" >
+        RelationAmountSum = #{relationamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierid != null" >
+        SupplierID = #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationtype != null" >
+        RelationType = #{relationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="otheramount != null" >
+        OtherAmount = #{otheramount,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeamountsum != null" >
+        TradeAmountSum = #{tradeamountsum,jdbcType=DECIMAL},
+      </if>
+      <if test="salesno != null" >
+        SalesNo = #{salesno,jdbcType=VARCHAR},
+      </if>
+      <if test="relationdirection != null" >
+        RelationDirection = #{relationdirection,jdbcType=SMALLINT},
+      </if>
+      <if test="checkflag != null" >
+        CheckFlag = #{checkflag,jdbcType=BIT},
+      </if>
+      <if test="businessdeptid != null" >
+        BusinessDeptID = #{businessdeptid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationorderid != null" >
+        RelationOrderID = #{relationorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="printmen != null" >
+        PrintMen = #{printmen,jdbcType=VARCHAR},
+      </if>
+      <if test="printcount != null" >
+        PrintCount = #{printcount,jdbcType=INTEGER},
+      </if>
+      <if test="isreserved != null" >
+        IsReserved = #{isreserved,jdbcType=BIT},
+      </if>
+      <if test="isrebate != null" >
+        IsRebate = #{isrebate,jdbcType=BIT},
+      </if>
+      <if test="passeditor != null" >
+        PassEditor = #{passeditor,jdbcType=VARCHAR},
+      </if>
+      <if test="passdate != null" >
+        PassDate = #{passdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passflag != null" >
+        PassFlag = #{passflag,jdbcType=BIT},
+      </if>
+      <if test="freightcorpid != null" >
+        FreightCorpID = #{freightcorpid,jdbcType=VARCHAR},
+      </if>
+      <if test="freightmodeid != null" >
+        FreightModeID = #{freightmodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendinttag != null" >
+        SendIntTag = #{sendinttag,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceflag != null" >
+        InsuranceFlag = #{insuranceflag,jdbcType=BIT},
+      </if>
+      <if test="hasoutflag != null" >
+        HasOutFlag = #{hasoutflag,jdbcType=BIT},
+      </if>
+      <if test="outtoinindexno != null" >
+        OutToInInDexNo = #{outtoinindexno,jdbcType=INTEGER},
+      </if>
+      <if test="canoutflag != null" >
+        CanOutFlag = #{canoutflag,jdbcType=BIT},
+      </if>
+      <if test="custaddress != null" >
+        CustAddress = #{custaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lastneedramount != null" >
+        LastNeedRAmount = #{lastneedramount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Stock" >
+    update Stock
+    set Type = #{type,jdbcType=VARCHAR},
+      No = #{no,jdbcType=VARCHAR},
+      Date = #{date,jdbcType=TIMESTAMP},
+      WarehouseID = #{warehouseid,jdbcType=VARCHAR},
+      DepartmentID = #{departmentid,jdbcType=VARCHAR},
+      EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      QuantitySum = #{quantitysum,jdbcType=INTEGER},
+      AmountSum = #{amountsum,jdbcType=DECIMAL},
+      MadeBy = #{madeby,jdbcType=VARCHAR},
+      MadeByDate = #{madebydate,jdbcType=TIMESTAMP},
+      Audit = #{audit,jdbcType=VARCHAR},
+      AuditDate = #{auditdate,jdbcType=TIMESTAMP},
+      AuditFlag = #{auditflag,jdbcType=BIT},
+      TallyFlag = #{tallyflag,jdbcType=BIT},
+      OutportEndFlag = #{outportendflag,jdbcType=BIT},
+      SendFlag = #{sendflag,jdbcType=BIT},
+      Memo = #{memo,jdbcType=VARCHAR},
+      RelationID = #{relationid,jdbcType=VARCHAR},
+      RelationNo = #{relationno,jdbcType=VARCHAR},
+      Direction = #{direction,jdbcType=SMALLINT},
+      Year = #{year,jdbcType=VARCHAR},
+      Month = #{month,jdbcType=VARCHAR},
+      ReceivalInt = #{receivalint,jdbcType=INTEGER},
+      SalesOrderNo = #{salesorderno,jdbcType=VARCHAR},
+      ReceivalID = #{receivalid,jdbcType=VARCHAR},
+      ReceivalFlag = #{receivalflag,jdbcType=BIT},
+      VoucherFlag = #{voucherflag,jdbcType=BIT},
+      DisplaySizeGroup = #{displaysizegroup,jdbcType=VARCHAR},
+      CostFlag = #{costflag,jdbcType=SMALLINT},
+      CSID = #{csid,jdbcType=VARCHAR},
+      RelationWarehouseID = #{relationwarehouseid,jdbcType=VARCHAR},
+      CommandFlag = #{commandflag,jdbcType=VARCHAR},
+      RetailAmountSum = #{retailamountsum,jdbcType=DECIMAL},
+      PurchaseAmountSum = #{purchaseamountsum,jdbcType=DECIMAL},
+      CostWarehouseID = #{costwarehouseid,jdbcType=VARCHAR},
+      RelationStuffStockID = #{relationstuffstockid,jdbcType=VARCHAR},
+      RelationStockID = #{relationstockid,jdbcType=VARCHAR},
+      ExportFlag = #{exportflag,jdbcType=BIT},
+      CustomerID = #{customerid,jdbcType=VARCHAR},
+      FixExportFlag = #{fixexportflag,jdbcType=BIT},
+      BrandID = #{brandid,jdbcType=VARCHAR},
+      RelationAmountSum = #{relationamountsum,jdbcType=DECIMAL},
+      SupplierID = #{supplierid,jdbcType=VARCHAR},
+      RelationType = #{relationtype,jdbcType=VARCHAR},
+      OtherAmount = #{otheramount,jdbcType=DECIMAL},
+      TradeAmountSum = #{tradeamountsum,jdbcType=DECIMAL},
+      SalesNo = #{salesno,jdbcType=VARCHAR},
+      RelationDirection = #{relationdirection,jdbcType=SMALLINT},
+      CheckFlag = #{checkflag,jdbcType=BIT},
+      BusinessDeptID = #{businessdeptid,jdbcType=VARCHAR},
+      RelationOrderID = #{relationorderid,jdbcType=VARCHAR},
+      PrintMen = #{printmen,jdbcType=VARCHAR},
+      PrintCount = #{printcount,jdbcType=INTEGER},
+      IsReserved = #{isreserved,jdbcType=BIT},
+      IsRebate = #{isrebate,jdbcType=BIT},
+      PassEditor = #{passeditor,jdbcType=VARCHAR},
+      PassDate = #{passdate,jdbcType=TIMESTAMP},
+      PassFlag = #{passflag,jdbcType=BIT},
+      FreightCorpID = #{freightcorpid,jdbcType=VARCHAR},
+      FreightModeID = #{freightmodeid,jdbcType=VARCHAR},
+      SendIntTag = #{sendinttag,jdbcType=INTEGER},
+      InsuranceFlag = #{insuranceflag,jdbcType=BIT},
+      HasOutFlag = #{hasoutflag,jdbcType=BIT},
+      OutToInInDexNo = #{outtoinindexno,jdbcType=INTEGER},
+      CanOutFlag = #{canoutflag,jdbcType=BIT},
+      CustAddress = #{custaddress,jdbcType=VARCHAR},
+      LastNeedRAmount = #{lastneedramount,jdbcType=DECIMAL}
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="stocklist" resultType="java.util.Map" parameterType="java.util.Map">
+  Select a.No,a.StockID,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,c.Department,d.Name,(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,
+  w.Name as RelationWarehouse,br.Brand,f.Department as BusinessDept,isnull(RelationAmountSum,0)+isnull(OtherAmount,0) As TotalAmount
+  From Stock a Left Outer Join Warehouse b On a.WarehouseID=b.WarehouseID
+  Left Outer Join Department c On a.DepartmentID=c.DepartmentID
+  Left Outer Join Employee d On a.EmployeeID=d.EmployeeID
+  Left Outer Join Supplier e On a.CSID=e.SupplierID
+  Left outer join Warehouse w on a.RelationWarehouseID=w.warehouseid
+  left outer join Brand br on a.BrandID=br.BrandID
+  Left Outer Join Department f on a.BusinessDeptID=f.DepartmentID
+  where 1=1 
+   <if test="conditions != null and conditions != ''"> 
+   ${conditions}
+   </if>  
+  order by a.Date desc
+  </select>
+ <select id="stockcount" resultType="java.lang.Integer" parameterType="java.util.Map">
+      
+   select count(1) from Stock a where 1=1 
+   <if test="conditions != null and conditions != ''">
+   ${conditions}
+   </if>
+  </select>
+  
+  
+  
+</mapper>

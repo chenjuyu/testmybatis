@@ -135,6 +135,17 @@
 								<i class="iconfont">&#xe6a7;</i> <cite>货品</cite>
 						</a></li>
 					</ul></li>
+					
+				
+					<li><a href="javascript:;"> <i class="iconfont left-nav-li"
+						lay-tips="业务单据">&#xe723;</i> <cite>业务单据</cite> <i
+						class="iconfont nav_right">&#xe697;</i></a>
+					<ul class="sub-menu">
+						<li><a onclick="xadmin.add_tab('进仓单','./main/stock.html')">
+								<i class="iconfont">&#xe6a7;</i> <cite>进仓单</cite>
+						</a></li>
+					</ul></li>	
+					
 
 				<li><a href="javascript:;"> <i class="iconfont left-nav-li"
 						lay-tips="京东授权">&#xe6b4;</i> <cite>京东授权</cite> <i

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.StockdetailtempMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Stockdetailtemp" >
+    <id column="StockDetailID" property="stockdetailid" jdbcType="VARCHAR" />
+    <result column="IndexNo" property="indexno" jdbcType="INTEGER" />
+    <result column="StockID" property="stockid" jdbcType="VARCHAR" />
+    <result column="GoodsID" property="goodsid" jdbcType="VARCHAR" />
+    <result column="ColorID" property="colorid" jdbcType="VARCHAR" />
+    <result column="BoxQty" property="boxqty" jdbcType="INTEGER" />
+    <result column="x_1" property="x1" jdbcType="INTEGER" />
+    <result column="x_2" property="x2" jdbcType="INTEGER" />
+    <result column="x_3" property="x3" jdbcType="INTEGER" />
+    <result column="x_4" property="x4" jdbcType="INTEGER" />
+    <result column="x_5" property="x5" jdbcType="INTEGER" />
+    <result column="x_6" property="x6" jdbcType="INTEGER" />
+    <result column="x_7" property="x7" jdbcType="INTEGER" />
+    <result column="x_8" property="x8" jdbcType="INTEGER" />
+    <result column="x_9" property="x9" jdbcType="INTEGER" />
+    <result column="x_10" property="x10" jdbcType="INTEGER" />
+    <result column="x_11" property="x11" jdbcType="INTEGER" />
+    <result column="x_12" property="x12" jdbcType="INTEGER" />
+    <result column="StorageID" property="storageid" jdbcType="VARCHAR" />
+    <result column="RelationUnitPrice" property="relationunitprice" jdbcType="DECIMAL" />
+    <result column="RelationAmount" property="relationamount" jdbcType="DECIMAL" />
+    <result column="RelationOrderID" property="relationorderid" jdbcType="VARCHAR" />
+    <result column="RelationCustCode" property="relationcustcode" jdbcType="VARCHAR" />
+    <result column="RelationSalesOrderID" property="relationsalesorderid" jdbcType="VARCHAR" />
+    <result column="Quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="UnitPrice" property="unitprice" jdbcType="DECIMAL" />
+    <result column="Amount" property="amount" jdbcType="DECIMAL" />
+    <result column="RetailSales" property="retailsales" jdbcType="DECIMAL" />
+    <result column="RetailAmount" property="retailamount" jdbcType="DECIMAL" />
+    <result column="PurchasePrice" property="purchaseprice" jdbcType="DECIMAL" />
+    <result column="PurchaseAmount" property="purchaseamount" jdbcType="DECIMAL" />
+    <result column="GoodsKind" property="goodskind" jdbcType="VARCHAR" />
+    <result column="BatchNo" property="batchno" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="Field1" property="field1" jdbcType="VARCHAR" />
+    <result column="Field2" property="field2" jdbcType="VARCHAR" />
+    <result column="Field3" property="field3" jdbcType="VARCHAR" />
+    <result column="Field4" property="field4" jdbcType="VARCHAR" />
+    <result column="Field5" property="field5" jdbcType="VARCHAR" />
+    <result column="Field6" property="field6" jdbcType="VARCHAR" />
+    <result column="Field7" property="field7" jdbcType="VARCHAR" />
+    <result column="Field8" property="field8" jdbcType="VARCHAR" />
+    <result column="Field9" property="field9" jdbcType="VARCHAR" />
+    <result column="FixMoney" property="fixmoney" jdbcType="DECIMAL" />
+    <result column="WarehouseInID" property="warehouseinid" jdbcType="VARCHAR" />
+    <result column="DiscountRate" property="discountrate" jdbcType="DECIMAL" />
+    <result column="InitUnitPrice" property="initunitprice" jdbcType="DECIMAL" />
+    <result column="SizeIndex" property="sizeindex" jdbcType="INTEGER" />
+    <result column="SizeStr" property="sizestr" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    StockDetailID, IndexNo, StockID, GoodsID, ColorID, BoxQty, x_1, x_2, x_3, x_4, x_5, 
+    x_6, x_7, x_8, x_9, x_10, x_11, x_12, StorageID, RelationUnitPrice, RelationAmount, 
+    RelationOrderID, RelationCustCode, RelationSalesOrderID, Quantity, UnitPrice, Amount, 
+    RetailSales, RetailAmount, PurchasePrice, PurchaseAmount, GoodsKind, BatchNo, Memo, 
+    Field1, Field2, Field3, Field4, Field5, Field6, Field7, Field8, Field9, FixMoney, 
+    WarehouseInID, DiscountRate, InitUnitPrice, SizeIndex, SizeStr
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.StockdetailtempExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from StockDetailTemp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from StockDetailTemp
+    where StockDetailID = #{stockdetailid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from StockDetailTemp
+    where StockDetailID = #{stockdetailid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Stockdetailtemp" >
+    insert into StockDetailTemp (StockDetailID, IndexNo, StockID, 
+      GoodsID, ColorID, BoxQty, 
+      x_1, x_2, x_3, x_4, 
+      x_5, x_6, x_7, x_8, 
+      x_9, x_10, x_11, x_12, 
+      StorageID, RelationUnitPrice, RelationAmount, 
+      RelationOrderID, RelationCustCode, RelationSalesOrderID, 
+      Quantity, UnitPrice, Amount, 
+      RetailSales, RetailAmount, PurchasePrice, 
+      PurchaseAmount, GoodsKind, BatchNo, 
+      Memo, Field1, Field2, 
+      Field3, Field4, Field5, 
+      Field6, Field7, Field8, 
+      Field9, FixMoney, WarehouseInID, 
+      DiscountRate, InitUnitPrice, SizeIndex, 
+      SizeStr)
+    values (#{stockdetailid,jdbcType=VARCHAR}, #{indexno,jdbcType=INTEGER}, #{stockid,jdbcType=VARCHAR}, 
+      #{goodsid,jdbcType=VARCHAR}, #{colorid,jdbcType=VARCHAR}, #{boxqty,jdbcType=INTEGER}, 
+      #{x1,jdbcType=INTEGER}, #{x2,jdbcType=INTEGER}, #{x3,jdbcType=INTEGER}, #{x4,jdbcType=INTEGER}, 
+      #{x5,jdbcType=INTEGER}, #{x6,jdbcType=INTEGER}, #{x7,jdbcType=INTEGER}, #{x8,jdbcType=INTEGER}, 
+      #{x9,jdbcType=INTEGER}, #{x10,jdbcType=INTEGER}, #{x11,jdbcType=INTEGER}, #{x12,jdbcType=INTEGER}, 
+      #{storageid,jdbcType=VARCHAR}, #{relationunitprice,jdbcType=DECIMAL}, #{relationamount,jdbcType=DECIMAL}, 
+      #{relationorderid,jdbcType=VARCHAR}, #{relationcustcode,jdbcType=VARCHAR}, #{relationsalesorderid,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{unitprice,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{retailsales,jdbcType=DECIMAL}, #{retailamount,jdbcType=DECIMAL}, #{purchaseprice,jdbcType=DECIMAL}, 
+      #{purchaseamount,jdbcType=DECIMAL}, #{goodskind,jdbcType=VARCHAR}, #{batchno,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, 
+      #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}, #{field5,jdbcType=VARCHAR}, 
+      #{field6,jdbcType=VARCHAR}, #{field7,jdbcType=VARCHAR}, #{field8,jdbcType=VARCHAR}, 
+      #{field9,jdbcType=VARCHAR}, #{fixmoney,jdbcType=DECIMAL}, #{warehouseinid,jdbcType=VARCHAR}, 
+      #{discountrate,jdbcType=DECIMAL}, #{initunitprice,jdbcType=DECIMAL}, #{sizeindex,jdbcType=INTEGER}, 
+      #{sizestr,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Stockdetailtemp" >
+    insert into StockDetailTemp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockdetailid != null" >
+        StockDetailID,
+      </if>
+      <if test="indexno != null" >
+        IndexNo,
+      </if>
+      <if test="stockid != null" >
+        StockID,
+      </if>
+      <if test="goodsid != null" >
+        GoodsID,
+      </if>
+      <if test="colorid != null" >
+        ColorID,
+      </if>
+      <if test="boxqty != null" >
+        BoxQty,
+      </if>
+      <if test="x1 != null" >
+        x_1,
+      </if>
+      <if test="x2 != null" >
+        x_2,
+      </if>
+      <if test="x3 != null" >
+        x_3,
+      </if>
+      <if test="x4 != null" >
+        x_4,
+      </if>
+      <if test="x5 != null" >
+        x_5,
+      </if>
+      <if test="x6 != null" >
+        x_6,
+      </if>
+      <if test="x7 != null" >
+        x_7,
+      </if>
+      <if test="x8 != null" >
+        x_8,
+      </if>
+      <if test="x9 != null" >
+        x_9,
+      </if>
+      <if test="x10 != null" >
+        x_10,
+      </if>
+      <if test="x11 != null" >
+        x_11,
+      </if>
+      <if test="x12 != null" >
+        x_12,
+      </if>
+      <if test="storageid != null" >
+        StorageID,
+      </if>
+      <if test="relationunitprice != null" >
+        RelationUnitPrice,
+      </if>
+      <if test="relationamount != null" >
+        RelationAmount,
+      </if>
+      <if test="relationorderid != null" >
+        RelationOrderID,
+      </if>
+      <if test="relationcustcode != null" >
+        RelationCustCode,
+      </if>
+      <if test="relationsalesorderid != null" >
+        RelationSalesOrderID,
+      </if>
+      <if test="quantity != null" >
+        Quantity,
+      </if>
+      <if test="unitprice != null" >
+        UnitPrice,
+      </if>
+      <if test="amount != null" >
+        Amount,
+      </if>
+      <if test="retailsales != null" >
+        RetailSales,
+      </if>
+      <if test="retailamount != null" >
+        RetailAmount,
+      </if>
+      <if test="purchaseprice != null" >
+        PurchasePrice,
+      </if>
+      <if test="purchaseamount != null" >
+        PurchaseAmount,
+      </if>
+      <if test="goodskind != null" >
+        GoodsKind,
+      </if>
+      <if test="batchno != null" >
+        BatchNo,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="field1 != null" >
+        Field1,
+      </if>
+      <if test="field2 != null" >
+        Field2,
+      </if>
+      <if test="field3 != null" >
+        Field3,
+      </if>
+      <if test="field4 != null" >
+        Field4,
+      </if>
+      <if test="field5 != null" >
+        Field5,
+      </if>
+      <if test="field6 != null" >
+        Field6,
+      </if>
+      <if test="field7 != null" >
+        Field7,
+      </if>
+      <if test="field8 != null" >
+        Field8,
+      </if>
+      <if test="field9 != null" >
+        Field9,
+      </if>
+      <if test="fixmoney != null" >
+        FixMoney,
+      </if>
+      <if test="warehouseinid != null" >
+        WarehouseInID,
+      </if>
+      <if test="discountrate != null" >
+        DiscountRate,
+      </if>
+      <if test="initunitprice != null" >
+        InitUnitPrice,
+      </if>
+      <if test="sizeindex != null" >
+        SizeIndex,
+      </if>
+      <if test="sizestr != null" >
+        SizeStr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockdetailid != null" >
+        #{stockdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="indexno != null" >
+        #{indexno,jdbcType=INTEGER},
+      </if>
+      <if test="stockid != null" >
+        #{stockid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=VARCHAR},
+      </if>
+      <if test="colorid != null" >
+        #{colorid,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=INTEGER},
+      </if>
+      <if test="x1 != null" >
+        #{x1,jdbcType=INTEGER},
+      </if>
+      <if test="x2 != null" >
+        #{x2,jdbcType=INTEGER},
+      </if>
+      <if test="x3 != null" >
+        #{x3,jdbcType=INTEGER},
+      </if>
+      <if test="x4 != null" >
+        #{x4,jdbcType=INTEGER},
+      </if>
+      <if test="x5 != null" >
+        #{x5,jdbcType=INTEGER},
+      </if>
+      <if test="x6 != null" >
+        #{x6,jdbcType=INTEGER},
+      </if>
+      <if test="x7 != null" >
+        #{x7,jdbcType=INTEGER},
+      </if>
+      <if test="x8 != null" >
+        #{x8,jdbcType=INTEGER},
+      </if>
+      <if test="x9 != null" >
+        #{x9,jdbcType=INTEGER},
+      </if>
+      <if test="x10 != null" >
+        #{x10,jdbcType=INTEGER},
+      </if>
+      <if test="x11 != null" >
+        #{x11,jdbcType=INTEGER},
+      </if>
+      <if test="x12 != null" >
+        #{x12,jdbcType=INTEGER},
+      </if>
+      <if test="storageid != null" >
+        #{storageid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationunitprice != null" >
+        #{relationunitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="relationamount != null" >
+        #{relationamount,jdbcType=DECIMAL},
+      </if>
+      <if test="relationorderid != null" >
+        #{relationorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationcustcode != null" >
+        #{relationcustcode,jdbcType=VARCHAR},
+      </if>
+      <if test="relationsalesorderid != null" >
+        #{relationsalesorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="unitprice != null" >
+        #{unitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales != null" >
+        #{retailsales,jdbcType=DECIMAL},
+      </if>
+      <if test="retailamount != null" >
+        #{retailamount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseprice != null" >
+        #{purchaseprice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseamount != null" >
+        #{purchaseamount,jdbcType=DECIMAL},
+      </if>
+      <if test="goodskind != null" >
+        #{goodskind,jdbcType=VARCHAR},
+      </if>
+      <if test="batchno != null" >
+        #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null" >
+        #{field5,jdbcType=VARCHAR},
+      </if>
+      <if test="field6 != null" >
+        #{field6,jdbcType=VARCHAR},
+      </if>
+      <if test="field7 != null" >
+        #{field7,jdbcType=VARCHAR},
+      </if>
+      <if test="field8 != null" >
+        #{field8,jdbcType=VARCHAR},
+      </if>
+      <if test="field9 != null" >
+        #{field9,jdbcType=VARCHAR},
+      </if>
+      <if test="fixmoney != null" >
+        #{fixmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="warehouseinid != null" >
+        #{warehouseinid,jdbcType=VARCHAR},
+      </if>
+      <if test="discountrate != null" >
+        #{discountrate,jdbcType=DECIMAL},
+      </if>
+      <if test="initunitprice != null" >
+        #{initunitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="sizeindex != null" >
+        #{sizeindex,jdbcType=INTEGER},
+      </if>
+      <if test="sizestr != null" >
+        #{sizestr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.StockdetailtempExample" resultType="java.lang.Integer" >
+    select count(*) from StockDetailTemp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Stockdetailtemp" >
+    update StockDetailTemp
+    <set >
+      <if test="indexno != null" >
+        IndexNo = #{indexno,jdbcType=INTEGER},
+      </if>
+      <if test="stockid != null" >
+        StockID = #{stockid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null" >
+        GoodsID = #{goodsid,jdbcType=VARCHAR},
+      </if>
+      <if test="colorid != null" >
+        ColorID = #{colorid,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        BoxQty = #{boxqty,jdbcType=INTEGER},
+      </if>
+      <if test="x1 != null" >
+        x_1 = #{x1,jdbcType=INTEGER},
+      </if>
+      <if test="x2 != null" >
+        x_2 = #{x2,jdbcType=INTEGER},
+      </if>
+      <if test="x3 != null" >
+        x_3 = #{x3,jdbcType=INTEGER},
+      </if>
+      <if test="x4 != null" >
+        x_4 = #{x4,jdbcType=INTEGER},
+      </if>
+      <if test="x5 != null" >
+        x_5 = #{x5,jdbcType=INTEGER},
+      </if>
+      <if test="x6 != null" >
+        x_6 = #{x6,jdbcType=INTEGER},
+      </if>
+      <if test="x7 != null" >
+        x_7 = #{x7,jdbcType=INTEGER},
+      </if>
+      <if test="x8 != null" >
+        x_8 = #{x8,jdbcType=INTEGER},
+      </if>
+      <if test="x9 != null" >
+        x_9 = #{x9,jdbcType=INTEGER},
+      </if>
+      <if test="x10 != null" >
+        x_10 = #{x10,jdbcType=INTEGER},
+      </if>
+      <if test="x11 != null" >
+        x_11 = #{x11,jdbcType=INTEGER},
+      </if>
+      <if test="x12 != null" >
+        x_12 = #{x12,jdbcType=INTEGER},
+      </if>
+      <if test="storageid != null" >
+        StorageID = #{storageid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationunitprice != null" >
+        RelationUnitPrice = #{relationunitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="relationamount != null" >
+        RelationAmount = #{relationamount,jdbcType=DECIMAL},
+      </if>
+      <if test="relationorderid != null" >
+        RelationOrderID = #{relationorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationcustcode != null" >
+        RelationCustCode = #{relationcustcode,jdbcType=VARCHAR},
+      </if>
+      <if test="relationsalesorderid != null" >
+        RelationSalesOrderID = #{relationsalesorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        Quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="unitprice != null" >
+        UnitPrice = #{unitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        Amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="retailsales != null" >
+        RetailSales = #{retailsales,jdbcType=DECIMAL},
+      </if>
+      <if test="retailamount != null" >
+        RetailAmount = #{retailamount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseprice != null" >
+        PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseamount != null" >
+        PurchaseAmount = #{purchaseamount,jdbcType=DECIMAL},
+      </if>
+      <if test="goodskind != null" >
+        GoodsKind = #{goodskind,jdbcType=VARCHAR},
+      </if>
+      <if test="batchno != null" >
+        BatchNo = #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        Field1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        Field2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        Field3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        Field4 = #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null" >
+        Field5 = #{field5,jdbcType=VARCHAR},
+      </if>
+      <if test="field6 != null" >
+        Field6 = #{field6,jdbcType=VARCHAR},
+      </if>
+      <if test="field7 != null" >
+        Field7 = #{field7,jdbcType=VARCHAR},
+      </if>
+      <if test="field8 != null" >
+        Field8 = #{field8,jdbcType=VARCHAR},
+      </if>
+      <if test="field9 != null" >
+        Field9 = #{field9,jdbcType=VARCHAR},
+      </if>
+      <if test="fixmoney != null" >
+        FixMoney = #{fixmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="warehouseinid != null" >
+        WarehouseInID = #{warehouseinid,jdbcType=VARCHAR},
+      </if>
+      <if test="discountrate != null" >
+        DiscountRate = #{discountrate,jdbcType=DECIMAL},
+      </if>
+      <if test="initunitprice != null" >
+        InitUnitPrice = #{initunitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="sizeindex != null" >
+        SizeIndex = #{sizeindex,jdbcType=INTEGER},
+      </if>
+      <if test="sizestr != null" >
+        SizeStr = #{sizestr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where StockDetailID = #{stockdetailid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Stockdetailtemp" >
+    update StockDetailTemp
+    set IndexNo = #{indexno,jdbcType=INTEGER},
+      StockID = #{stockid,jdbcType=VARCHAR},
+      GoodsID = #{goodsid,jdbcType=VARCHAR},
+      ColorID = #{colorid,jdbcType=VARCHAR},
+      BoxQty = #{boxqty,jdbcType=INTEGER},
+      x_1 = #{x1,jdbcType=INTEGER},
+      x_2 = #{x2,jdbcType=INTEGER},
+      x_3 = #{x3,jdbcType=INTEGER},
+      x_4 = #{x4,jdbcType=INTEGER},
+      x_5 = #{x5,jdbcType=INTEGER},
+      x_6 = #{x6,jdbcType=INTEGER},
+      x_7 = #{x7,jdbcType=INTEGER},
+      x_8 = #{x8,jdbcType=INTEGER},
+      x_9 = #{x9,jdbcType=INTEGER},
+      x_10 = #{x10,jdbcType=INTEGER},
+      x_11 = #{x11,jdbcType=INTEGER},
+      x_12 = #{x12,jdbcType=INTEGER},
+      StorageID = #{storageid,jdbcType=VARCHAR},
+      RelationUnitPrice = #{relationunitprice,jdbcType=DECIMAL},
+      RelationAmount = #{relationamount,jdbcType=DECIMAL},
+      RelationOrderID = #{relationorderid,jdbcType=VARCHAR},
+      RelationCustCode = #{relationcustcode,jdbcType=VARCHAR},
+      RelationSalesOrderID = #{relationsalesorderid,jdbcType=VARCHAR},
+      Quantity = #{quantity,jdbcType=INTEGER},
+      UnitPrice = #{unitprice,jdbcType=DECIMAL},
+      Amount = #{amount,jdbcType=DECIMAL},
+      RetailSales = #{retailsales,jdbcType=DECIMAL},
+      RetailAmount = #{retailamount,jdbcType=DECIMAL},
+      PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
+      PurchaseAmount = #{purchaseamount,jdbcType=DECIMAL},
+      GoodsKind = #{goodskind,jdbcType=VARCHAR},
+      BatchNo = #{batchno,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR},
+      Field1 = #{field1,jdbcType=VARCHAR},
+      Field2 = #{field2,jdbcType=VARCHAR},
+      Field3 = #{field3,jdbcType=VARCHAR},
+      Field4 = #{field4,jdbcType=VARCHAR},
+      Field5 = #{field5,jdbcType=VARCHAR},
+      Field6 = #{field6,jdbcType=VARCHAR},
+      Field7 = #{field7,jdbcType=VARCHAR},
+      Field8 = #{field8,jdbcType=VARCHAR},
+      Field9 = #{field9,jdbcType=VARCHAR},
+      FixMoney = #{fixmoney,jdbcType=DECIMAL},
+      WarehouseInID = #{warehouseinid,jdbcType=VARCHAR},
+      DiscountRate = #{discountrate,jdbcType=DECIMAL},
+      InitUnitPrice = #{initunitprice,jdbcType=DECIMAL},
+      SizeIndex = #{sizeindex,jdbcType=INTEGER},
+      SizeStr = #{sizestr,jdbcType=VARCHAR}
+    where StockDetailID = #{stockdetailid,jdbcType=VARCHAR}
+  </update>
+</mapper>

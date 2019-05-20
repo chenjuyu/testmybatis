@@ -74,7 +74,7 @@
                 		"username":data.field.username,
                 		"password":data.field.password
                 	},
-                	dataType: "json",//返回的数据类型格式
+                	dataType: "json",//返回的数据类型格式  可以返回整个html页modelandview $.parseHtml()转
                 	 success: function (msg) {
                          if (msg.success) {  //成功
                              //关闭编辑窗口
