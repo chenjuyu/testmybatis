@@ -122,7 +122,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
   var issyn=0
   
-  
+ layui.data('stockin', null); //删除test表 删除本地储存的数据
   
 //执行一个laydate实例
   laydate.render({
@@ -234,8 +234,8 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	 
 	//  xadmin.del_tab()//add_tab('货品','./main/goods.html')
 	//xadmin.add_tab('货品','./main/goods.html',true)
-	  layui.data('stockin', {key:'goodsid',value:obj.data.GoodsID})
-	   location.href='<%=basePath%>index.jsp';
+	  layui.data('stockin', {key:'stockid',value:obj.data.StockID})
+	   location.href='<%=basePath%>main/stockdetail.do';
 	  
 	  //obj.del(); //删除当前行
 	  //obj.update(fields) //修改当前行数据

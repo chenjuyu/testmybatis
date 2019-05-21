@@ -17,5 +17,5 @@ public interface IStock {
 	    int updateByPrimaryKey(Stock record);
 	    
 	    HashMap<String,Object> stocklist(String conditions, int pageno, int pagesize);
-
+	    HashMap<String,Object> stockDetial(String conditions, int pageno, int pagesize);
 }

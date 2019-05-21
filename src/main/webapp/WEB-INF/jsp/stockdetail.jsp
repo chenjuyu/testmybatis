@@ -30,7 +30,7 @@
                                 <div class="layui-inline layui-show-xs-block">
                                     <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end"></div>
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="keyword" id="keyword" placeholder="货品编码" autocomplete="off" class="layui-input"></div>
+                                    <input type="text" name="keyword" id="keyword" placeholder="请输入单号" autocomplete="off" class="layui-input"></div>
                                 <div class="layui-inline layui-show-xs-block">
                                     <button class="layui-btn" data-type="reload">
                                         <i class="layui-icon">&#xe615;</i></button>
@@ -122,7 +122,12 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
   var issyn=0
   
+  var stockin=layui.data('stockin')
   
+  var stockid=stockin.stockid
+  console.log("stockid:"+stockid)
+  
+ //layui.data('stockin', null); //删除test表 删除本地储存的数据
   
 //执行一个laydate实例
   laydate.render({
@@ -133,22 +138,26 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
       elem: '#end' //指定元素
   });
   
+  var cols=[[]]
+  
   
   table.render({
     elem: '#test'
-    ,url:'<%=basePath%>goods/search.do'
+    ,url:'<%=basePath%>stock/stockdetail.do'
     ,method:'post'
-    ,where:{'keyword':'','issyn':issyn}
+    ,where:{'keyword':stockid,'issyn':issyn}
   //  ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
     ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
-  /*  ,parseData: function(res){ //res 即为原始返回的数据
+    ,parseData: function(res){ //res 即为原始返回的数据
         return {
-            "code": res.status, //解析接口状态
-            "msg": res.message, //解析提示文本
-            "count": res.total, //解析数据长度
-            "data": res.rows //解析数据列表
+            "code": res.code, //解析接口状态
+            "msg": res.msg, //解析提示文本
+           // "count": res.total, //解析数据长度
+            "data": res.data, //解析数据列表
+            "cols":res.cols
           };
-        } */
+         
+        } 
     ,request: {
         pageName: 'page' //页码的参数名称，默认：page
         ,limitName: 'rows' //每页数据量的参数名，默认：limit
@@ -160,25 +169,29 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
         ,countName: 'total' //规定数据总数的字段名称，默认：count
         ,dataName: 'rows' //规定数据列表的字段名称，默认：data
       } */ 
-    ,title: '货品数据表'
-    ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
-      ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
-      ,{field:'Code', title:'货品编码', width:120, unresize: true}//, edit: 'text'
-      ,{field:'Name', title:'货品名称', width:120}//, edit: 'text'
-      /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
-        return '<em>'+ res.email +'</em>'
-      }} */
-      ,{field:'Age', title:'年份', width:80 }//sort: true , edit: 'text'
-      ,{field:'PurchasePrice', title:'参考进价', width:100,hide:true}
-      ,{field:'RetailSales', title:'零售价',width:80}
-      ,{field:'PointRate', title:'积分倍数', width:100}
-      ,{field:'SupplierCode', title:'厂商货品编码', width:120}
-      ,{field:'Model', title:'型号规格', width:100}
-      ,{field:'Season', title:'季节', width:120}
-     // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-    ]]
-    ,id: 'goodslist'  
+    ,title: '详情数据表'
+    //,cols:cols
+//     ,cols: [[
+//        {type: 'checkbox', fixed: 'left'}
+//       ,{field:'StockID', title:'StockID', width:80, fixed: 'left', hide:true, unresize: true}
+//       ,{field:'Code', title:'货品编码', width:120}
+//       ,{field:'SupplierCode', title:'厂商货品编码', width:120, unresize: true}//, edit: 'text'
+//       ,{field:'Name', title:'货品名称', width:120}//, edit: 'text'
+//       ,{field:'Model', title:'型号规格', width:150}
+//       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
+//         return '<em>'+ res.email +'</em>'
+//       }} */
+//       ,{field:'Unit', title:'单位', width:80 }
+//       ,{field:'Color', title:'颜色', width:80 }//sort: true , edit: 'text'
+//       ,{field:'AmountSum', title:'金额', width:100,hide:true}
+//       ,{field:'RelationAmountSum', title:'结算金额',width:120}
+      
+//    //   ,{field:'SupplierCode', title:'厂商货品编码', width:120}
+//     //  ,{field:'Model', title:'型号规格', width:100}
+//      // ,{field:'Season', title:'季节', width:120}
+//      // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+//     ]]
+    ,id: 'stockdetail'  
     ,page: true
    
   });
@@ -231,9 +244,9 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  console.log("GoodsID:"+obj.data.GoodsID) //得到当前行数据
 	 
 	//  xadmin.del_tab()//add_tab('货品','./main/goods.html')
-	xadmin.add_tab('货品','./main/goods.html',true)
+	//xadmin.add_tab('货品','./main/goods.html',true)
 	  layui.data('stockin', {key:'goodsid',value:obj.data.GoodsID})
-	   location.href='<%=basePath%>main/stock.do?keyword=TI0258N';//search.do?keyword=TI0258N&issyn=0&page=1&rows=10
+	   location.href='<%=basePath%>index.jsp';
 	  
 	  //obj.del(); //删除当前行
 	  //obj.update(fields) //修改当前行数据
@@ -253,7 +266,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 		      var keyword = $('#keyword').attr("alt");
 		      console.log("keyword的值："+keyword)//keyword.val()
 		      //执行重载
-		      table.reload('goodslist', {
+		      table.reload('stockdetail', {
 		        page: {
 		          curr: 1 //重新从第 1 页开始
 		        }
@@ -288,7 +301,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  
 	  console.log("执行到这里了")
 	 var type = $(this).data('type');
-	  var checkStatus = table.checkStatus('goodslist');
+	  var checkStatus = table.checkStatus('stocklist');
 	    switch(type){
 	      case 'getCheckData':
 	        var data = checkStatus.data;
@@ -316,12 +329,12 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   //自动输入提示
   autocomplete.render({
             elem: $('#keyword')[0],
-            url: '<%=basePath%>goods/autocompete.do',
-            template_val: '{{d.Code}}',
-            template_txt: '{{d.Code}} <span class=\'layui-badge layui-bg-gray\'>{{d.Name}}</span>',
+            url: '<%=basePath%>stock/autocompete.do',
+            template_val: '{{d.No}}',
+            template_txt: '{{d.No}} <span class=\'layui-badge layui-bg-gray\'>{{d.Warehouse}}</span>',
             onselect: function (resp) {
-              $('input[name=keyword]').val(resp.Code),
-              $('input[name=keyword]').attr("alt",resp.GoodsID)
+              $('input[name=keyword]').val(resp.No),
+              $('input[name=keyword]').attr("alt",resp.StockID)
             }
         })
         
@@ -329,7 +342,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  var datastr =data;
 	  $.ajax({
 		 	type: "post",  //数据提交方式（post/get）
-        	url: "<%=basePath%>main/jdgoods.do",  //提交到的url
+        	url: "<%=basePath%>main/jdstock.do",  //提交到的url
         	data: {
         		"datas":datastr
         	},

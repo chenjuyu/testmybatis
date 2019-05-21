@@ -912,6 +912,26 @@
    </if>
   </select>
   
-  
+  <select id="stockDetial" resultType="java.util.Map" parameterType="java.util.Map">
+ Select a.*,b.Code,b.SupplierCode,b.Name,b.Model,b.Unit,c.Color,b.GroupNo,b.age,b.Season,b.StopFlag,
+b.TradePrice,a.quantity*isnull(b.TradePrice,0) TradeAmount,br.Brand,st.Storage,b.RetailSales1,b.RetailSales2,pr.No As RelationPurOrderNo,
+ct.Customer As RelationCustomer,sr.No As RelationSalesOrderNo 
+from StockDetailTemp a join Goods b on a.GoodsID = b.GoodsID
+left join PurchaseOrder pr on a.RelationOrderID = pr.PurchaseOrderID
+left join SalesOrder sr on a.RelationSalesOrderID = sr.SalesOrderID
+join Color c on a.ColorID=c.ColorID left join brand br on b.brandid = br.brandid
+left join Customer ct on a.RelationCustCode = ct.Code
+left join storage st on a.StorageID = st.StorageID
+<if test="conditions != null and conditions != ''">
+   where 
+   ${conditions}
+</if>
+
+Order by a.StockID,  a.IndexNo
+  </select>
+ 
+ 
+ 
+ 
   
 </mapper>

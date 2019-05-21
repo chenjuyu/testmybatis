@@ -27,5 +27,5 @@ public interface StockMapper {
     
     int stockcount(Map<String,Object> map);
     
-    
+    List<Map<String,Object>> stockDetial(Map<String,Object> map); 
 }

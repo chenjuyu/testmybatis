@@ -67,6 +67,31 @@ public class StockService implements IStock {
 		return m;
 	}
 
+	@Override
+	public HashMap<String, Object> stockDetial(String conditions, int pageno,
+			int pagesize) {
+		PagingView p=new PagingView(Integer.valueOf(pageno).intValue());
+		p.setPageSize(pagesize);
+		
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		
+		 if(conditions !=null || !"".equals(conditions) ){
+		
+        map.put("conditions", conditions);			 	 
+		 }
+		 
+		// int total =this.stockMapper.stockcount(map);
+		// map.put("page", p); //先不分页
+		 List<Map<String, Object>> stocklist = this.stockMapper.stockDetial(map);
+		
+		 HashMap<String, Object> m=new HashMap<String, Object>();
+		 
+		// m.put("total", total);
+		 m.put("rows", stocklist);
+		
+		 return m;
+	}
+
 
 
 }

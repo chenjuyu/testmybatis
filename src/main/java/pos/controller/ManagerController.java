@@ -304,9 +304,15 @@ public class ManagerController {
 	@RequestMapping("/stock")
 	public ModelAndView stock(HttpServletRequest re,HttpServletResponse rp){
 		
+		System.out.println("keyword的值:"+re.getParameter("keyword"));
+		
 		return new ModelAndView("stock");
 	}
-	
+	@RequestMapping("/stockdetail")
+	public ModelAndView stockdetail(HttpServletRequest re,HttpServletResponse rp){
+		
+		return new ModelAndView("stockdetail");
+	}
 	
 	
 	
