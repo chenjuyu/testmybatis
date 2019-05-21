@@ -138,14 +138,28 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
       elem: '#end' //指定元素
   });
   
-  var cols=[[]]
-  
-  
+ var $=layui.$
+ 
+ 
+ $.ajax({ 
+	 url:'<%=basePath%>stock/stockdetail.do',
+     type:'post',
+     data:{'keyword':stockid,'issyn':issyn,"page":1,'rows':10},
+     dataType:'json',
+     success:function(res){
+    	 table.render({
+    		 elem: '#test'
+    		 ,title: '详情数据表'
+    		 ,id: 'stockdetail'  
+    	     ,data:res.data
+    	     ,cols:res.cols
+    	 })
+/*     	
   table.render({
     elem: '#test'
-    ,url:'<%=basePath%>stock/stockdetail.do'
-    ,method:'post'
-    ,where:{'keyword':stockid,'issyn':issyn}
+   // ,url:
+  //  ,method:'post'
+   // ,where:{'keyword':stockid,'issyn':issyn}
   //  ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
     ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -159,7 +173,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
          
         } 
     ,request: {
-        pageName: 'page' //页码的参数名称，默认：page
+         pageName: 'page' //页码的参数名称，默认：page
         ,limitName: 'rows' //每页数据量的参数名，默认：limit
           }
   /*  ,response: {
@@ -169,8 +183,8 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
         ,countName: 'total' //规定数据总数的字段名称，默认：count
         ,dataName: 'rows' //规定数据列表的字段名称，默认：data
       } */ 
-    ,title: '详情数据表'
-    //,cols:cols
+//    ,title: '详情数据表'
+  // ,cols:[[{"field":'Code', "title":'货品编码', "width":120}]]
 //     ,cols: [[
 //        {type: 'checkbox', fixed: 'left'}
 //       ,{field:'StockID', title:'StockID', width:80, fixed: 'left', hide:true, unresize: true}
@@ -191,11 +205,12 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 //      // ,{field:'Season', title:'季节', width:120}
 //      // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
 //     ]]
-    ,id: 'stockdetail'  
-    ,page: true
+   // ,id: 'stockdetail'  
+ //   ,page: true
    
-  });
-  
+  //}); */
+     }//success 结束
+ })//ajax 结束
   //头工具栏事件
   table.on('toolbar(test)', function(obj){
     var checkStatus = table.checkStatus(obj.config.id);
@@ -301,7 +316,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  
 	  console.log("执行到这里了")
 	 var type = $(this).data('type');
-	  var checkStatus = table.checkStatus('stocklist');
+	  var checkStatus = table.checkStatus('stockdetail');
 	    switch(type){
 	      case 'getCheckData':
 	        var data = checkStatus.data;
