@@ -1,6 +1,7 @@
 package pos.service.impl;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class StockService implements IStock {
 	}
 
 	@Override
-	public HashMap<String, Object> stockDetial(String conditions, int pageno,
+	public HashMap<String, Object> stockDetial(String size,String conditions, int pageno,
 			int pagesize) {
 		PagingView p=new PagingView(Integer.valueOf(pageno).intValue());
 		p.setPageSize(pagesize);
@@ -79,10 +80,13 @@ public class StockService implements IStock {
 		
         map.put("conditions", conditions);			 	 
 		 }
+		 if(size !=null || !"".equals(size)){
+		map.put("size", size);	 
+		 }
 		 
 		// int total =this.stockMapper.stockcount(map);
 		// map.put("page", p); //先不分页
-		 List<Map<String, Object>> stocklist = this.stockMapper.stockDetial(map);
+		 List<LinkedHashMap<String, Object>> stocklist = this.stockMapper.stockDetial(map);
 		
 		 HashMap<String, Object> m=new HashMap<String, Object>();
 		 

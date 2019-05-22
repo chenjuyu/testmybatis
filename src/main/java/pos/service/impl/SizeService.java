@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import pos.dao.SizegroupsizeMapper;
+import pos.model.Sizegroupsize;
+import pos.model.SizegroupsizeExample;
 import pos.service.ISizeGroupSize;
 import web.util.system.plugins.PagingView;
 
@@ -35,6 +38,13 @@ public class SizeService implements ISizeGroupSize {
 		m.put("rows", sizelist);
 
 		return m;
+	}
+
+
+	@Override
+	public List<Sizegroupsize> selectByExample(SizegroupsizeExample example) {
+		// TODO Auto-generated method stub
+		return sizegroupsizeMapper.selectByExample(example);
 	}
 
 }

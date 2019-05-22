@@ -1,5 +1,6 @@
 package pos.dao;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +28,5 @@ public interface StockMapper {
     
     int stockcount(Map<String,Object> map);
     
-    List<Map<String,Object>> stockDetial(Map<String,Object> map); 
+    List<LinkedHashMap<String,Object>> stockDetial(Map<String,Object> map); 
 }

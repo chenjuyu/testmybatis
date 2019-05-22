@@ -13,7 +13,7 @@
  <html>
 <head>
 <base href="<%=basePath%>">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8;no-cache">
  <link rel="stylesheet" href="./ui/css/xadmin.css" media="all">
   <link rel="stylesheet" href="./ui/css/autocomplete.css" media="all">
  <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
@@ -100,7 +100,9 @@
         }); //ui/lib/layui/*/
         
         layui.config({
-        	  base: '<%=basePath%>ui/js/' //假设这是你存放拓展模块的根目录
+        	 version: true
+        	 ,base: '<%=basePath%>ui/js/' //假设这是你存放拓展模块的根目录
+        	  
         	}).extend({ //设定模块别名
         	 // mymod: 'mymod' //如果 mymod.js 是在根目录，也可以不用设定别名
         	 // ,mod1: 'admin/mod1' //相对于上述 base 目录的子目录
@@ -125,7 +127,10 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   var stockin=layui.data('stockin')
   
   var stockid=stockin.stockid
+  var DisplaySizeGroup=stockin.DisplaySizeGroup
   console.log("stockid:"+stockid)
+  
+  console.log("DisplaySizeGroup:"+DisplaySizeGroup)
   
  //layui.data('stockin', null); //删除test表 删除本地储存的数据
   
@@ -144,11 +149,13 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
  $.ajax({ 
 	 url:'<%=basePath%>stock/stockdetail.do',
      type:'post',
-     data:{'keyword':stockid,'issyn':issyn,"page":1,'rows':10},
+     data:{'keyword':stockid,'issyn':issyn,'DisplaySizeGroup':DisplaySizeGroup,"page":1,'rows':10},
      dataType:'json',
+     cache:false,
      success:function(res){
     	 table.render({
     		 elem: '#test'
+    		 ,cellMinWidth: 10
     		 ,title: '详情数据表'
     		 ,id: 'stockdetail'  
     	     ,data:res.data

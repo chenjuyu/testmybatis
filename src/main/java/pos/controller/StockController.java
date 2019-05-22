@@ -2,11 +2,15 @@ package pos.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,222 +22,356 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import pos.model.Sizegroupsize;
+import pos.model.SizegroupsizeExample;
+import pos.service.ISizeGroupSize;
 import pos.service.IStock;
 import web.util.oConvertUtils;
-
 
 @Controller
 @RequestMapping("stock")
 public class StockController {
-	
-	
+
 	@Autowired
 	private IStock stockService;
+	@Autowired
+	private ISizeGroupSize sizeservice;
 	
+	@RequestMapping(value = "/search")
+	public void search(HttpServletRequest request, HttpServletResponse response) {
 
-	@RequestMapping(value="/search")
-	public void search(HttpServletRequest request,HttpServletResponse response){
-		
-		String keyword=request.getParameter("keyword");
-		int issyn=Integer.parseInt(request.getParameter("issyn"));
-		
-		System.out.print("issyn的值："+issyn);
-		
-	//	String q=request.getParameter("q");
-		String conditions="";
-		if (keyword==null || "".equals(keyword)){
-			conditions="";
-	//		keyword=q;
-		}else{
-			conditions=" and a.StockID='"+keyword+"' ";
+		String keyword = request.getParameter("keyword");
+		int issyn = Integer.parseInt(request.getParameter("issyn"));
+
+		System.out.print("issyn的值：" + issyn);
+
+		// String q=request.getParameter("q");
+		String conditions = "";
+		if (keyword == null || "".equals(keyword)) {
+			conditions = "";
+			// keyword=q;
+		} else {
+			conditions = " and a.StockID='" + keyword + "' ";
 		}
-		if (issyn==1){
-		//	conditions=conditions+" and not exists(select StockID from jdStock b where a.StockID=b.StockID)";
+		if (issyn == 1) {
+			// conditions=conditions+" and not exists(select StockID from
+			// jdStock b where a.StockID=b.StockID)";
 		}
-		if (issyn==2){ //已同步
-		  //  conditions=conditions+" and exists(select StockID from jdStock b where a.StockID=b.StockID)";	
-			
+		if (issyn == 2) { // 已同步
+			// conditions=conditions+" and exists(select StockID from jdStock b
+			// where a.StockID=b.StockID)";
+
 		}
-		conditions =conditions+" and a.Direction=1 ";
-		//System.out.println(q);
+		conditions = conditions + " and a.Direction=1 ";
+		// System.out.println(q);
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
 		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
-		
-		System.out.println("keyword的值："+keyword);
-		
-		//String conditions=" a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%'";
-		
-		
-		
-		HashMap<String,Object> m=stockService.stocklist(conditions, pageno, pagesize);
-		JSONObject j=new JSONObject();
-		//j.put("total", m.get("total"));
-		//j.put("rows", m.get("rows"));
+
+		System.out.println("keyword的值：" + keyword);
+
+		// String conditions=" a.Code like '%"+keyword+"%' or a.Name like
+		// '%"+keyword+"%'";
+
+		HashMap<String, Object> m = stockService.stocklist(conditions, pageno, pagesize);
+		JSONObject j = new JSONObject();
+		// j.put("total", m.get("total"));
+		// j.put("rows", m.get("rows"));
 		j.put("code", 0);
 		j.put("msg", "返回成功");
 		j.put("count", m.get("total"));
 		j.put("data", m.get("rows"));
-		
-		PrintWriter p=null;
-		response.setContentType("text/html;charset=utf-8");//解决返回乱码
+
+		PrintWriter p = null;
+		response.setContentType("text/html;charset=utf-8");// 解决返回乱码
 		try {
-			p=response.getWriter();
+			p = response.getWriter();
 			p.write(j.toString());
-		    p.flush();
-		    p.close();
+			p.flush();
+			p.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	@RequestMapping(value="/stockdetail")
-	public void stockdetail(HttpServletRequest request,HttpServletResponse response){
+
+	@RequestMapping(value = "/stockdetail")
+	public void stockdetail(HttpServletRequest request, HttpServletResponse response) {
+
+		String keyword = oConvertUtils.getString(request.getParameter("keyword"));
 		
-	  String keyword=oConvertUtils.getString(request.getParameter("keyword"));
-	  String conditions=null;
-	   if(!oConvertUtils.isEmpty(keyword)){
-	     conditions=" a.StockID ='"+keyword+"' ";
-	    }else{
-	    	conditions=" a.StockID = NULL ";	
-	    }
-		//System.out.println(q);
+		String DisplaySizeGroup= oConvertUtils.getString(request.getParameter("DisplaySizeGroup"));
+		
+		String conditions = null;
+		if (!oConvertUtils.isEmpty(keyword)) {
+			conditions = " a.StockID ='" + keyword + "' ";
+		} else {
+			conditions = " a.StockID = NULL ";
+		}
+		// System.out.println(q);
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
 		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
-		
+
+		// String conditions=" a.Code like '%"+keyword+"%' or a.Name like
+		// '%"+keyword+"%'";
+
 	
+		// j.put("count", m.get("total"));
+
+		// http://localhost:8080/testmybatis/stock/stockdetail.do?keyword=TI02594&page=1&rows=10
+
+		List<List<LinkedHashMap<String, Object>>> cols = new ArrayList<List<LinkedHashMap<String, Object>>>();
+		List<LinkedHashMap<String, Object>> cols2 = new ArrayList<LinkedHashMap<String, Object>>();
+
 		
-		//String conditions=" a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%'";
-		
-		
-		
-		HashMap<String,Object> m=stockService.stockDetial(conditions, pageno, pagesize);
-		JSONObject j=new JSONObject();
-		//j.put("total", m.get("total"));
-		//j.put("rows", m.get("rows"));
+
+		int col=1;//向下合并的行数
+		List<Sizegroupsize> ls=null;
+		int MaxNo=0;
+		String size="";
+		if(!"".equals(DisplaySizeGroup) && DisplaySizeGroup !=null){
+					List<String> query=new ArrayList<String>();
+					System.out.println("DisplaySizeGroup数组："+DisplaySizeGroup);
+					if(DisplaySizeGroup.indexOf(",") !=-1){
+					 String [] str=DisplaySizeGroup.split(",");
+					
+					 col =str.length;
+					 
+					 for(int i=0;i<str.length;i++){
+						 query.add(str[i].replace("'", ""));	//有'单引号，不可以用example in 要去掉如果，才能查询出结果
+					 }	
+					}else{
+						query.add(DisplaySizeGroup.replace("'", ""));	
+					
+					 
+					}
+						
+					
+					System.out.println("value数组："+query.toString());
+					
+			
+					SizegroupsizeExample example =new SizegroupsizeExample();
+					example.clear();
+					SizegroupsizeExample.Criteria cr=example.createCriteria();
+					//example.createCriteria().andSizegroupidIn(query); //00B
+					//cr.andSizegroupidEqualTo("008");
+					cr.andSizegroupidIn(query);
+					
+					ls=sizeservice.selectByExample(example);
+				    for(Sizegroupsize sg:ls){
+				    	if(sg.getNo()>MaxNo){
+				    		MaxNo =sg.getNo();//返回中最大的值
+				    	}
+				    }
+							 
+		}
+		 for(int i=1;i<=MaxNo;i++){
+			size=size+"a.x_"+String.valueOf(i)+","; 
+		 }
+		HashMap<String, Object> m = stockService.stockDetial(size,conditions, pageno, pagesize);
+		JSONObject j = new JSONObject();
+		// j.put("total", m.get("total"));
+		// j.put("rows", m.get("rows"));
 		j.put("code", 0);
 		j.put("msg", "返回成功");
-		//j.put("count", m.get("total"));
 		
-		//http://localhost:8080/testmybatis/stock/stockdetail.do?keyword=TI02594&page=1&rows=10
 		
-		List<List<Map<String,Object>>> cols=new ArrayList<List<Map<String,Object>>>();
-		List<Map<String,Object>> cols2=new ArrayList<Map<String,Object>>();
+		List<HashMap<String, Object>> listdata = (List<HashMap<String, Object>>) m.get("rows");
+		System.out.println("listdata:"+listdata.toString());
 		
-		List<Map<String,Object>> listdata=(List<Map<String,Object>>)m.get("rows");
-		
-		Map<String,Object> m1=new HashMap<String,Object>();
+		LinkedHashMap<String, Object> m1 = new LinkedHashMap<String, Object>();
 		m1.put("type", "checkbox");
 		m1.put("fixed", "left");
+		m1.put("width", 50);
+		m1.put("rowspan", col);
 		cols2.add(m1);
-		for(Map<String,Object> map:listdata){
-		  Set set=map.keySet(); //所获取所有的键名
-		  for(Iterator iter = set.iterator(); iter.hasNext();)
-		  {
-		   
-		   String key = (String)iter.next();
-		   System.out.println("key"+"===="+key);
-		   if(key.equals("Code")){
-		   Map<String,Object> m2=new HashMap<String,Object>();
-		   m2.put("field", key);
-		   m2.put("title", "货品编码");
-		   m2.put("width", 120);
-		   cols2.add(m2);
-		   String value = (String)map.get(key);
-		   System.out.println(key+"===="+value);
-		   }
-		  }	
-		}
+		HashMap<String, Object> map = listdata.get(0);  //拿一条记录取列名就可以 了，不要for
+			Set<Entry<String, Object>> entrySet = map.entrySet(); //Set set = map.keySet(); // 所获取所有的键名
+			Iterator<Entry<String, Object>> iter = entrySet.iterator(); 
+			while (iter.hasNext()) {
+				Entry<String, Object> me = iter.next();//获取Map.Entry关系对象me
+				String key =me.getKey(); //(String) iter.next();
+				System.out.println("key" + "====" + key);
+				if (key.equals("GoodsID") || key.equals("Code") || key.equals("StockID") || key.equals("StockDetailID")
+						|| key.equals("IndexNo") || key.equals("ColorID") || key.equals("Color") || key.equals("BoxQty") || key.indexOf("x_") !=-1
+						|| key.equals("Quantity") || key.equals("RelationUnitPrice") || key.equals("RelationAmount")) {
+					LinkedHashMap<String, Object> m2 = new LinkedHashMap<String, Object>();
+					if(key.equals("StockDetailID")){
+						m2.put("field", key);
+						m2.put("title", "StockDetailID");
+						//m2.put("width", 10);
+						m2.put("hide", true);
+						m2.put("rowspan", col);
+						cols2.add(m2);	
+					}else if(key.equals("GoodsID")) {
+						m2.put("field", key);
+						m2.put("title", "GoodsID");
+						//m2.put("width", 120);
+						m2.put("hide", true);
+						m2.put("rowspan", col);
+						cols2.add(m2);
+					}else if (key.equals("Code")){
+					m2.put("field", key);
+					m2.put("title", "货品编码");
+					m2.put("width", 120);
+					m2.put("rowspan", col);
+					cols2.add(m2);
+					}else if(key.equals("StockID")){
+						m2.put("field", key);
+						m2.put("title", "StockID");
+						//m2.put("width", 10);
+						m2.put("hide", true);
+						m2.put("rowspan", col);
+						cols2.add(m2);	
+					}else if(key.equals("IndexNo")){
+						m2.put("field", key);
+						m2.put("title", "序号");
+						//m2.put("width", 10);
+						m2.put("hide", true);
+						m2.put("rowspan", col);
+						cols2.add(m2);
+					}else if(key.equals("ColorID")){
+						m2.put("field", key);
+						m2.put("title", "ColorID");
+						//m2.put("width", 10);
+						m2.put("hide", true);
+						m2.put("rowspan", col);
+						cols2.add(m2);	
+					}else if(key.equals("Color")){
+						m2.put("field", key);
+						m2.put("title", "颜色");
+						m2.put("width", 80);
+						m2.put("rowspan", col);
+						cols2.add(m2);
+					}else if(key.equals("BoxQty")){
+						m2.put("field", key);
+						m2.put("title", "箱数");
+						//m2.put("width", 20);
+						m2.put("rowspan", col);
+						cols2.add(m2);
+					}else if(key.indexOf("x_") !=-1){	
+						if(!"".equals(DisplaySizeGroup) && DisplaySizeGroup !=null){
+						
+							if(ls.size()>0){
+								System.out.println("ls数组："+ls.toString());	
+								for(Sizegroupsize sg:ls){
+									
+											
+								if((key.substring(2, key.length())).equals(String.valueOf(sg.getNo()))){
+									m2.put("field", key);
+									m2.put("title", sg.getSize());
+									m2.put("Width", 10);
+									m2.put("align", "center");
+									cols2.add(m2);
+									System.out.println("最后一位："+key.substring(2, key.length()));
+								}
+								
+								}
+							}
+						}			
+						}else if(key.equals("Quantity")){
+							m2.put("field", key);
+							m2.put("title", "数量");
+							m2.put("width", 100);
+							m2.put("rowspan", col);
+							cols2.add(m2);
+						}else if( key.equals("RelationUnitPrice")){
+							
+							m2.put("field", key);
+							m2.put("title", "结算价");
+							m2.put("width", 100);
+							m2.put("rowspan", col);
+							cols2.add(m2);
+						}else if(key.equals("RelationAmount")){
+							m2.put("field", key);
+							m2.put("title", "结算金额");
+							m2.put("width", 100);
+							m2.put("rowspan", col);
+							cols2.add(m2);
+						}
+						
+					}
+			/*		Field[] declaredFields =	map.get(key).getClass().getDeclaredFields();
+					for(Field f : declaredFields){
+						 
+			            if(f.getType() == String.class){
+			 
+			            	String value =String.valueOf(map.get(key));
+							System.out.println(key + "====" + value);
+			            }
+			        }*/
+					
+				}
+	
+		
 		cols.add(cols2);
-		j.put("cols",cols);
-		j.put("msg", "返回成功");	
+		j.put("cols", cols);
+		j.put("msg", "返回成功");
 		j.put("data", m.get("rows"));
-		
-		
-		
-		
-		PrintWriter p=null;
-		response.setContentType("text/html;charset=utf-8");//解决返回乱码
+
+		PrintWriter p = null;
+		response.setContentType("text/html;charset=utf-8");// 解决返回乱码
 		try {
-			p=response.getWriter();
+			p = response.getWriter();
 			p.write(j.toString());
-		    p.flush();
-		    p.close();
+			p.flush();
+			p.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
 	}
-	
-	
-	
-	
-	
-	@RequestMapping(value="/autocompete")
-	public void auto(HttpServletRequest request,HttpServletResponse response){
-		
-		String keyword=request.getParameter("keyword");
-		
+
+	@RequestMapping(value = "/autocompete")
+	public void auto(HttpServletRequest request, HttpServletResponse response) {
+
+		String keyword = request.getParameter("keyword");
+
 		String conditions;
-		
-		if (keyword==null || "".equals(keyword)){
-			
-			conditions=null;
-		}else{
-			conditions=" and (a.No like '%"+keyword+"%' )";
+
+		if (keyword == null || "".equals(keyword)) {
+
+			conditions = null;
+		} else {
+			conditions = " and (a.No like '%" + keyword + "%' )";
 		}
-		
-		
+
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
 		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
-		
-		
-		
-		HashMap<String,Object> m=stockService.stocklist(conditions, pageno, pagesize);
-		JSONObject j=new JSONObject();
-		//j.put("total", m.get("total"));
-		//j.put("rows", m.get("rows"));
+
+		HashMap<String, Object> m = stockService.stocklist(conditions, pageno, pagesize);
+		JSONObject j = new JSONObject();
+		// j.put("total", m.get("total"));
+		// j.put("rows", m.get("rows"));
 		j.put("code", 0);
 		j.put("msg", "返回成功");
 		j.put("count", m.get("total"));
 		j.put("content", m.get("rows"));
-		
-		PrintWriter p=null;
-		response.setContentType("text/html;charset=utf-8");//解决返回乱码
+
+		PrintWriter p = null;
+		response.setContentType("text/html;charset=utf-8");// 解决返回乱码
 		try {
-			p=response.getWriter();
+			p = response.getWriter();
 			p.write(j.toString());
-		    p.flush();
-		    p.close();
+			p.flush();
+			p.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		/*
-		GoodsExample example=new GoodsExample();
-		GoodsExample.Criteria c=example.createCriteria();
-		c.andCodeLike(keyword);
-		c.andNameLike(keyword);
-		c.andSuppliercodeLike(keyword);	
-		List<Goods> goods=	goodsserive.selectByExample(example);
-		*/	
+		 * GoodsExample example=new GoodsExample(); GoodsExample.Criteria
+		 * c=example.createCriteria(); c.andCodeLike(keyword);
+		 * c.andNameLike(keyword); c.andSuppliercodeLike(keyword); List<Goods>
+		 * goods= goodsserive.selectByExample(example);
+		 */
 	}
-	
-	
-	
-	
-	
-	
 
 }

@@ -889,7 +889,7 @@
   
   
   <select id="stocklist" resultType="java.util.Map" parameterType="java.util.Map">
-  Select a.No,a.StockID,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,c.Department,d.Name,(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,
+  Select a.No,a.StockID,a.DisplaySizeGroup,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,c.Department,d.Name,(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,
   w.Name as RelationWarehouse,br.Brand,f.Department as BusinessDept,isnull(RelationAmountSum,0)+isnull(OtherAmount,0) As TotalAmount
   From Stock a Left Outer Join Warehouse b On a.WarehouseID=b.WarehouseID
   Left Outer Join Department c On a.DepartmentID=c.DepartmentID
@@ -912,8 +912,12 @@
    </if>
   </select>
   
-  <select id="stockDetial" resultType="java.util.Map" parameterType="java.util.Map">
- Select a.*,b.Code,b.SupplierCode,b.Name,b.Model,b.Unit,c.Color,b.GroupNo,b.age,b.Season,b.StopFlag,
+  <select id="stockDetial" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
+ Select b.Code,b.SupplierCode,b.Name,b.Model,b.Unit,c.Color,b.GroupNo,b.age,b.Season,b.StopFlag,
+ <if test="size != null and size != ''">
+  ${size}
+</if>
+a.Quantity,a.RelationUnitPrice,a.RelationAmount,
 b.TradePrice,a.quantity*isnull(b.TradePrice,0) TradeAmount,br.Brand,st.Storage,b.RetailSales1,b.RetailSales2,pr.No As RelationPurOrderNo,
 ct.Customer As RelationCustomer,sr.No As RelationSalesOrderNo 
 from StockDetailTemp a join Goods b on a.GoodsID = b.GoodsID

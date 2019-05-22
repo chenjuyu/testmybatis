@@ -99,6 +99,8 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 			</array>
 		</property>
 		<!-- 分页用到后 -->
+  <!--  切换一种方式,不配置configLocation  配置查询时，字段值 为null是不返回字段的问题 -->  
+    <property name="configLocation" value="classpath:configuration.xml" /> 
 		
 	</bean>
 

@@ -100,7 +100,8 @@
         }); //ui/lib/layui/*/
         
         layui.config({
-        	  base: '<%=basePath%>ui/js/' //假设这是你存放拓展模块的根目录
+        	  version: true
+        	  ,base: '<%=basePath%>ui/js/' //假设这是你存放拓展模块的根目录
         	}).extend({ //设定模块别名
         	 // mymod: 'mymod' //如果 mymod.js 是在根目录，也可以不用设定别名
         	 // ,mod1: 'admin/mod1' //相对于上述 base 目录的子目录
@@ -160,10 +161,11 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
         ,countName: 'total' //规定数据总数的字段名称，默认：count
         ,dataName: 'rows' //规定数据列表的字段名称，默认：data
       } */ 
-    ,title: '货品数据表'
+    ,title: '单据数据表'
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field:'StockID', title:'StockID', width:80, fixed: 'left', hide:true, unresize: true}
+      ,{field:'DisplaySizeGroup', title:'DisplaySizeGroup', width:80, fixed: 'left', hide:true}
       ,{field:'Date', title:'日期', width:120}
       ,{field:'No', title:'单号', width:120, unresize: true}//, edit: 'text'
       ,{field:'Warehouse', title:'仓库', width:120}//, edit: 'text'
@@ -235,6 +237,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	//  xadmin.del_tab()//add_tab('货品','./main/goods.html')
 	//xadmin.add_tab('货品','./main/goods.html',true)
 	  layui.data('stockin', {key:'stockid',value:obj.data.StockID})
+	  layui.data('stockin', {key:'DisplaySizeGroup',value:obj.data.DisplaySizeGroup})
 	   location.href='<%=basePath%>main/stockdetail.do';
 	  
 	  //obj.del(); //删除当前行
