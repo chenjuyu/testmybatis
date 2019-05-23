@@ -147,9 +147,9 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   });
   
  var $=layui.$
- 
+ //"fixed":"left",
  var cols=	 [
-[{"type":"checkbox","fixed":"left","width":50,"rowspan":2},
+[{"type":"checkbox","width":50,"rowspan":2},
  {"field":"Code","title":"货品编码","width":120,"rowspan":2},
  {"field":"Color","title":"颜色","width":80,"rowspan":2},
  {"field":"x_1","title":"J<br/>J","align":"center"},
@@ -195,7 +195,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
     		 ,width:1000
     		 ,id: 'stockdetail'  
     	     ,data:res.data
-    	     ,cols:cols//res.cols //cols
+    	     ,cols:res.cols //cols
     	     ,totalRow: true
     	     ,page: false
     	     ,limit: Number.MAX_VALUE //显示全部数据，不分页

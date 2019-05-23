@@ -37,6 +37,8 @@ public class StockController {
 	@Autowired
 	private ISizeGroupSize sizeservice;
 	
+	
+	
 	@RequestMapping(value = "/search")
 	public void search(HttpServletRequest request, HttpServletResponse response) {
 
@@ -140,7 +142,7 @@ public class StockController {
 					if(DisplaySizeGroup.indexOf(",") !=-1){
 						str =DisplaySizeGroup.split(",");
 					
-					 col =str.length;
+					 //col =str.length;
 					 
 					 for(int i=0;i<str.length;i++){
 						 query.add(str[i].replace("'", ""));	//有'单引号，不可以用example in 要去掉如果，才能查询出结果
@@ -191,7 +193,7 @@ public class StockController {
 		
 		LinkedHashMap<String, Object> m1 = new LinkedHashMap<String, Object>();
 		m1.put("type", "checkbox");
-		m1.put("fixed", "left");
+	//	m1.put("fixed", "left");  //去掉这个才能自适应高度
 		m1.put("width", 50);
 	//	m1.put("height","auto");
 		m1.put("rowspan",String.valueOf(col));
@@ -299,13 +301,38 @@ public class StockController {
 				 m3.put("align", "center");	
 				 m3.put("minWidth", 10);
 				 m3.put("Width", 10);
-				if(k==0){
-			     cols2.add(m3);
-				}else{
-				cols3.add(m3);	
-				}	
-				}
-			if(k==0){
+			 if(k==0){//此时一个尺码也没有
+				cols2.add(m3); 
+			 }else{
+			 for(int n=0;n<cols2.size();n++){	 
+				if(cols2.get(n).get("field") !=null && !"".equals(cols2.get(n).get("field"))){
+					if(cols2.get(n).get("field").equals(s))
+					{
+						if(cols2.get(n).get("title") !=null &&!"".equals(cols2.get(n).get("title")) ){
+							if(title !=null && !"".equals(title)){
+							cols2.get(n).put("title",cols2.get(n).get("title").toString()+"<br/>"+title);
+							}
+							System.out.println("title的值KKKKK:"+cols2.get(n).get("title").toString());
+						}else{
+							if(title !=null && !"".equals(title)){
+							cols2.get(n).put("title","<br/>"+title); //尺码为空的也要添加
+							}
+						}
+					//cols2.get(0).put("title", cols2.get(0).get("title").toString()+title);
+					}
+				} 
+			 }
+			 
+			}
+			}	
+
+			}//for结束
+			//List<LinkedHashMap<String, Object>> cols4 = new ArrayList<LinkedHashMap<String, Object>>();	
+			
+			
+			
+			
+			
 			LinkedHashMap<String, Object> m2 = new LinkedHashMap<String, Object>(); //一级表头m2 = new LinkedHashMap<String, Object>(); //一级表头
 			m2.put("field", "Quantity");
 			m2.put("title", "数量");
@@ -328,12 +355,6 @@ public class StockController {
 			m2.put("rowspan", String.valueOf(col));
 			cols2.add(m2);	
 			cols.add(cols2); //加第一个尺码组
-			}else{
-			cols.add(cols3);	
-			}
-			}//for结束
-			//List<LinkedHashMap<String, Object>> cols4 = new ArrayList<LinkedHashMap<String, Object>>();	
-		
 			
 			
 			
@@ -365,6 +386,10 @@ public class StockController {
 		}
 
 	}
+	
+	
+
+	
 
 	@RequestMapping(value = "/autocompete")
 	public void auto(HttpServletRequest request, HttpServletResponse response) {
