@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+    pageEncoding="utf-8"
+    import="java.util.Random"
+    %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%
  String path = request.getContextPath();
  String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
- 
+ Random r=new Random();
+	int rint= r.nextInt(13);
  //String DepartmentID =request.getParameter("DepartmentID");
   //System.out.println(map.DepartmentID);
  //<script type="text/javascript" src="./ui/js/autocomplete.js"></script>
@@ -14,11 +17,11 @@
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8;no-cache">
- <link rel="stylesheet" href="./ui/css/xadmin.css" media="all">
-  <link rel="stylesheet" href="./ui/css/autocomplete.css" media="all">
+ <link rel="stylesheet" href="./ui/css/xadmin.css?v=<%=rint%>" media="all">
+  <link rel="stylesheet" href="./ui/css/autocomplete.css?v=<%=rint%>" media="all">
  <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="./ui/js/jquery.min.js"></script>
-<script type="text/javascript" src="./ui/js/xadmin.js"></script>
+<script type="text/javascript" src="./ui/js/xadmin.js?v=<%=rint%>"></script>
 
 <title>Insert title here</title>
 </head>
@@ -145,6 +148,39 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
  var $=layui.$
  
+ var cols=	 [
+[{"type":"checkbox","fixed":"left","width":50,"rowspan":2},
+ {"field":"Code","title":"货品编码","width":120,"rowspan":2},
+ {"field":"Color","title":"颜色","width":80,"rowspan":2},
+ {"field":"x_1","title":"J<br/>J","align":"center"},
+ {"field":"x_2","title":"S<br/>80","align":"center"},
+ {"field":"x_3","title":"M<br/>90","align":"center"},
+ {"field":"x_4","title":"L","align":"center"},
+ {"field":"x_5","title":"XL","align":"center"},
+ {"field":"x_6","title":"2XL","align":"center"},
+ {"field":"x_7","title":"3XL","align":"center"},
+ {"field":"x_8","title":"4XL","align":"center"},
+ {"field":"x_9","title":"5XL","align":"center"},
+ {"field":"x_10","title":"5XL","align":"center"},
+ {"field":"Quantity","title":"数量","width":100,"rowspan":2},
+ {"field":"RelationUnitPrice","title":"结算价","width":100,"rowspan":2},
+ {"field":"RelationAmount","title":"结算金额","width":100,"rowspan":2}
+ ],
+] 
+ /*
+ [
+  {"field":"x_1","title":"J","align":"center"},
+ {"field":"x_2","title":"80","align":"center"},
+ {"field":"x_3","title":"90","align":"center"},
+ {"field":"x_4","title":"100","align":"center"},
+ {"field":"x_5","title":"110","align":"center"},
+ {"field":"x_6","title":"120","align":"center"},
+ {"field":"x_7","title":"130","align":"center"},
+ {"field":"x_8","title":"140","align":"center"},
+ {"field":"x_9","title":"150","align":"center"},
+ {"field":"x_10","title":"160","align":"center"}
+ ]
+ */
  
  $.ajax({ 
 	 url:'<%=basePath%>stock/stockdetail.do',
@@ -155,11 +191,14 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
      success:function(res){
     	 table.render({
     		 elem: '#test'
-    		 ,cellMinWidth: 10
     		 ,title: '详情数据表'
+    		 ,width:1000
     		 ,id: 'stockdetail'  
     	     ,data:res.data
-    	     ,cols:res.cols
+    	     ,cols:cols//res.cols //cols
+    	     ,totalRow: true
+    	     ,page: false
+    	     ,limit: Number.MAX_VALUE //显示全部数据，不分页
     	 })
 /*     	
   table.render({

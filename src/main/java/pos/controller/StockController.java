@@ -129,14 +129,16 @@ public class StockController {
 		
 
 		int col=1;//向下合并的行数
+		
 		List<Sizegroupsize> ls=null;
+		String [] str=null;
 		int MaxNo=0;
 		String size="";
 		if(!"".equals(DisplaySizeGroup) && DisplaySizeGroup !=null){
 					List<String> query=new ArrayList<String>();
 					System.out.println("DisplaySizeGroup数组："+DisplaySizeGroup);
 					if(DisplaySizeGroup.indexOf(",") !=-1){
-					 String [] str=DisplaySizeGroup.split(",");
+						str =DisplaySizeGroup.split(",");
 					
 					 col =str.length;
 					 
@@ -145,7 +147,8 @@ public class StockController {
 					 }	
 					}else{
 						query.add(DisplaySizeGroup.replace("'", ""));	
-					
+						str=new String[1];//新建一个对像
+						str[0]=DisplaySizeGroup.replace("'", "");
 					 
 					}
 						
@@ -171,6 +174,10 @@ public class StockController {
 		 for(int i=1;i<=MaxNo;i++){
 			size=size+"a.x_"+String.valueOf(i)+","; 
 		 }
+		 
+		// col=col+1;//因下标从0开始
+	   System.out.println("col向下合并的行数:"+col);	 
+		 
 		HashMap<String, Object> m = stockService.stockDetial(size,conditions, pageno, pagesize);
 		JSONObject j = new JSONObject();
 		// j.put("total", m.get("total"));
@@ -186,7 +193,8 @@ public class StockController {
 		m1.put("type", "checkbox");
 		m1.put("fixed", "left");
 		m1.put("width", 50);
-		m1.put("rowspan", col);
+	//	m1.put("height","auto");
+		m1.put("rowspan",String.valueOf(col));
 		cols2.add(m1);
 		HashMap<String, Object> map = listdata.get(0);  //拿一条记录取列名就可以 了，不要for
 			Set<Entry<String, Object>> entrySet = map.entrySet(); //Set set = map.keySet(); // 所获取所有的键名
@@ -198,102 +206,65 @@ public class StockController {
 				if (key.equals("GoodsID") || key.equals("Code") || key.equals("StockID") || key.equals("StockDetailID")
 						|| key.equals("IndexNo") || key.equals("ColorID") || key.equals("Color") || key.equals("BoxQty") || key.indexOf("x_") !=-1
 						|| key.equals("Quantity") || key.equals("RelationUnitPrice") || key.equals("RelationAmount")) {
-					LinkedHashMap<String, Object> m2 = new LinkedHashMap<String, Object>();
+					LinkedHashMap<String, Object> m2 = new LinkedHashMap<String, Object>(); //一级表头
 					if(key.equals("StockDetailID")){
 						m2.put("field", key);
 						m2.put("title", "StockDetailID");
 						//m2.put("width", 10);
 						m2.put("hide", true);
-						m2.put("rowspan", col);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);	
 					}else if(key.equals("GoodsID")) {
 						m2.put("field", key);
 						m2.put("title", "GoodsID");
 						//m2.put("width", 120);
 						m2.put("hide", true);
-						m2.put("rowspan", col);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);
 					}else if (key.equals("Code")){
 					m2.put("field", key);
 					m2.put("title", "货品编码");
+					m1.put("height","auto");
 					m2.put("width", 120);
-					m2.put("rowspan", col);
+					m2.put("rowspan", String.valueOf(col));
+					m2.put("totalRowText", "合计：");
 					cols2.add(m2);
 					}else if(key.equals("StockID")){
 						m2.put("field", key);
 						m2.put("title", "StockID");
-						//m2.put("width", 10);
+						m2.put("width", 10);
 						m2.put("hide", true);
-						m2.put("rowspan", col);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);	
 					}else if(key.equals("IndexNo")){
 						m2.put("field", key);
 						m2.put("title", "序号");
-						//m2.put("width", 10);
+						m2.put("width", 10);
 						m2.put("hide", true);
-						m2.put("rowspan", col);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);
 					}else if(key.equals("ColorID")){
 						m2.put("field", key);
 						m2.put("title", "ColorID");
-						//m2.put("width", 10);
+						m2.put("width", 10);
 						m2.put("hide", true);
-						m2.put("rowspan", col);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);	
 					}else if(key.equals("Color")){
 						m2.put("field", key);
 						m2.put("title", "颜色");
 						m2.put("width", 80);
-						m2.put("rowspan", col);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);
 					}else if(key.equals("BoxQty")){
 						m2.put("field", key);
 						m2.put("title", "箱数");
-						//m2.put("width", 20);
-						m2.put("rowspan", col);
+						m2.put("width", 80);
+						m2.put("rowspan", String.valueOf(col));
 						cols2.add(m2);
-					}else if(key.indexOf("x_") !=-1){	
-						if(!"".equals(DisplaySizeGroup) && DisplaySizeGroup !=null){
-						
-							if(ls.size()>0){
-								System.out.println("ls数组："+ls.toString());	
-								for(Sizegroupsize sg:ls){
-									
-											
-								if((key.substring(2, key.length())).equals(String.valueOf(sg.getNo()))){
-									m2.put("field", key);
-									m2.put("title", sg.getSize());
-									m2.put("Width", 10);
-									m2.put("align", "center");
-									cols2.add(m2);
-									System.out.println("最后一位："+key.substring(2, key.length()));
-								}
-								
-								}
-							}
-						}			
-						}else if(key.equals("Quantity")){
-							m2.put("field", key);
-							m2.put("title", "数量");
-							m2.put("width", 100);
-							m2.put("rowspan", col);
-							cols2.add(m2);
-						}else if( key.equals("RelationUnitPrice")){
-							
-							m2.put("field", key);
-							m2.put("title", "结算价");
-							m2.put("width", 100);
-							m2.put("rowspan", col);
-							cols2.add(m2);
-						}else if(key.equals("RelationAmount")){
-							m2.put("field", key);
-							m2.put("title", "结算金额");
-							m2.put("width", 100);
-							m2.put("rowspan", col);
-							cols2.add(m2);
-						}
-						
 					}
+				}		
+					
 			/*		Field[] declaredFields =	map.get(key).getClass().getDeclaredFields();
 					for(Field f : declaredFields){
 						 
@@ -303,11 +274,80 @@ public class StockController {
 							System.out.println(key + "====" + value);
 			            }
 			        }*/
-					
+			}//while 结束	
+			
+			
+		    
+			String s="";	
+		//Sizegroupsize sg
+		
+			for(int k=0;k<str.length;k++){ //代替尺码组个数	
+				List<LinkedHashMap<String, Object>> cols3= new ArrayList<LinkedHashMap<String, Object>>(); //当返回两行尺码头时，用到	 ;
+			    String groupid=str[k].replace("'", "");
+			    
+			for(int i=1;i<=MaxNo;i++){
+				String title=null;
+			 for(Sizegroupsize sg :ls){		
+			 if(i==sg.getNo() && sg.getSizegroupid().equals(groupid) && sg.getSize() !=null && !"".equals(sg.getSize())){
+				 title =sg.getSize();
+			  }//for结束
+			}
+			     s="x_"+String.valueOf(i);	  
+				 LinkedHashMap<String,Object> m3=new LinkedHashMap<String,Object>(); //每一个x
+				 m3.put("field", s);
+				 m3.put("title", title);
+				 m3.put("align", "center");	
+				 m3.put("minWidth", 10);
+				 m3.put("Width", 10);
+				if(k==0){
+			     cols2.add(m3);
+				}else{
+				cols3.add(m3);	
+				}	
 				}
+			if(k==0){
+			LinkedHashMap<String, Object> m2 = new LinkedHashMap<String, Object>(); //一级表头m2 = new LinkedHashMap<String, Object>(); //一级表头
+			m2.put("field", "Quantity");
+			m2.put("title", "数量");
+			m2.put("width", 100);
+			m2.put("rowspan", String.valueOf(col));
+			m2.put("totalRow", true);
+			cols2.add(m2);
+			m2 = new LinkedHashMap<String, Object>();
+			m2.put("field", "RelationUnitPrice");
+			m2.put("title", "结算价");
+			m2.put("width", 100);
+			m2.put("rowspan", String.valueOf(col));
+			cols2.add(m2);
+			
+			m2 = new LinkedHashMap<String, Object>();
+			m2.put("field", "RelationAmount");
+			m2.put("title", "结算金额");
+			m2.put("width", 100);
+			m2.put("totalRow", true);
+			m2.put("rowspan", String.valueOf(col));
+			cols2.add(m2);	
+			cols.add(cols2); //加第一个尺码组
+			}else{
+			cols.add(cols3);	
+			}
+			}//for结束
+			//List<LinkedHashMap<String, Object>> cols4 = new ArrayList<LinkedHashMap<String, Object>>();	
+		
+			
+			
+			
+			
+			
+			
+			
+		
+			
 	
 		
-		cols.add(cols2);
+		
+		System.out.println("cols的数据：" + "====" + cols.toString());	
+		
 		j.put("cols", cols);
 		j.put("msg", "返回成功");
 		j.put("data", m.get("rows"));

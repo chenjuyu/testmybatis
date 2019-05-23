@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+	pageEncoding="utf-8"
+	import="java.util.Random"
+	%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	Random r=new Random();
+	int rint= r.nextInt(13);
 %>
 <!DOCTYPE html>
 <html>
@@ -18,11 +22,11 @@
 <meta name="viewport"
 	content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="stylesheet" href="./ui/css/font.css">
-<link rel="stylesheet" href="./ui/css/xadmin.css">
+<link rel="stylesheet" href="./ui/css/font.css?v=<%=rint%>">
+<link rel="stylesheet" href="./ui/css/xadmin.css?v=<%=rint%>">
 <!-- <link rel="stylesheet" href="./css/theme5.css"> -->
 <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript" src="./ui/js/xadmin.js"></script>
+<script type="text/javascript" src="./ui/js/xadmin.js?v=<%=rint%>"></script>
 
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 <!--[if lt IE 9]>

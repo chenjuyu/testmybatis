@@ -913,7 +913,7 @@
   </select>
   
   <select id="stockDetial" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
- Select b.Code,b.SupplierCode,b.Name,b.Model,b.Unit,c.Color,b.GroupNo,b.age,b.Season,b.StopFlag,
+ Select b.Code,b.SupplierCode,b.Name,b.Model,b.Unit,c.Color,b.GroupNo,b.age,b.Season,b.StopFlag,a.BoxQty,
  <if test="size != null and size != ''">
   ${size}
 </if>

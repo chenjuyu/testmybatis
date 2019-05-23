@@ -352,9 +352,9 @@ body{
     background-color:#CFCFCF;
     color:#888
 }
-
+/* bak 80 */
 .layui-table td, .layui-table th{
-    min-width: 80px;
+    min-width: 40px;
 }
 
 table th, table td {

@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+    pageEncoding="utf-8"
+    import="java.util.Random"
+    %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%
  String path = request.getContextPath();
  String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
- 
+ Random r=new Random();
+	int rint= r.nextInt(13);
  //String DepartmentID =request.getParameter("DepartmentID");
   //System.out.println(map.DepartmentID);
  //<script type="text/javascript" src="./ui/js/autocomplete.js"></script>
@@ -14,11 +17,11 @@
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <link rel="stylesheet" href="./ui/css/xadmin.css" media="all">
-  <link rel="stylesheet" href="./ui/css/autocomplete.css" media="all">
+ <link rel="stylesheet" href="./ui/css/xadmin.css?v=<%=rint%>" media="all">
+  <link rel="stylesheet" href="./ui/css/autocomplete.css?v=<%=rint%>" media="all">
  <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="./ui/js/jquery.min.js"></script>
-<script type="text/javascript" src="./ui/js/xadmin.js"></script>
+<script type="text/javascript" src="./ui/js/xadmin.js?v=<%=rint%>"></script>
 
 <title>Insert title here</title>
 </head>
