@@ -241,6 +241,9 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	//xadmin.add_tab('货品','./main/goods.html',true)
 	  layui.data('stockin', {key:'stockid',value:obj.data.StockID})
 	  layui.data('stockin', {key:'DisplaySizeGroup',value:obj.data.DisplaySizeGroup})
+	  layui.data('obj',{key:'obj',value:JSON.stringify(obj.data)})
+	  
+	  console.log("stockpage:"+JSON.stringify(obj.data))
 	   location.href='<%=basePath%>main/stockdetail.do';
 	  
 	  //obj.del(); //删除当前行

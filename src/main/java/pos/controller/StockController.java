@@ -192,12 +192,12 @@ public class StockController {
 		System.out.println("listdata:"+listdata.toString());
 		
 		LinkedHashMap<String, Object> m1 = new LinkedHashMap<String, Object>();
-		m1.put("type", "checkbox");
+	/*	m1.put("type", "checkbox");
 	//	m1.put("fixed", "left");  //去掉这个才能自适应高度
 		m1.put("width", 50);
 	//	m1.put("height","auto");
 		m1.put("rowspan",String.valueOf(col));
-		cols2.add(m1);
+		cols2.add(m1);*/
 		HashMap<String, Object> map = listdata.get(0);  //拿一条记录取列名就可以 了，不要for
 			Set<Entry<String, Object>> entrySet = map.entrySet(); //Set set = map.keySet(); // 所获取所有的键名
 			Iterator<Entry<String, Object>> iter = entrySet.iterator(); 
@@ -299,8 +299,8 @@ public class StockController {
 				 m3.put("field", s);
 				 m3.put("title", title);
 				 m3.put("align", "center");	
-				 m3.put("minWidth", 10);
-				 m3.put("Width", 10);
+				 m3.put("minWidth", 40);
+				// m3.put("Width", 10);
 			 if(k==0){//此时一个尺码也没有
 				cols2.add(m3); 
 			 }else{

@@ -28,47 +28,55 @@
 <body>
     <div class="layui-card-body">
                             <div class="layui-form layui-col-space5">
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start"></div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end"></div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="keyword" id="keyword" placeholder="请输入单号" autocomplete="off" class="layui-input"></div>
-                                <div class="layui-inline layui-show-xs-block">
+                                <label>单据日期： </label> <div class="layui-inline layui-show-xs-block">
+                             <input class="layui-input layui-disabled" disabled autocomplete="off" placeholder="开始日" name="start" id="start"></div>
+                             <!--    <div class="layui-inline layui-show-xs-block">
+                                    <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end"></div> -->
+                                  <label>单号： </label>   <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="No" id="No" placeholder="请输入单号" autocomplete="off" class="layui-input layui-disabled" disabled>
+                                    </div>
+                               <label>仓库： </label>  <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="keyword" id="keyword" placeholder="" autocomplete="off" class="layui-input layui-disabled" disabled></div>
+                              <label>厂商： </label>
+                             <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="Supplier" id="Supplier" placeholder="" autocomplete="off" class="layui-input layui-disabled" disabled></div>
+                           
+                            <!--     <div class="layui-inline layui-show-xs-block">
                                     <button class="layui-btn" data-type="reload">
                                         <i class="layui-icon">&#xe615;</i></button>
-                                </div>
+                                </div> -->
                             </div>
    </div>
    
  
    <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" data-type="getCheckData">同步数据</button>
+    <!-- <button class="layui-btn layui-btn-sm" data-type="getCheckData">同步数据</button>
     <button class="layui-btn layui-btn-sm" data-type="getCheckLength">获取选中数目</button>
-    <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button>
+    <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button> -->
+    <button class="layui-btn layui-btn-sm" data-type="returnlist">返回列表</button>
   </div>
  
    
    
-   <div class="layui-tab layui-tab-brief" lay-filter="demo">
+<!--    <div class="layui-tab layui-tab-brief" lay-filter="demo">
   <ul class="layui-tab-title">
     <li class="layui-this">全部</li>
     <li>未同步</li>
     <li>已同步</li>
   </ul>
   <div class="layui-tab-content" style="height: auto;">
-  <table class="layui-hide" id="test"  lay-filter="test"></table>
-  <!--    <div class="layui-tab-item layui-show">
+  
+     <div class="layui-tab-item layui-show">
     
     </div>
     <div class="layui-tab-item">内容2</div>
     <div class="layui-tab-item">内容3</div>
     <div class="layui-tab-item">内容4</div>
     <div class="layui-tab-item">内容5</div>
-    -->
-  </div>
-</div> 
    
+  </div>
+</div>  -->
+   <table class="layui-hide" id="test"  lay-filter="test"></table>
 
     <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
@@ -128,12 +136,17 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   var issyn=0
   
   var stockin=layui.data('stockin')
+  var obj=layui.data('obj')
+  
+  
   
   var stockid=stockin.stockid
   var DisplaySizeGroup=stockin.DisplaySizeGroup
   console.log("stockid:"+stockid)
   
   console.log("DisplaySizeGroup:"+DisplaySizeGroup)
+  
+   console.log("obj:"+JSON.parse(obj.obj).Warehouse)
   
  //layui.data('stockin', null); //删除test表 删除本地储存的数据
   
@@ -148,6 +161,14 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
  var $=layui.$
  //"fixed":"left",
+ $('#start').val(JSON.parse(obj.obj).Date)
+ $('#keyword').val(JSON.parse(obj.obj).Warehouse)
+ $('input[name=keyword]').attr("alt",JSON.parse(obj.obj).WarehouseID)
+ $('input[name=No]').val(JSON.parse(obj.obj).No)
+ $('input[name=No]').attr("alt",JSON.parse(obj.obj).StockID)
+  $('input[name=Supplier]').val(JSON.parse(obj.obj).Supplier)
+ $('input[name=Supplier]').attr("alt",JSON.parse(obj.obj).SupplierID)
+ 
  var cols=	 [
 [{"type":"checkbox","width":50,"rowspan":2},
  {"field":"Code","title":"货品编码","width":120,"rowspan":2},
@@ -192,7 +213,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
     	 table.render({
     		 elem: '#test'
     		 ,title: '详情数据表'
-    		 ,width:1000
+    		 ,width:1100
     		 ,id: 'stockdetail'  
     	     ,data:res.data
     	     ,cols:res.cols //cols
@@ -380,7 +401,11 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	      case 'isAll':
 	        layer.msg(checkStatus.isAll ? '全选': '未全选');
 	      break;
+	      case 'returnlist':
+	      location.href='<%=basePath%>main/stock.html';
+	      break;	  
 	    };
+	    
 	  
 	  
   })
