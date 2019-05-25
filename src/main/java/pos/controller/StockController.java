@@ -26,6 +26,7 @@ import pos.model.Sizegroupsize;
 import pos.model.SizegroupsizeExample;
 import pos.service.ISizeGroupSize;
 import pos.service.IStock;
+import web.util.AjaxJson;
 import web.util.oConvertUtils;
 
 @Controller
@@ -438,5 +439,18 @@ public class StockController {
 		 * goods= goodsserive.selectByExample(example);
 		 */
 	}
+	
+	@RequestMapping(value = "/jdstock")	
+	public AjaxJson jdstock(HttpServletRequest re){
+		AjaxJson j=new AjaxJson();
+		
+		
+		
+		
+		
+		return j;
+	}
+	
+	
 
 }

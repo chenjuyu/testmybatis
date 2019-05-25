@@ -132,13 +132,14 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  
+  <!-- 只同步  进出仓单有单据的货品条码  -->
     <select id="barcodelist" resultType="pos.model.Barcode" parameterType="java.lang.String">
       
    select a.* from Barcode a
    <if test="conditions != null and conditions != ''">
    where 
    ${conditions}
+    and exists(select GoodsID from stockDetail b where a.GoodsID=b.GoodsID and a.ColorID=b.ColorID and a.SizeID=b.SizeID) 
    </if>
    order by GoodsID
       

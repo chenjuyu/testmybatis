@@ -250,7 +250,7 @@ public class ManagerController {
 			try {
 				EclpGoodsTransportGoodsInfoResponse response=client.execute(request);
 				
-				if(response.getGoodsNo() !=null || !"".equals(response.getGoodsNo())){
+				if(response.getGoodsNo() !=null && !"".equals(response.getGoodsNo())){
 					Jdgoods jdgoods=new Jdgoods();
 					jdgoods.setGoodsid(String.valueOf(m.get("GoodsID")));
 					jdgoods.setCode(String.valueOf(m.get("Code")));

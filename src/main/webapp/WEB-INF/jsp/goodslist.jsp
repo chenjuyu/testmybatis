@@ -164,7 +164,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
-      ,{field:'Code', title:'货品编码', width:120, unresize: true}//, edit: 'text'
+      ,{field:'Code', title:'货品编码', width:120}//, edit: 'text'
       ,{field:'Name', title:'货品名称', width:120}//, edit: 'text'
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
@@ -231,9 +231,9 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  console.log("GoodsID:"+obj.data.GoodsID) //得到当前行数据
 	 
 	//  xadmin.del_tab()//add_tab('货品','./main/goods.html')
-	xadmin.add_tab('货品','./main/goods.html',true)
-	  layui.data('stockin', {key:'goodsid',value:obj.data.GoodsID})
-	   location.href='<%=basePath%>main/stock.do?keyword=TI0258N';//search.do?keyword=TI0258N&issyn=0&page=1&rows=10
+//	xadmin.add_tab('货品','./main/goods.html',true)
+//	  layui.data('stockin', {key:'goodsid',value:obj.data.GoodsID})
+//	   location.href='<%=basePath%>main/stock.do?keyword=TI0258N'//search.do?keyword=TI0258N&issyn=0&page=1&rows=10
 	  
 	  //obj.del(); //删除当前行
 	  //obj.update(fields) //修改当前行数据

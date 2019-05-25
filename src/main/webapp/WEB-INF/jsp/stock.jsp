@@ -1,64 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"
-    import="java.util.Random"
-    %>
+	pageEncoding="utf-8" import="java.util.Random"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- <%
- String path = request.getContextPath();
- String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
- Random r=new Random();
-	int rint= r.nextInt(13);
- //String DepartmentID =request.getParameter("DepartmentID");
-  //System.out.println(map.DepartmentID);
- //<script type="text/javascript" src="./ui/js/autocomplete.js"></script>
- %>   
- <!DOCTYPE html>
- <html>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+	Random r = new Random();
+	int rint = r.nextInt(13);
+	//String DepartmentID =request.getParameter("DepartmentID");
+	//System.out.println(map.DepartmentID);
+	//<script type="text/javascript" src="./ui/js/autocomplete.js"></script>
+%>
+<!DOCTYPE html>
+<html>
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <link rel="stylesheet" href="./ui/css/xadmin.css?v=<%=rint%>" media="all">
-  <link rel="stylesheet" href="./ui/css/autocomplete.css?v=<%=rint%>" media="all">
- <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
+<link rel="stylesheet" href="./ui/css/xadmin.css?v=<%=rint%>"
+	media="all">
+<link rel="stylesheet" href="./ui/css/autocomplete.css?v=<%=rint%>"
+	media="all">
+<link rel="stylesheet" href="./ui/js/dtree/dtree.css?v=<%=rint%>"
+	media="all">
+<link rel="stylesheet"
+	href="./ui/js/dtree/font/dtreefont.css?v=<%=rint%>" media="all">
+<script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="./ui/js/jquery.min.js"></script>
 <script type="text/javascript" src="./ui/js/xadmin.js?v=<%=rint%>"></script>
+
+
+
 
 <title>Insert title here</title>
 </head>
 <body>
-    <div class="layui-card-body">
-                            <div class="layui-form layui-col-space5">
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start"></div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end"></div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="keyword" id="keyword" placeholder="请输入单号" autocomplete="off" class="layui-input"></div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn" data-type="reload">
-                                        <i class="layui-icon">&#xe615;</i></button>
-                                </div>
-                            </div>
-   </div>
-   
- 
-   <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" data-type="getCheckData">同步数据</button>
-    <button class="layui-btn layui-btn-sm" data-type="getCheckLength">获取选中数目</button>
-    <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button>
-  </div>
- 
-   
-   
-   <div class="layui-tab layui-tab-brief" lay-filter="demo">
-  <ul class="layui-tab-title">
-    <li class="layui-this">全部</li>
-    <li>未同步</li>
-    <li>已同步</li>
-  </ul>
-  <div class="layui-tab-content" style="height: auto;">
-  <table class="layui-hide" id="test"  lay-filter="test"></table>
-  <!--    <div class="layui-tab-item layui-show">
+	<div class="layui-card-body">
+		<div class="layui-form layui-col-space5">
+			<div class="layui-inline layui-show-xs-block">
+				<input class="layui-input" autocomplete="off" placeholder="开始日"
+					name="start" id="start">
+			</div>
+			<div class="layui-inline layui-show-xs-block">
+				<input class="layui-input" autocomplete="off" placeholder="截止日"
+					name="end" id="end">
+			</div>
+			<div class="layui-inline layui-show-xs-block">
+				<input type="text" name="keyword" id="keyword" placeholder="请输入单号"
+					autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-inline layui-show-xs-block">
+				<select name="interest" lay-filter="aihao">
+					<option value="">请选择类别</option>
+					<option value="0" selected="采购">采购</option>
+					<option value="1">采购退货</option>
+				</select>
+			</div>
+
+			<div class="layui-inline layui-show-xs-block">
+				<button class="layui-btn" data-type="reload">
+					<i class="layui-icon">&#xe615;</i>
+				</button>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm" data-type="getCheckData">同步数据</button>
+		<!--     <button class="layui-btn layui-btn-sm" data-type="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button> -->
+	</div>
+
+
+
+	<div class="layui-tab layui-tab-brief" lay-filter="demo">
+		<ul class="layui-tab-title">
+			<li class="layui-this">全部</li>
+			<li>未同步</li>
+			<li>已同步</li>
+		</ul>
+		<div class="layui-tab-content" style="height: auto;">
+			<table class="layui-hide" id="test" lay-filter="test"></table>
+			<!--    <div class="layui-tab-item layui-show">
     
     </div>
     <div class="layui-tab-item">内容2</div>
@@ -66,41 +90,30 @@
     <div class="layui-tab-item">内容4</div>
     <div class="layui-tab-item">内容5</div>
     -->
-  </div>
-</div> 
-   
+		</div>
+	</div>
 
-    <script type="text/html" id="toolbarDemo">
-  <div class="layui-btn-container">
+
+	<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
     <button class="layui-btn layui-btn-sm" lay-event="getCheckData">同步数据</button>
     <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
     <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
   </div>
 </script>
 
- 
-<script type="text/html" id="barDemo">
+
+	<script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-              
-          
 
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
+
+
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+	<script>
  
-    <script>
-    /*layui.use('laydate',
-        function() {
-            var laydate = layui.laydate;
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
-            });
-        }); //ui/lib/layui/*/
         
         layui.config({
         	  version: true
@@ -110,12 +123,12 @@
         	 // ,mod1: 'admin/mod1' //相对于上述 base 目录的子目录
         	});
     </script>
- 
- 
-<script>
-//$(function  () {
-layui.use(['element','table','laydate','form','autocomplete'], function(){
-  var laydate = layui.laydate;	
+
+
+	<script>
+//$(function  () { //,'dtree'
+layui.use(['element','table','laydate','form','autocomplete','dtree'], function(){
+  var laydate = layui.laydate;
   var form = layui.form;
   
   var autocomplete=layui.autocomplete;
@@ -124,6 +137,8 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
   var element = layui.element;
   
+ // var dtree=layui.dtree;
+  
   var issyn=0
   
  layui.data('stockin', null); //删除test表 删除本地储存的数据
@@ -131,12 +146,22 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 //执行一个laydate实例
   laydate.render({
       elem: '#start' //指定元素
-  });
+  })
   //执行一个laydate实例
   laydate.render({
       elem: '#end' //指定元素
-  });
+  })
   
+  
+  form.on('select(aihao)', function(data){
+	  console.log(data.elem); //得到select原始DOM对象
+	  console.log(data.value); //得到被选中的值
+	  console.log(data.othis); //得到美化后的DOM对象
+	})
+  
+  
+  
+
   
   table.render({
     elem: '#test'
@@ -321,6 +346,20 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  
 	  
   })
+ //  dtree.render({
+//	  elem: "#input_city",
+//	  url: "<%=basePath%>ui/js/dataTree.json"
+//	});	
+//  $("#city").on("click",function(){
+//			$(this).toggleClass("layui-form-selected");
+//			$("#test").toggleClass("layui-show layui-anim layui-anim-upbit");
+//		});
+  
+	//	dtree.on("node(slTree)", function(obj){
+		//	$("#input_city").val(obj.param.context);
+		//	$("#city").toggleClass("layui-form-selected");
+	//		$("#test").toggleClass("layui-show layui-anim layui-anim-upbit");
+	//	});
   
   
     
@@ -364,4 +403,21 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 </script>
 
 </body>
+<style type="text/css">
+#test {
+	position: absolute;
+	max-height: 500px;
+	height: 350px;
+	overflow: auto;
+	width: 100%;
+	z-index: 123;
+	display: none;
+	border: 1px solid silver;
+	top: 42px;
+}
+
+.layui-show {
+	display: block !important;
+}
+</style>
 </html>
