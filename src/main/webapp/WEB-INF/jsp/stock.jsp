@@ -56,7 +56,27 @@
 					<option value="1">采购退货</option>
 				</select>
 			</div>
+     <!-- 测试 dtree layui-input-block-->
+  <!-- 	<label>城市：</label>
+										<div class="layui-inline layui-show-xs-block">
+											<div class="layui-unselect layui-form-select" id="city">
+												<div class="layui-select-title">
+													<input type="text" name="city" id="input_city" placeholder="请选择" readonly="" class="layui-input layui-unselect">
+													<i class="layui-edge"></i>
+												</div>
+											</div>
+											<div class="layui-card" id="test">
+												<div class="layui-card-body">
+													<div id="toolbarDiv"><ul id="slTree" class="dtree" data-id="0" style="width: 100%;"></ul></div>
+												</div>
+											</div>
+											
+										</div>
 
+-->
+
+    <!-- dtree -->
+ 
 			<div class="layui-inline layui-show-xs-block">
 				<button class="layui-btn" data-type="reload">
 					<i class="layui-icon">&#xe615;</i>
@@ -81,7 +101,7 @@
 			<li>已同步</li>
 		</ul>
 		<div class="layui-tab-content" style="height: auto;">
-			<table class="layui-hide" id="test" lay-filter="test"></table>
+			<table class="layui-hide" id="test1" lay-filter="test"></table>
 			<!--    <div class="layui-tab-item layui-show">
     
     </div>
@@ -137,7 +157,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
   
   var element = layui.element;
   
- // var dtree=layui.dtree;
+  var dtree=layui.dtree;
   
   var issyn=0
   
@@ -164,7 +184,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
 
   
   table.render({
-    elem: '#test'
+    elem: '#test1'
     ,url:'<%=basePath%>stock/search.do'
     ,method:'post'
     ,where:{'keyword':'','issyn':issyn}
@@ -345,7 +365,25 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
 	    };
 	  
 	  
-  })
+  });
+  // 测试可以正常使用，只是样式要调整
+	//var DTree = dtree.render({
+//		elem: "#slTree",
+	//	url: "<%=basePath%>ui/js/dataTree.json",
+	//	icon: "2",
+//		accordion:true
+//	});
+//	$("#city").on("click",function(){
+//		$(this).toggleClass("layui-form-selected");
+////		$("#test").toggleClass("layui-show layui-anim layui-anim-upbit");
+//	});
+	
+//	dtree.on("node(slTree)", function(obj){
+//		$("#input_city").val(obj.param.context);
+//		$("#city").toggleClass("layui-form-selected");
+//		$("#test").toggleClass("layui-show layui-anim layui-anim-upbit");
+//	})
+ 
  //  dtree.render({
 //	  elem: "#input_city",
 //	  url: "<%=basePath%>ui/js/dataTree.json"

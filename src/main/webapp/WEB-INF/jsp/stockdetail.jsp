@@ -168,14 +168,16 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
  $('input[name=No]').attr("alt",JSON.parse(obj.obj).StockID)
   $('input[name=Supplier]').val(JSON.parse(obj.obj).Supplier)
  $('input[name=Supplier]').attr("alt",JSON.parse(obj.obj).SupplierID)
- 
+ // {"field":"x_1","title":"J<br/>J","align":"center","colGroup":true},
+// {"field":"x_2","title":"S<br/>80","align":"center","colGroup":true},
+// {"field":"x_3","title":"M<br/>90","align":"center","colGroup":true},
  var cols=	 [
 [{"type":"checkbox","width":50,"rowspan":2},
  {"field":"Code","title":"货品编码","width":120,"rowspan":2},
  {"field":"Color","title":"颜色","width":80,"rowspan":2},
- {"field":"x_1","title":"J<br/>J","align":"center"},
- {"field":"x_2","title":"S<br/>80","align":"center"},
- {"field":"x_3","title":"M<br/>90","align":"center"},
+ {"field":"x_1","title":"J","align":"center"},
+ {"field":"x_2","title":"S","align":"center"},
+ {"field":"x_3","title":"M","align":"center"},
  {"field":"x_4","title":"L","align":"center"},
  {"field":"x_5","title":"XL","align":"center"},
  {"field":"x_6","title":"2XL","align":"center"},
@@ -183,26 +185,26 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
  {"field":"x_8","title":"4XL","align":"center"},
  {"field":"x_9","title":"5XL","align":"center"},
  {"field":"x_10","title":"5XL","align":"center"},
- {"field":"Quantity","title":"数量","width":100,"rowspan":2},
+ {"field":"x_11","title":"6XL","align":"center"},
+ {"field":"Quantity","title":"数量","width":100,"rowspan":2,totalRow:true},
  {"field":"RelationUnitPrice","title":"结算价","width":100,"rowspan":2},
  {"field":"RelationAmount","title":"结算金额","width":100,"rowspan":2}
  ],
-] 
- /*
  [
-  {"field":"x_1","title":"J","align":"center"},
- {"field":"x_2","title":"80","align":"center"},
- {"field":"x_3","title":"90","align":"center"},
- {"field":"x_4","title":"100","align":"center"},
- {"field":"x_5","title":"110","align":"center"},
- {"field":"x_6","title":"120","align":"center"},
- {"field":"x_7","title":"130","align":"center"},
- {"field":"x_8","title":"140","align":"center"},
- {"field":"x_9","title":"150","align":"center"},
- {"field":"x_10","title":"160","align":"center"}
+  {"field":"x_1","title":"J","align":"center","colGroup":true},
+ {"field":"x_2","title":"80","align":"center","colGroup":true},
+ {"field":"x_3","title":"90","align":"center","colGroup":true},
+ {"field":"x_4","title":"100","align":"center","colGroup":true},
+ {"field":"x_5","title":"110","align":"center","colGroup":true},
+ {"field":"x_6","title":"120","align":"center","colGroup":true},
+ {"field":"x_7","title":"130","align":"center","colGroup":true},
+ {"field":"x_8","title":"140","align":"center","colGroup":true},
+ {"field":"x_9","title":"150","align":"center","colGroup":true},
+ {"field":"x_10","title":"160","align":"center","colGroup":true},
+ {"field":"x_11","title":"170","align":"center","colGroup":true}
  ]
- */
- 
+]
+ //"colGroup":true   这种解决多出重复列的问题，我还是引用 原来 的自己的方式，改变title 即可，不用再生成的重复列了
  $.ajax({ 
 	 url:'<%=basePath%>stock/stockdetail.do',
      type:'post',
@@ -328,7 +330,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	//  xadmin.del_tab()//add_tab('货品','./main/goods.html')
 	//xadmin.add_tab('货品','./main/goods.html',true)
 	  layui.data('stockin', {key:'goodsid',value:obj.data.GoodsID})
-	   location.href='<%=basePath%>index.jsp';
+	  // location.href='<%=basePath%>index.jsp';
 	  
 	  //obj.del(); //删除当前行
 	  //obj.update(fields) //修改当前行数据
