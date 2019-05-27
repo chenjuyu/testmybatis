@@ -17,9 +17,9 @@
  <link rel="stylesheet" href="./ui/css/xadmin.css" media="all">
   <link rel="stylesheet" href="./ui/css/autocomplete.css" media="all">
  <script src="./ui/lib/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript" src="./ui/js/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="./ui/js/jquery.min.js"></script> -->
 <script type="text/javascript" src="./ui/js/xadmin.js"></script>
-
+<script type="text/javascript" src="./ui/js/lodash.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -121,6 +121,9 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   var element = layui.element;
   
   var issyn=0
+
+  
+  
   
   
   
@@ -165,7 +168,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
       {type: 'checkbox', fixed: 'left'}
       ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
       ,{field:'Code', title:'货品编码', width:120}//, edit: 'text'
-      ,{field:'Name', title:'货品名称', width:120}//, edit: 'text'
+      ,{field:'Name', title:'货品名称', width:120, edit: 'text'}//, edit: 'text'
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
       }} */
@@ -180,12 +183,32 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
     ]]
     ,id: 'goodslist'  
     ,page: true
-   
+    ,done: function(res, curr, count){
+        //如果是异步请求数据方式，res即为你接口返回的信息。
+        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+        console.log(res);
+        
+        //得到当前页码
+        console.log(curr); 
+        
+        //得到数据总量
+        console.log(count);
+        
+        //记录原始当前页的数据
+      
+       layui.data('olddata',{key:'olddata',value:JSON.stringify(res.data)})
+        
+      }
   });
+  
+  console.log("table外面 原始数据222："+layui.data('olddata').olddata)
   
   //头工具栏事件
   table.on('toolbar(test)', function(obj){
     var checkStatus = table.checkStatus(obj.config.id);
+     
+
+   
     switch(obj.event){
       case 'getCheckData':
         var data = checkStatus.data;
@@ -286,6 +309,18 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
   $('.layui-btn-container .layui-btn').on('click', function(){
 	  
+	   var tabledata=layui.table.cache['goodslist']
+	   console.log("olddata 原始数据："+layui.data('olddata').olddata) 
+	   console.log("tabledata的当前页数据："+JSON.stringify(tabledata)) 
+	   
+	   console.log("olddata的当前页数据："+JSON.parse(layui.data('olddata').olddata)) 
+	   //返回 的是没有元素，不是已经存在的  适合新增与删除，不适合修改比较 _.difference
+	var diff=_.differenceWith(tabledata,JSON.parse(layui.data('olddata').olddata),_.isEqual)
+	   console.log("diff数据："+JSON.stringify(diff)) 
+	   return
+	  
+	  
+	  
 	  console.log("执行到这里了")
 	 var type = $(this).data('type');
 	  var checkStatus = table.checkStatus('goodslist');
@@ -345,7 +380,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  });   
   } 
        
-        
+     
   
   
 });
