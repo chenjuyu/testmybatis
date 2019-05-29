@@ -49,10 +49,10 @@
 				<input type="text" name="keyword" id="keyword" placeholder="请输入单号"
 					autocomplete="off" class="layui-input">
 			</div>
-			<div class="layui-inline layui-show-xs-block">
+			<div class="layui-inline">
 				<input type="text" name="DepartmentID" id="DepartmentID" placeholder="请输入部门"
 					autocomplete="off" class="layui-input">
-				<div id="change">...</div>	
+				 <i class="change">...</i>
 			</div>
 			<div class="layui-inline layui-show-xs-block">
 				<select name="interest" lay-filter="aihao">
@@ -152,9 +152,11 @@
 
 	<script>
 //$(function  () { //,'dtree'
-layui.use(['element','table','laydate','form','autocomplete','dtree'], function(){
+layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], function(){
   var laydate = layui.laydate;
   var form = layui.form;
+  
+  var layer = layui.layer;
   
   var autocomplete=layui.autocomplete;
   
@@ -165,6 +167,8 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
   var dtree=layui.dtree;
   
   var issyn=0
+  
+  var selectdata=[]
   
  layui.data('stockin', null); //删除test表 删除本地储存的数据
   
@@ -345,28 +349,62 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
     
   });
   
-  $("#change").on('click',function(){
+  $(".change").on('click',function(){
 	   //Ajax获取
-	  $.post({url:'<%=basePath%>select/department.html', 
-		      data:{'department':'','page':1,'rows':10},
-		      dataType:'json',
-			success:function(str){
-	    layer.open({
-	      type: 1,
-	      content: '<table class="layui-hide" id="test2" lay-filter="test2"></table> ' //注意，如果str是object，那么需要字符拼接。
-	               +'<script> layui.use([\'element\',\'table\',\'laydate\',\'form\'], function(){var table=layui.table table.render({'
-	               +'elem: "#test2" '
-	               +',data:str.data'
-	               +',cols: [[{type: \'checkbox\', fixed: \'left\'}'
-	               +',{type: \'Code\', title: \'编码\'}'
-	               +',{type: \'Department\', title: \'部门名称\'}]]'
-	               +'})' 
-	               +'})' 
-	               +'<\/script>'
-	    });
-			}//success结束
-	   }); 
-	  
+	//xadmin.open('资料选择','<%=basePath%>select/selectlist.html',650,400)
+	
+	layer.open({
+		type:2,
+		area: ['650px', '500px'],
+		fix: false, //不固定
+		maxmin: true,
+        shadeClose: true,
+        shade:0.4,
+        title: '资料选择',
+        content: '<%=basePath%>select/selectlist.html',
+        btn:['确定','关闭'],
+        yes:function(index, layero){
+            //当点击‘确定’按钮的时候，获取弹出层返回的值
+         //   var index1 = layer.open();
+           // var res = window["layui-layer-iframe" + index].callbackdata();
+            //打印返回的值，看是否有我们想返回的值。
+           // console.log(res);
+            //最后关闭弹出层
+           // layer.close(index);
+            //layero.find("iframe")[0].contentWindow; 此方法 可以 
+   //var body = layer.getChildFrame('body', index1);
+   var obj =  layero.find("iframe")[0].contentWindow; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+ //   body.find('input').val('Hi，我是从父页来的')
+      if(obj.selectdata.length>0){
+    	  console.log("obj.selectdata的数据:"+JSON.stringify(obj.selectdata));
+      selectdata=obj.selectdata
+      }
+     var data1=obj.back()
+      //打印返回的值，看是否有我们想返回的值。
+       console.log("index的数据:"+index);
+            console.log("res的数据:"+data1.username);
+     layer.close(index);
+         //   var res =body.callbackdata() //(layero).find("iframe")[0].contentWindow.callbackdata();
+          //  console.log("res的数据:"+res);
+        //  var obj = $(layero).find("iframe")[0].contentWindow;	//obj可以调用子页面的任何方法
+         
+        },
+        cancel:function(){
+        	
+        }, success: function(layero, index){
+        	var j = parent.layer.getFrameIndex(window.name); 
+            var body = layer.getChildFrame('body', j);
+            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+           // console.log(body.html()) //得到iframe页的body内容
+            body.find('input[name=keyword]').val('Hi，我是从父页来的')
+            console.log(iframeWin.kkk)
+          }
+        
+	})
+	
+	
+	
+	
   })
 
   
@@ -488,6 +526,18 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
 
 .layui-show {
 	display: block !important;
+}
+.alint{
+    display: block;
+    width: 90%;
+    padding-left: 10px;
+      height: 38px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #fff;
+    border-radius: 2px;
 }
 </style>
 </html>
