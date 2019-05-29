@@ -50,6 +50,11 @@
 					autocomplete="off" class="layui-input">
 			</div>
 			<div class="layui-inline layui-show-xs-block">
+				<input type="text" name="DepartmentID" id="DepartmentID" placeholder="请输入部门"
+					autocomplete="off" class="layui-input">
+				<div id="change">...</div>	
+			</div>
+			<div class="layui-inline layui-show-xs-block">
 				<select name="interest" lay-filter="aihao">
 					<option value="">请选择类别</option>
 					<option value="0" selected="采购">采购</option>
@@ -339,6 +344,33 @@ layui.use(['element','table','laydate','form','autocomplete','dtree'], function(
     active['reload'].call(this);
     
   });
+  
+  $("#change").on('click',function(){
+	   //Ajax获取
+	  $.post({url:'<%=basePath%>select/department.html', 
+		      data:{'department':'','page':1,'rows':10},
+		      dataType:'json',
+			success:function(str){
+	    layer.open({
+	      type: 1,
+	      content: '<table class="layui-hide" id="test2" lay-filter="test2"></table> ' //注意，如果str是object，那么需要字符拼接。
+	               +'<script> layui.use([\'element\',\'table\',\'laydate\',\'form\'], function(){var table=layui.table table.render({'
+	               +'elem: "#test2" '
+	               +',data:str.data'
+	               +',cols: [[{type: \'checkbox\', fixed: \'left\'}'
+	               +',{type: \'Code\', title: \'编码\'}'
+	               +',{type: \'Department\', title: \'部门名称\'}]]'
+	               +'})' 
+	               +'})' 
+	               +'<\/script>'
+	    });
+			}//success结束
+	   }); 
+	  
+  })
+
+  
+  
   
   $('.layui-btn-container .layui-btn').on('click', function(){
 	  

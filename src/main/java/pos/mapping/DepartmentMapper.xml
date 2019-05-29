@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Department" >
+    <id column="DepartmentID" property="departmentid" jdbcType="VARCHAR" />
+    <result column="DepartmentTypeID" property="departmenttypeid" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Department" property="department" jdbcType="VARCHAR" />
+    <result column="EngDepartment" property="engdepartment" jdbcType="VARCHAR" />
+    <result column="DefaultFlag" property="defaultflag" jdbcType="BIT" />
+    <result column="DeptType" property="depttype" jdbcType="VARCHAR" />
+    <result column="WarehouseFlag" property="warehouseflag" jdbcType="BIT" />
+    <result column="Addr" property="addr" jdbcType="VARCHAR" />
+    <result column="EngAddr" property="engaddr" jdbcType="VARCHAR" />
+    <result column="HelpCode" property="helpcode" jdbcType="VARCHAR" />
+    <result column="DistrictID" property="districtid" jdbcType="VARCHAR" />
+    <result column="BrandID" property="brandid" jdbcType="VARCHAR" />
+    <result column="GroupName" property="groupname" jdbcType="VARCHAR" />
+    <result column="SupplierCode" property="suppliercode" jdbcType="VARCHAR" />
+    <result column="Area" property="area" jdbcType="DECIMAL" />
+    <result column="DefaultCoinID" property="defaultcoinid" jdbcType="VARCHAR" />
+    <result column="OtherCoinDispFlag" property="othercoindispflag" jdbcType="BIT" />
+    <result column="OtherCoinID" property="othercoinid" jdbcType="VARCHAR" />
+    <result column="LocalWarehouseID" property="localwarehouseid" jdbcType="VARCHAR" />
+    <result column="TempWarehouseID" property="tempwarehouseid" jdbcType="VARCHAR" />
+    <result column="TargetMail" property="targetmail" jdbcType="VARCHAR" />
+    <result column="SendFlag" property="sendflag" jdbcType="BIT" />
+    <result column="TargetDir" property="targetdir" jdbcType="VARCHAR" />
+    <result column="FTPTargetDir" property="ftptargetdir" jdbcType="VARCHAR" />
+    <result column="ReportFlag" property="reportflag" jdbcType="BIT" />
+    <result column="ReportDir" property="reportdir" jdbcType="VARCHAR" />
+    <result column="AgentTargetDir" property="agenttargetdir" jdbcType="VARCHAR" />
+    <result column="PaymentFlag" property="paymentflag" jdbcType="BIT" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="StopFlag" property="stopflag" jdbcType="BIT" />
+    <result column="UseFlag" property="useflag" jdbcType="BIT" />
+    <result column="SharedFlag" property="sharedflag" jdbcType="BIT" />
+    <result column="UserID" property="userid" jdbcType="VARCHAR" />
+    <result column="SendRetailSales" property="sendretailsales" jdbcType="BIT" />
+    <result column="UpperDepartmentID" property="upperdepartmentid" jdbcType="VARCHAR" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+    <result column="Contact" property="contact" jdbcType="VARCHAR" />
+    <result column="Fax" property="fax" jdbcType="VARCHAR" />
+    <result column="WirelessDataPath" property="wirelessdatapath" jdbcType="VARCHAR" />
+    <result column="PointRate" property="pointrate" jdbcType="DECIMAL" />
+    <result column="HireRate" property="hirerate" jdbcType="DECIMAL" />
+    <result column="BalanceDate" property="balancedate" jdbcType="INTEGER" />
+    <result column="DeptRank" property="deptrank" jdbcType="VARCHAR" />
+    <result column="PriceType" property="pricetype" jdbcType="VARCHAR" />
+    <result column="PriceInt" property="priceint" jdbcType="INTEGER" />
+    <result column="StuffWarehouseFlag" property="stuffwarehouseflag" jdbcType="BIT" />
+    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="Editor" property="editor" jdbcType="VARCHAR" />
+    <result column="PointAmount" property="pointamount" jdbcType="DECIMAL" />
+    <result column="SingleCostingFlag" property="singlecostingflag" jdbcType="BIT" />
+    <result column="LastCostDate" property="lastcostdate" jdbcType="TIMESTAMP" />
+    <result column="IsReFix" property="isrefix" jdbcType="BIT" />
+    <result column="MobilPhone" property="mobilphone" jdbcType="VARCHAR" />
+    <result column="IsOnline" property="isonline" jdbcType="BIT" />
+    <result column="SameFlag" property="sameflag" jdbcType="BIT" />
+    <result column="CostWarehouseID" property="costwarehouseid" jdbcType="VARCHAR" />
+    <result column="OpenDate" property="opendate" jdbcType="TIMESTAMP" />
+    <result column="RateReCashValue" property="raterecashvalue" jdbcType="DECIMAL" />
+    <result column="ReCashMax" property="recashmax" jdbcType="DECIMAL" />
+    <result column="Province" property="province" jdbcType="VARCHAR" />
+    <result column="City" property="city" jdbcType="VARCHAR" />
+    <result column="County" property="county" jdbcType="VARCHAR" />
+    <result column="Street" property="street" jdbcType="VARCHAR" />
+    <result column="Doorplate" property="doorplate" jdbcType="VARCHAR" />
+    <result column="StockMoveInAutoFlag" property="stockmoveinautoflag" jdbcType="BIT" />
+    <result column="MobilePhone2" property="mobilephone2" jdbcType="VARCHAR" />
+    <result column="IsStockMovePay" property="isstockmovepay" jdbcType="BIT" />
+    <result column="TopStock" property="topstock" jdbcType="INTEGER" />
+    <result column="BottomStock" property="bottomstock" jdbcType="INTEGER" />
+    <result column="ByCommercialArea" property="bycommercialarea" jdbcType="VARCHAR" />
+    <result column="ShopCenterLevel" property="shopcenterlevel" jdbcType="VARCHAR" />
+    <result column="SettleCustID" property="settlecustid" jdbcType="VARCHAR" />
+    <result column="UppmenID" property="uppmenid" jdbcType="VARCHAR" />
+    <result column="EmployeeID" property="employeeid" jdbcType="VARCHAR" />
+    <result column="Uppmen2id" property="uppmen2id" jdbcType="VARCHAR" />
+    <result column="Employee2id" property="employee2id" jdbcType="VARCHAR" />
+    <result column="POSWholeNumFlag" property="poswholenumflag" jdbcType="INTEGER" />
+    <result column="POSNumType" property="posnumtype" jdbcType="VARCHAR" />
+    <result column="RecentInventory" property="recentinventory" jdbcType="TIMESTAMP" />
+    <result column="AccountItem" property="accountitem" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="EShopSendFlag" property="eshopsendflag" jdbcType="BIT" />
+    <result column="PointToOneMoney" property="pointtoonemoney" jdbcType="DECIMAL" />
+    <result column="MustExistsGoodsFlag" property="mustexistsgoodsflag" jdbcType="BIT" />
+    <result column="StockMoveOutAutoFlag" property="stockmoveoutautoflag" jdbcType="BIT" />
+    <result column="POSNonZeroStockFlag" property="posnonzerostockflag" jdbcType="BIT" />
+    <result column="SumFactAmtFlag" property="sumfactamtflag" jdbcType="VARCHAR" />
+    <result column="OriginalCode" property="originalcode" jdbcType="VARCHAR" />
+    <result column="BaseAmount" property="baseamount" jdbcType="DECIMAL" />
+    <result column="SalesType" property="salestype" jdbcType="VARCHAR" />
+    <result column="StockInAutoFlag" property="stockinautoflag" jdbcType="BIT" />
+    <result column="DaysumNonStockOut" property="daysumnonstockout" jdbcType="BIT" />
+    <result column="BirthdayMultiPoint" property="birthdaymultipoint" jdbcType="DECIMAL" />
+    <result column="ReCashByRecommender" property="recashbyrecommender" jdbcType="DECIMAL" />
+    <result column="PurchaseStockInAutoFlag" property="purchasestockinautoflag" jdbcType="BIT" />
+    <result column="POS_AllowAddVIPFlag" property="posAllowaddvipflag" jdbcType="BIT" />
+    <result column="POSWholeBackFlag" property="poswholebackflag" jdbcType="BIT" />
+    <result column="location_x" property="locationX" jdbcType="NVARCHAR" />
+    <result column="location_y" property="locationY" jdbcType="NVARCHAR" />
+    <result column="WorkTime" property="worktime" jdbcType="NVARCHAR" />
+    <result column="ShopImageUrl" property="shopimageurl" jdbcType="NVARCHAR" />
+    <result column="BossID" property="bossid" jdbcType="INTEGER" />
+    <result column="PageType" property="pagetype" jdbcType="TINYINT" />
+    <result column="FormID" property="formid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DepartmentID, DepartmentTypeID, Code, Department, EngDepartment, DefaultFlag, DeptType, 
+    WarehouseFlag, Addr, EngAddr, HelpCode, DistrictID, BrandID, GroupName, SupplierCode, 
+    Area, DefaultCoinID, OtherCoinDispFlag, OtherCoinID, LocalWarehouseID, TempWarehouseID, 
+    TargetMail, SendFlag, TargetDir, FTPTargetDir, ReportFlag, ReportDir, AgentTargetDir, 
+    PaymentFlag, Memo, StopFlag, UseFlag, SharedFlag, UserID, SendRetailSales, UpperDepartmentID, 
+    Tel, Contact, Fax, WirelessDataPath, PointRate, HireRate, BalanceDate, DeptRank, 
+    PriceType, PriceInt, StuffWarehouseFlag, ModifyDate, Editor, PointAmount, SingleCostingFlag, 
+    LastCostDate, IsReFix, MobilPhone, IsOnline, SameFlag, CostWarehouseID, OpenDate, 
+    RateReCashValue, ReCashMax, Province, City, County, Street, Doorplate, StockMoveInAutoFlag, 
+    MobilePhone2, IsStockMovePay, TopStock, BottomStock, ByCommercialArea, ShopCenterLevel, 
+    SettleCustID, UppmenID, EmployeeID, Uppmen2id, Employee2id, POSWholeNumFlag, POSNumType, 
+    RecentInventory, AccountItem, Email, EShopSendFlag, PointToOneMoney, MustExistsGoodsFlag, 
+    StockMoveOutAutoFlag, POSNonZeroStockFlag, SumFactAmtFlag, OriginalCode, BaseAmount, 
+    SalesType, StockInAutoFlag, DaysumNonStockOut, BirthdayMultiPoint, ReCashByRecommender, 
+    PurchaseStockInAutoFlag, POS_AllowAddVIPFlag, POSWholeBackFlag, location_x, location_y, 
+    WorkTime, ShopImageUrl, BossID, PageType, FormID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.DepartmentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Department
+    where DepartmentID = #{departmentid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Department
+    where DepartmentID = #{departmentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Department" >
+    insert into Department (DepartmentID, DepartmentTypeID, Code, 
+      Department, EngDepartment, DefaultFlag, 
+      DeptType, WarehouseFlag, Addr, 
+      EngAddr, HelpCode, DistrictID, 
+      BrandID, GroupName, SupplierCode, 
+      Area, DefaultCoinID, OtherCoinDispFlag, 
+      OtherCoinID, LocalWarehouseID, TempWarehouseID, 
+      TargetMail, SendFlag, TargetDir, 
+      FTPTargetDir, ReportFlag, ReportDir, 
+      AgentTargetDir, PaymentFlag, Memo, 
+      StopFlag, UseFlag, SharedFlag, 
+      UserID, SendRetailSales, UpperDepartmentID, 
+      Tel, Contact, Fax, 
+      WirelessDataPath, PointRate, HireRate, 
+      BalanceDate, DeptRank, PriceType, 
+      PriceInt, StuffWarehouseFlag, ModifyDate, 
+      Editor, PointAmount, SingleCostingFlag, 
+      LastCostDate, IsReFix, MobilPhone, 
+      IsOnline, SameFlag, CostWarehouseID, 
+      OpenDate, RateReCashValue, ReCashMax, 
+      Province, City, County, 
+      Street, Doorplate, StockMoveInAutoFlag, 
+      MobilePhone2, IsStockMovePay, TopStock, 
+      BottomStock, ByCommercialArea, ShopCenterLevel, 
+      SettleCustID, UppmenID, EmployeeID, 
+      Uppmen2id, Employee2id, POSWholeNumFlag, 
+      POSNumType, RecentInventory, AccountItem, 
+      Email, EShopSendFlag, PointToOneMoney, 
+      MustExistsGoodsFlag, StockMoveOutAutoFlag, POSNonZeroStockFlag, 
+      SumFactAmtFlag, OriginalCode, BaseAmount, 
+      SalesType, StockInAutoFlag, DaysumNonStockOut, 
+      BirthdayMultiPoint, ReCashByRecommender, 
+      PurchaseStockInAutoFlag, POS_AllowAddVIPFlag, POSWholeBackFlag, 
+      location_x, location_y, WorkTime, 
+      ShopImageUrl, BossID, PageType, 
+      FormID)
+    values (#{departmentid,jdbcType=VARCHAR}, #{departmenttypeid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{engdepartment,jdbcType=VARCHAR}, #{defaultflag,jdbcType=BIT}, 
+      #{depttype,jdbcType=VARCHAR}, #{warehouseflag,jdbcType=BIT}, #{addr,jdbcType=VARCHAR}, 
+      #{engaddr,jdbcType=VARCHAR}, #{helpcode,jdbcType=VARCHAR}, #{districtid,jdbcType=VARCHAR}, 
+      #{brandid,jdbcType=VARCHAR}, #{groupname,jdbcType=VARCHAR}, #{suppliercode,jdbcType=VARCHAR}, 
+      #{area,jdbcType=DECIMAL}, #{defaultcoinid,jdbcType=VARCHAR}, #{othercoindispflag,jdbcType=BIT}, 
+      #{othercoinid,jdbcType=VARCHAR}, #{localwarehouseid,jdbcType=VARCHAR}, #{tempwarehouseid,jdbcType=VARCHAR}, 
+      #{targetmail,jdbcType=VARCHAR}, #{sendflag,jdbcType=BIT}, #{targetdir,jdbcType=VARCHAR}, 
+      #{ftptargetdir,jdbcType=VARCHAR}, #{reportflag,jdbcType=BIT}, #{reportdir,jdbcType=VARCHAR}, 
+      #{agenttargetdir,jdbcType=VARCHAR}, #{paymentflag,jdbcType=BIT}, #{memo,jdbcType=VARCHAR}, 
+      #{stopflag,jdbcType=BIT}, #{useflag,jdbcType=BIT}, #{sharedflag,jdbcType=BIT}, 
+      #{userid,jdbcType=VARCHAR}, #{sendretailsales,jdbcType=BIT}, #{upperdepartmentid,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
+      #{wirelessdatapath,jdbcType=VARCHAR}, #{pointrate,jdbcType=DECIMAL}, #{hirerate,jdbcType=DECIMAL}, 
+      #{balancedate,jdbcType=INTEGER}, #{deptrank,jdbcType=VARCHAR}, #{pricetype,jdbcType=VARCHAR}, 
+      #{priceint,jdbcType=INTEGER}, #{stuffwarehouseflag,jdbcType=BIT}, #{modifydate,jdbcType=TIMESTAMP}, 
+      #{editor,jdbcType=VARCHAR}, #{pointamount,jdbcType=DECIMAL}, #{singlecostingflag,jdbcType=BIT}, 
+      #{lastcostdate,jdbcType=TIMESTAMP}, #{isrefix,jdbcType=BIT}, #{mobilphone,jdbcType=VARCHAR}, 
+      #{isonline,jdbcType=BIT}, #{sameflag,jdbcType=BIT}, #{costwarehouseid,jdbcType=VARCHAR}, 
+      #{opendate,jdbcType=TIMESTAMP}, #{raterecashvalue,jdbcType=DECIMAL}, #{recashmax,jdbcType=DECIMAL}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, 
+      #{street,jdbcType=VARCHAR}, #{doorplate,jdbcType=VARCHAR}, #{stockmoveinautoflag,jdbcType=BIT}, 
+      #{mobilephone2,jdbcType=VARCHAR}, #{isstockmovepay,jdbcType=BIT}, #{topstock,jdbcType=INTEGER}, 
+      #{bottomstock,jdbcType=INTEGER}, #{bycommercialarea,jdbcType=VARCHAR}, #{shopcenterlevel,jdbcType=VARCHAR}, 
+      #{settlecustid,jdbcType=VARCHAR}, #{uppmenid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, 
+      #{uppmen2id,jdbcType=VARCHAR}, #{employee2id,jdbcType=VARCHAR}, #{poswholenumflag,jdbcType=INTEGER}, 
+      #{posnumtype,jdbcType=VARCHAR}, #{recentinventory,jdbcType=TIMESTAMP}, #{accountitem,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{eshopsendflag,jdbcType=BIT}, #{pointtoonemoney,jdbcType=DECIMAL}, 
+      #{mustexistsgoodsflag,jdbcType=BIT}, #{stockmoveoutautoflag,jdbcType=BIT}, #{posnonzerostockflag,jdbcType=BIT}, 
+      #{sumfactamtflag,jdbcType=VARCHAR}, #{originalcode,jdbcType=VARCHAR}, #{baseamount,jdbcType=DECIMAL}, 
+      #{salestype,jdbcType=VARCHAR}, #{stockinautoflag,jdbcType=BIT}, #{daysumnonstockout,jdbcType=BIT}, 
+      #{birthdaymultipoint,jdbcType=DECIMAL}, #{recashbyrecommender,jdbcType=DECIMAL}, 
+      #{purchasestockinautoflag,jdbcType=BIT}, #{posAllowaddvipflag,jdbcType=BIT}, #{poswholebackflag,jdbcType=BIT}, 
+      #{locationX,jdbcType=NVARCHAR}, #{locationY,jdbcType=NVARCHAR}, #{worktime,jdbcType=NVARCHAR}, 
+      #{shopimageurl,jdbcType=NVARCHAR}, #{bossid,jdbcType=INTEGER}, #{pagetype,jdbcType=TINYINT}, 
+      #{formid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Department" >
+    insert into Department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentid != null" >
+        DepartmentID,
+      </if>
+      <if test="departmenttypeid != null" >
+        DepartmentTypeID,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="department != null" >
+        Department,
+      </if>
+      <if test="engdepartment != null" >
+        EngDepartment,
+      </if>
+      <if test="defaultflag != null" >
+        DefaultFlag,
+      </if>
+      <if test="depttype != null" >
+        DeptType,
+      </if>
+      <if test="warehouseflag != null" >
+        WarehouseFlag,
+      </if>
+      <if test="addr != null" >
+        Addr,
+      </if>
+      <if test="engaddr != null" >
+        EngAddr,
+      </if>
+      <if test="helpcode != null" >
+        HelpCode,
+      </if>
+      <if test="districtid != null" >
+        DistrictID,
+      </if>
+      <if test="brandid != null" >
+        BrandID,
+      </if>
+      <if test="groupname != null" >
+        GroupName,
+      </if>
+      <if test="suppliercode != null" >
+        SupplierCode,
+      </if>
+      <if test="area != null" >
+        Area,
+      </if>
+      <if test="defaultcoinid != null" >
+        DefaultCoinID,
+      </if>
+      <if test="othercoindispflag != null" >
+        OtherCoinDispFlag,
+      </if>
+      <if test="othercoinid != null" >
+        OtherCoinID,
+      </if>
+      <if test="localwarehouseid != null" >
+        LocalWarehouseID,
+      </if>
+      <if test="tempwarehouseid != null" >
+        TempWarehouseID,
+      </if>
+      <if test="targetmail != null" >
+        TargetMail,
+      </if>
+      <if test="sendflag != null" >
+        SendFlag,
+      </if>
+      <if test="targetdir != null" >
+        TargetDir,
+      </if>
+      <if test="ftptargetdir != null" >
+        FTPTargetDir,
+      </if>
+      <if test="reportflag != null" >
+        ReportFlag,
+      </if>
+      <if test="reportdir != null" >
+        ReportDir,
+      </if>
+      <if test="agenttargetdir != null" >
+        AgentTargetDir,
+      </if>
+      <if test="paymentflag != null" >
+        PaymentFlag,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="stopflag != null" >
+        StopFlag,
+      </if>
+      <if test="useflag != null" >
+        UseFlag,
+      </if>
+      <if test="sharedflag != null" >
+        SharedFlag,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="sendretailsales != null" >
+        SendRetailSales,
+      </if>
+      <if test="upperdepartmentid != null" >
+        UpperDepartmentID,
+      </if>
+      <if test="tel != null" >
+        Tel,
+      </if>
+      <if test="contact != null" >
+        Contact,
+      </if>
+      <if test="fax != null" >
+        Fax,
+      </if>
+      <if test="wirelessdatapath != null" >
+        WirelessDataPath,
+      </if>
+      <if test="pointrate != null" >
+        PointRate,
+      </if>
+      <if test="hirerate != null" >
+        HireRate,
+      </if>
+      <if test="balancedate != null" >
+        BalanceDate,
+      </if>
+      <if test="deptrank != null" >
+        DeptRank,
+      </if>
+      <if test="pricetype != null" >
+        PriceType,
+      </if>
+      <if test="priceint != null" >
+        PriceInt,
+      </if>
+      <if test="stuffwarehouseflag != null" >
+        StuffWarehouseFlag,
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate,
+      </if>
+      <if test="editor != null" >
+        Editor,
+      </if>
+      <if test="pointamount != null" >
+        PointAmount,
+      </if>
+      <if test="singlecostingflag != null" >
+        SingleCostingFlag,
+      </if>
+      <if test="lastcostdate != null" >
+        LastCostDate,
+      </if>
+      <if test="isrefix != null" >
+        IsReFix,
+      </if>
+      <if test="mobilphone != null" >
+        MobilPhone,
+      </if>
+      <if test="isonline != null" >
+        IsOnline,
+      </if>
+      <if test="sameflag != null" >
+        SameFlag,
+      </if>
+      <if test="costwarehouseid != null" >
+        CostWarehouseID,
+      </if>
+      <if test="opendate != null" >
+        OpenDate,
+      </if>
+      <if test="raterecashvalue != null" >
+        RateReCashValue,
+      </if>
+      <if test="recashmax != null" >
+        ReCashMax,
+      </if>
+      <if test="province != null" >
+        Province,
+      </if>
+      <if test="city != null" >
+        City,
+      </if>
+      <if test="county != null" >
+        County,
+      </if>
+      <if test="street != null" >
+        Street,
+      </if>
+      <if test="doorplate != null" >
+        Doorplate,
+      </if>
+      <if test="stockmoveinautoflag != null" >
+        StockMoveInAutoFlag,
+      </if>
+      <if test="mobilephone2 != null" >
+        MobilePhone2,
+      </if>
+      <if test="isstockmovepay != null" >
+        IsStockMovePay,
+      </if>
+      <if test="topstock != null" >
+        TopStock,
+      </if>
+      <if test="bottomstock != null" >
+        BottomStock,
+      </if>
+      <if test="bycommercialarea != null" >
+        ByCommercialArea,
+      </if>
+      <if test="shopcenterlevel != null" >
+        ShopCenterLevel,
+      </if>
+      <if test="settlecustid != null" >
+        SettleCustID,
+      </if>
+      <if test="uppmenid != null" >
+        UppmenID,
+      </if>
+      <if test="employeeid != null" >
+        EmployeeID,
+      </if>
+      <if test="uppmen2id != null" >
+        Uppmen2id,
+      </if>
+      <if test="employee2id != null" >
+        Employee2id,
+      </if>
+      <if test="poswholenumflag != null" >
+        POSWholeNumFlag,
+      </if>
+      <if test="posnumtype != null" >
+        POSNumType,
+      </if>
+      <if test="recentinventory != null" >
+        RecentInventory,
+      </if>
+      <if test="accountitem != null" >
+        AccountItem,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="eshopsendflag != null" >
+        EShopSendFlag,
+      </if>
+      <if test="pointtoonemoney != null" >
+        PointToOneMoney,
+      </if>
+      <if test="mustexistsgoodsflag != null" >
+        MustExistsGoodsFlag,
+      </if>
+      <if test="stockmoveoutautoflag != null" >
+        StockMoveOutAutoFlag,
+      </if>
+      <if test="posnonzerostockflag != null" >
+        POSNonZeroStockFlag,
+      </if>
+      <if test="sumfactamtflag != null" >
+        SumFactAmtFlag,
+      </if>
+      <if test="originalcode != null" >
+        OriginalCode,
+      </if>
+      <if test="baseamount != null" >
+        BaseAmount,
+      </if>
+      <if test="salestype != null" >
+        SalesType,
+      </if>
+      <if test="stockinautoflag != null" >
+        StockInAutoFlag,
+      </if>
+      <if test="daysumnonstockout != null" >
+        DaysumNonStockOut,
+      </if>
+      <if test="birthdaymultipoint != null" >
+        BirthdayMultiPoint,
+      </if>
+      <if test="recashbyrecommender != null" >
+        ReCashByRecommender,
+      </if>
+      <if test="purchasestockinautoflag != null" >
+        PurchaseStockInAutoFlag,
+      </if>
+      <if test="posAllowaddvipflag != null" >
+        POS_AllowAddVIPFlag,
+      </if>
+      <if test="poswholebackflag != null" >
+        POSWholeBackFlag,
+      </if>
+      <if test="locationX != null" >
+        location_x,
+      </if>
+      <if test="locationY != null" >
+        location_y,
+      </if>
+      <if test="worktime != null" >
+        WorkTime,
+      </if>
+      <if test="shopimageurl != null" >
+        ShopImageUrl,
+      </if>
+      <if test="bossid != null" >
+        BossID,
+      </if>
+      <if test="pagetype != null" >
+        PageType,
+      </if>
+      <if test="formid != null" >
+        FormID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="departmenttypeid != null" >
+        #{departmenttypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="engdepartment != null" >
+        #{engdepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultflag != null" >
+        #{defaultflag,jdbcType=BIT},
+      </if>
+      <if test="depttype != null" >
+        #{depttype,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseflag != null" >
+        #{warehouseflag,jdbcType=BIT},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="engaddr != null" >
+        #{engaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="helpcode != null" >
+        #{helpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtid != null" >
+        #{districtid,jdbcType=VARCHAR},
+      </if>
+      <if test="brandid != null" >
+        #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="groupname != null" >
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null" >
+        #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=DECIMAL},
+      </if>
+      <if test="defaultcoinid != null" >
+        #{defaultcoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="othercoindispflag != null" >
+        #{othercoindispflag,jdbcType=BIT},
+      </if>
+      <if test="othercoinid != null" >
+        #{othercoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="localwarehouseid != null" >
+        #{localwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="tempwarehouseid != null" >
+        #{tempwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetmail != null" >
+        #{targetmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sendflag != null" >
+        #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="targetdir != null" >
+        #{targetdir,jdbcType=VARCHAR},
+      </if>
+      <if test="ftptargetdir != null" >
+        #{ftptargetdir,jdbcType=VARCHAR},
+      </if>
+      <if test="reportflag != null" >
+        #{reportflag,jdbcType=BIT},
+      </if>
+      <if test="reportdir != null" >
+        #{reportdir,jdbcType=VARCHAR},
+      </if>
+      <if test="agenttargetdir != null" >
+        #{agenttargetdir,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentflag != null" >
+        #{paymentflag,jdbcType=BIT},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopflag != null" >
+        #{stopflag,jdbcType=BIT},
+      </if>
+      <if test="useflag != null" >
+        #{useflag,jdbcType=BIT},
+      </if>
+      <if test="sharedflag != null" >
+        #{sharedflag,jdbcType=BIT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendretailsales != null" >
+        #{sendretailsales,jdbcType=BIT},
+      </if>
+      <if test="upperdepartmentid != null" >
+        #{upperdepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="wirelessdatapath != null" >
+        #{wirelessdatapath,jdbcType=VARCHAR},
+      </if>
+      <if test="pointrate != null" >
+        #{pointrate,jdbcType=DECIMAL},
+      </if>
+      <if test="hirerate != null" >
+        #{hirerate,jdbcType=DECIMAL},
+      </if>
+      <if test="balancedate != null" >
+        #{balancedate,jdbcType=INTEGER},
+      </if>
+      <if test="deptrank != null" >
+        #{deptrank,jdbcType=VARCHAR},
+      </if>
+      <if test="pricetype != null" >
+        #{pricetype,jdbcType=VARCHAR},
+      </if>
+      <if test="priceint != null" >
+        #{priceint,jdbcType=INTEGER},
+      </if>
+      <if test="stuffwarehouseflag != null" >
+        #{stuffwarehouseflag,jdbcType=BIT},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="pointamount != null" >
+        #{pointamount,jdbcType=DECIMAL},
+      </if>
+      <if test="singlecostingflag != null" >
+        #{singlecostingflag,jdbcType=BIT},
+      </if>
+      <if test="lastcostdate != null" >
+        #{lastcostdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isrefix != null" >
+        #{isrefix,jdbcType=BIT},
+      </if>
+      <if test="mobilphone != null" >
+        #{mobilphone,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        #{isonline,jdbcType=BIT},
+      </if>
+      <if test="sameflag != null" >
+        #{sameflag,jdbcType=BIT},
+      </if>
+      <if test="costwarehouseid != null" >
+        #{costwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="opendate != null" >
+        #{opendate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raterecashvalue != null" >
+        #{raterecashvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="recashmax != null" >
+        #{recashmax,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null" >
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="doorplate != null" >
+        #{doorplate,jdbcType=VARCHAR},
+      </if>
+      <if test="stockmoveinautoflag != null" >
+        #{stockmoveinautoflag,jdbcType=BIT},
+      </if>
+      <if test="mobilephone2 != null" >
+        #{mobilephone2,jdbcType=VARCHAR},
+      </if>
+      <if test="isstockmovepay != null" >
+        #{isstockmovepay,jdbcType=BIT},
+      </if>
+      <if test="topstock != null" >
+        #{topstock,jdbcType=INTEGER},
+      </if>
+      <if test="bottomstock != null" >
+        #{bottomstock,jdbcType=INTEGER},
+      </if>
+      <if test="bycommercialarea != null" >
+        #{bycommercialarea,jdbcType=VARCHAR},
+      </if>
+      <if test="shopcenterlevel != null" >
+        #{shopcenterlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="settlecustid != null" >
+        #{settlecustid,jdbcType=VARCHAR},
+      </if>
+      <if test="uppmenid != null" >
+        #{uppmenid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="uppmen2id != null" >
+        #{uppmen2id,jdbcType=VARCHAR},
+      </if>
+      <if test="employee2id != null" >
+        #{employee2id,jdbcType=VARCHAR},
+      </if>
+      <if test="poswholenumflag != null" >
+        #{poswholenumflag,jdbcType=INTEGER},
+      </if>
+      <if test="posnumtype != null" >
+        #{posnumtype,jdbcType=VARCHAR},
+      </if>
+      <if test="recentinventory != null" >
+        #{recentinventory,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountitem != null" >
+        #{accountitem,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="eshopsendflag != null" >
+        #{eshopsendflag,jdbcType=BIT},
+      </if>
+      <if test="pointtoonemoney != null" >
+        #{pointtoonemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="mustexistsgoodsflag != null" >
+        #{mustexistsgoodsflag,jdbcType=BIT},
+      </if>
+      <if test="stockmoveoutautoflag != null" >
+        #{stockmoveoutautoflag,jdbcType=BIT},
+      </if>
+      <if test="posnonzerostockflag != null" >
+        #{posnonzerostockflag,jdbcType=BIT},
+      </if>
+      <if test="sumfactamtflag != null" >
+        #{sumfactamtflag,jdbcType=VARCHAR},
+      </if>
+      <if test="originalcode != null" >
+        #{originalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseamount != null" >
+        #{baseamount,jdbcType=DECIMAL},
+      </if>
+      <if test="salestype != null" >
+        #{salestype,jdbcType=VARCHAR},
+      </if>
+      <if test="stockinautoflag != null" >
+        #{stockinautoflag,jdbcType=BIT},
+      </if>
+      <if test="daysumnonstockout != null" >
+        #{daysumnonstockout,jdbcType=BIT},
+      </if>
+      <if test="birthdaymultipoint != null" >
+        #{birthdaymultipoint,jdbcType=DECIMAL},
+      </if>
+      <if test="recashbyrecommender != null" >
+        #{recashbyrecommender,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasestockinautoflag != null" >
+        #{purchasestockinautoflag,jdbcType=BIT},
+      </if>
+      <if test="posAllowaddvipflag != null" >
+        #{posAllowaddvipflag,jdbcType=BIT},
+      </if>
+      <if test="poswholebackflag != null" >
+        #{poswholebackflag,jdbcType=BIT},
+      </if>
+      <if test="locationX != null" >
+        #{locationX,jdbcType=NVARCHAR},
+      </if>
+      <if test="locationY != null" >
+        #{locationY,jdbcType=NVARCHAR},
+      </if>
+      <if test="worktime != null" >
+        #{worktime,jdbcType=NVARCHAR},
+      </if>
+      <if test="shopimageurl != null" >
+        #{shopimageurl,jdbcType=NVARCHAR},
+      </if>
+      <if test="bossid != null" >
+        #{bossid,jdbcType=INTEGER},
+      </if>
+      <if test="pagetype != null" >
+        #{pagetype,jdbcType=TINYINT},
+      </if>
+      <if test="formid != null" >
+        #{formid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.DepartmentExample" resultType="java.lang.Integer" >
+    select count(*) from Department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Department" >
+    update Department
+    <set >
+      <if test="departmenttypeid != null" >
+        DepartmentTypeID = #{departmenttypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        Department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="engdepartment != null" >
+        EngDepartment = #{engdepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultflag != null" >
+        DefaultFlag = #{defaultflag,jdbcType=BIT},
+      </if>
+      <if test="depttype != null" >
+        DeptType = #{depttype,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseflag != null" >
+        WarehouseFlag = #{warehouseflag,jdbcType=BIT},
+      </if>
+      <if test="addr != null" >
+        Addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="engaddr != null" >
+        EngAddr = #{engaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="helpcode != null" >
+        HelpCode = #{helpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtid != null" >
+        DistrictID = #{districtid,jdbcType=VARCHAR},
+      </if>
+      <if test="brandid != null" >
+        BrandID = #{brandid,jdbcType=VARCHAR},
+      </if>
+      <if test="groupname != null" >
+        GroupName = #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null" >
+        SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        Area = #{area,jdbcType=DECIMAL},
+      </if>
+      <if test="defaultcoinid != null" >
+        DefaultCoinID = #{defaultcoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="othercoindispflag != null" >
+        OtherCoinDispFlag = #{othercoindispflag,jdbcType=BIT},
+      </if>
+      <if test="othercoinid != null" >
+        OtherCoinID = #{othercoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="localwarehouseid != null" >
+        LocalWarehouseID = #{localwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="tempwarehouseid != null" >
+        TempWarehouseID = #{tempwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetmail != null" >
+        TargetMail = #{targetmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sendflag != null" >
+        SendFlag = #{sendflag,jdbcType=BIT},
+      </if>
+      <if test="targetdir != null" >
+        TargetDir = #{targetdir,jdbcType=VARCHAR},
+      </if>
+      <if test="ftptargetdir != null" >
+        FTPTargetDir = #{ftptargetdir,jdbcType=VARCHAR},
+      </if>
+      <if test="reportflag != null" >
+        ReportFlag = #{reportflag,jdbcType=BIT},
+      </if>
+      <if test="reportdir != null" >
+        ReportDir = #{reportdir,jdbcType=VARCHAR},
+      </if>
+      <if test="agenttargetdir != null" >
+        AgentTargetDir = #{agenttargetdir,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentflag != null" >
+        PaymentFlag = #{paymentflag,jdbcType=BIT},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopflag != null" >
+        StopFlag = #{stopflag,jdbcType=BIT},
+      </if>
+      <if test="useflag != null" >
+        UseFlag = #{useflag,jdbcType=BIT},
+      </if>
+      <if test="sharedflag != null" >
+        SharedFlag = #{sharedflag,jdbcType=BIT},
+      </if>
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendretailsales != null" >
+        SendRetailSales = #{sendretailsales,jdbcType=BIT},
+      </if>
+      <if test="upperdepartmentid != null" >
+        UpperDepartmentID = #{upperdepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        Tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        Contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        Fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="wirelessdatapath != null" >
+        WirelessDataPath = #{wirelessdatapath,jdbcType=VARCHAR},
+      </if>
+      <if test="pointrate != null" >
+        PointRate = #{pointrate,jdbcType=DECIMAL},
+      </if>
+      <if test="hirerate != null" >
+        HireRate = #{hirerate,jdbcType=DECIMAL},
+      </if>
+      <if test="balancedate != null" >
+        BalanceDate = #{balancedate,jdbcType=INTEGER},
+      </if>
+      <if test="deptrank != null" >
+        DeptRank = #{deptrank,jdbcType=VARCHAR},
+      </if>
+      <if test="pricetype != null" >
+        PriceType = #{pricetype,jdbcType=VARCHAR},
+      </if>
+      <if test="priceint != null" >
+        PriceInt = #{priceint,jdbcType=INTEGER},
+      </if>
+      <if test="stuffwarehouseflag != null" >
+        StuffWarehouseFlag = #{stuffwarehouseflag,jdbcType=BIT},
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        Editor = #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="pointamount != null" >
+        PointAmount = #{pointamount,jdbcType=DECIMAL},
+      </if>
+      <if test="singlecostingflag != null" >
+        SingleCostingFlag = #{singlecostingflag,jdbcType=BIT},
+      </if>
+      <if test="lastcostdate != null" >
+        LastCostDate = #{lastcostdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isrefix != null" >
+        IsReFix = #{isrefix,jdbcType=BIT},
+      </if>
+      <if test="mobilphone != null" >
+        MobilPhone = #{mobilphone,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        IsOnline = #{isonline,jdbcType=BIT},
+      </if>
+      <if test="sameflag != null" >
+        SameFlag = #{sameflag,jdbcType=BIT},
+      </if>
+      <if test="costwarehouseid != null" >
+        CostWarehouseID = #{costwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="opendate != null" >
+        OpenDate = #{opendate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raterecashvalue != null" >
+        RateReCashValue = #{raterecashvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="recashmax != null" >
+        ReCashMax = #{recashmax,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        Province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        City = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null" >
+        County = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        Street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="doorplate != null" >
+        Doorplate = #{doorplate,jdbcType=VARCHAR},
+      </if>
+      <if test="stockmoveinautoflag != null" >
+        StockMoveInAutoFlag = #{stockmoveinautoflag,jdbcType=BIT},
+      </if>
+      <if test="mobilephone2 != null" >
+        MobilePhone2 = #{mobilephone2,jdbcType=VARCHAR},
+      </if>
+      <if test="isstockmovepay != null" >
+        IsStockMovePay = #{isstockmovepay,jdbcType=BIT},
+      </if>
+      <if test="topstock != null" >
+        TopStock = #{topstock,jdbcType=INTEGER},
+      </if>
+      <if test="bottomstock != null" >
+        BottomStock = #{bottomstock,jdbcType=INTEGER},
+      </if>
+      <if test="bycommercialarea != null" >
+        ByCommercialArea = #{bycommercialarea,jdbcType=VARCHAR},
+      </if>
+      <if test="shopcenterlevel != null" >
+        ShopCenterLevel = #{shopcenterlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="settlecustid != null" >
+        SettleCustID = #{settlecustid,jdbcType=VARCHAR},
+      </if>
+      <if test="uppmenid != null" >
+        UppmenID = #{uppmenid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="uppmen2id != null" >
+        Uppmen2id = #{uppmen2id,jdbcType=VARCHAR},
+      </if>
+      <if test="employee2id != null" >
+        Employee2id = #{employee2id,jdbcType=VARCHAR},
+      </if>
+      <if test="poswholenumflag != null" >
+        POSWholeNumFlag = #{poswholenumflag,jdbcType=INTEGER},
+      </if>
+      <if test="posnumtype != null" >
+        POSNumType = #{posnumtype,jdbcType=VARCHAR},
+      </if>
+      <if test="recentinventory != null" >
+        RecentInventory = #{recentinventory,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountitem != null" >
+        AccountItem = #{accountitem,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="eshopsendflag != null" >
+        EShopSendFlag = #{eshopsendflag,jdbcType=BIT},
+      </if>
+      <if test="pointtoonemoney != null" >
+        PointToOneMoney = #{pointtoonemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="mustexistsgoodsflag != null" >
+        MustExistsGoodsFlag = #{mustexistsgoodsflag,jdbcType=BIT},
+      </if>
+      <if test="stockmoveoutautoflag != null" >
+        StockMoveOutAutoFlag = #{stockmoveoutautoflag,jdbcType=BIT},
+      </if>
+      <if test="posnonzerostockflag != null" >
+        POSNonZeroStockFlag = #{posnonzerostockflag,jdbcType=BIT},
+      </if>
+      <if test="sumfactamtflag != null" >
+        SumFactAmtFlag = #{sumfactamtflag,jdbcType=VARCHAR},
+      </if>
+      <if test="originalcode != null" >
+        OriginalCode = #{originalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseamount != null" >
+        BaseAmount = #{baseamount,jdbcType=DECIMAL},
+      </if>
+      <if test="salestype != null" >
+        SalesType = #{salestype,jdbcType=VARCHAR},
+      </if>
+      <if test="stockinautoflag != null" >
+        StockInAutoFlag = #{stockinautoflag,jdbcType=BIT},
+      </if>
+      <if test="daysumnonstockout != null" >
+        DaysumNonStockOut = #{daysumnonstockout,jdbcType=BIT},
+      </if>
+      <if test="birthdaymultipoint != null" >
+        BirthdayMultiPoint = #{birthdaymultipoint,jdbcType=DECIMAL},
+      </if>
+      <if test="recashbyrecommender != null" >
+        ReCashByRecommender = #{recashbyrecommender,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasestockinautoflag != null" >
+        PurchaseStockInAutoFlag = #{purchasestockinautoflag,jdbcType=BIT},
+      </if>
+      <if test="posAllowaddvipflag != null" >
+        POS_AllowAddVIPFlag = #{posAllowaddvipflag,jdbcType=BIT},
+      </if>
+      <if test="poswholebackflag != null" >
+        POSWholeBackFlag = #{poswholebackflag,jdbcType=BIT},
+      </if>
+      <if test="locationX != null" >
+        location_x = #{locationX,jdbcType=NVARCHAR},
+      </if>
+      <if test="locationY != null" >
+        location_y = #{locationY,jdbcType=NVARCHAR},
+      </if>
+      <if test="worktime != null" >
+        WorkTime = #{worktime,jdbcType=NVARCHAR},
+      </if>
+      <if test="shopimageurl != null" >
+        ShopImageUrl = #{shopimageurl,jdbcType=NVARCHAR},
+      </if>
+      <if test="bossid != null" >
+        BossID = #{bossid,jdbcType=INTEGER},
+      </if>
+      <if test="pagetype != null" >
+        PageType = #{pagetype,jdbcType=TINYINT},
+      </if>
+      <if test="formid != null" >
+        FormID = #{formid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DepartmentID = #{departmentid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Department" >
+    update Department
+    set DepartmentTypeID = #{departmenttypeid,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
+      Department = #{department,jdbcType=VARCHAR},
+      EngDepartment = #{engdepartment,jdbcType=VARCHAR},
+      DefaultFlag = #{defaultflag,jdbcType=BIT},
+      DeptType = #{depttype,jdbcType=VARCHAR},
+      WarehouseFlag = #{warehouseflag,jdbcType=BIT},
+      Addr = #{addr,jdbcType=VARCHAR},
+      EngAddr = #{engaddr,jdbcType=VARCHAR},
+      HelpCode = #{helpcode,jdbcType=VARCHAR},
+      DistrictID = #{districtid,jdbcType=VARCHAR},
+      BrandID = #{brandid,jdbcType=VARCHAR},
+      GroupName = #{groupname,jdbcType=VARCHAR},
+      SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      Area = #{area,jdbcType=DECIMAL},
+      DefaultCoinID = #{defaultcoinid,jdbcType=VARCHAR},
+      OtherCoinDispFlag = #{othercoindispflag,jdbcType=BIT},
+      OtherCoinID = #{othercoinid,jdbcType=VARCHAR},
+      LocalWarehouseID = #{localwarehouseid,jdbcType=VARCHAR},
+      TempWarehouseID = #{tempwarehouseid,jdbcType=VARCHAR},
+      TargetMail = #{targetmail,jdbcType=VARCHAR},
+      SendFlag = #{sendflag,jdbcType=BIT},
+      TargetDir = #{targetdir,jdbcType=VARCHAR},
+      FTPTargetDir = #{ftptargetdir,jdbcType=VARCHAR},
+      ReportFlag = #{reportflag,jdbcType=BIT},
+      ReportDir = #{reportdir,jdbcType=VARCHAR},
+      AgentTargetDir = #{agenttargetdir,jdbcType=VARCHAR},
+      PaymentFlag = #{paymentflag,jdbcType=BIT},
+      Memo = #{memo,jdbcType=VARCHAR},
+      StopFlag = #{stopflag,jdbcType=BIT},
+      UseFlag = #{useflag,jdbcType=BIT},
+      SharedFlag = #{sharedflag,jdbcType=BIT},
+      UserID = #{userid,jdbcType=VARCHAR},
+      SendRetailSales = #{sendretailsales,jdbcType=BIT},
+      UpperDepartmentID = #{upperdepartmentid,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR},
+      Contact = #{contact,jdbcType=VARCHAR},
+      Fax = #{fax,jdbcType=VARCHAR},
+      WirelessDataPath = #{wirelessdatapath,jdbcType=VARCHAR},
+      PointRate = #{pointrate,jdbcType=DECIMAL},
+      HireRate = #{hirerate,jdbcType=DECIMAL},
+      BalanceDate = #{balancedate,jdbcType=INTEGER},
+      DeptRank = #{deptrank,jdbcType=VARCHAR},
+      PriceType = #{pricetype,jdbcType=VARCHAR},
+      PriceInt = #{priceint,jdbcType=INTEGER},
+      StuffWarehouseFlag = #{stuffwarehouseflag,jdbcType=BIT},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      Editor = #{editor,jdbcType=VARCHAR},
+      PointAmount = #{pointamount,jdbcType=DECIMAL},
+      SingleCostingFlag = #{singlecostingflag,jdbcType=BIT},
+      LastCostDate = #{lastcostdate,jdbcType=TIMESTAMP},
+      IsReFix = #{isrefix,jdbcType=BIT},
+      MobilPhone = #{mobilphone,jdbcType=VARCHAR},
+      IsOnline = #{isonline,jdbcType=BIT},
+      SameFlag = #{sameflag,jdbcType=BIT},
+      CostWarehouseID = #{costwarehouseid,jdbcType=VARCHAR},
+      OpenDate = #{opendate,jdbcType=TIMESTAMP},
+      RateReCashValue = #{raterecashvalue,jdbcType=DECIMAL},
+      ReCashMax = #{recashmax,jdbcType=DECIMAL},
+      Province = #{province,jdbcType=VARCHAR},
+      City = #{city,jdbcType=VARCHAR},
+      County = #{county,jdbcType=VARCHAR},
+      Street = #{street,jdbcType=VARCHAR},
+      Doorplate = #{doorplate,jdbcType=VARCHAR},
+      StockMoveInAutoFlag = #{stockmoveinautoflag,jdbcType=BIT},
+      MobilePhone2 = #{mobilephone2,jdbcType=VARCHAR},
+      IsStockMovePay = #{isstockmovepay,jdbcType=BIT},
+      TopStock = #{topstock,jdbcType=INTEGER},
+      BottomStock = #{bottomstock,jdbcType=INTEGER},
+      ByCommercialArea = #{bycommercialarea,jdbcType=VARCHAR},
+      ShopCenterLevel = #{shopcenterlevel,jdbcType=VARCHAR},
+      SettleCustID = #{settlecustid,jdbcType=VARCHAR},
+      UppmenID = #{uppmenid,jdbcType=VARCHAR},
+      EmployeeID = #{employeeid,jdbcType=VARCHAR},
+      Uppmen2id = #{uppmen2id,jdbcType=VARCHAR},
+      Employee2id = #{employee2id,jdbcType=VARCHAR},
+      POSWholeNumFlag = #{poswholenumflag,jdbcType=INTEGER},
+      POSNumType = #{posnumtype,jdbcType=VARCHAR},
+      RecentInventory = #{recentinventory,jdbcType=TIMESTAMP},
+      AccountItem = #{accountitem,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      EShopSendFlag = #{eshopsendflag,jdbcType=BIT},
+      PointToOneMoney = #{pointtoonemoney,jdbcType=DECIMAL},
+      MustExistsGoodsFlag = #{mustexistsgoodsflag,jdbcType=BIT},
+      StockMoveOutAutoFlag = #{stockmoveoutautoflag,jdbcType=BIT},
+      POSNonZeroStockFlag = #{posnonzerostockflag,jdbcType=BIT},
+      SumFactAmtFlag = #{sumfactamtflag,jdbcType=VARCHAR},
+      OriginalCode = #{originalcode,jdbcType=VARCHAR},
+      BaseAmount = #{baseamount,jdbcType=DECIMAL},
+      SalesType = #{salestype,jdbcType=VARCHAR},
+      StockInAutoFlag = #{stockinautoflag,jdbcType=BIT},
+      DaysumNonStockOut = #{daysumnonstockout,jdbcType=BIT},
+      BirthdayMultiPoint = #{birthdaymultipoint,jdbcType=DECIMAL},
+      ReCashByRecommender = #{recashbyrecommender,jdbcType=DECIMAL},
+      PurchaseStockInAutoFlag = #{purchasestockinautoflag,jdbcType=BIT},
+      POS_AllowAddVIPFlag = #{posAllowaddvipflag,jdbcType=BIT},
+      POSWholeBackFlag = #{poswholebackflag,jdbcType=BIT},
+      location_x = #{locationX,jdbcType=NVARCHAR},
+      location_y = #{locationY,jdbcType=NVARCHAR},
+      WorkTime = #{worktime,jdbcType=NVARCHAR},
+      ShopImageUrl = #{shopimageurl,jdbcType=NVARCHAR},
+      BossID = #{bossid,jdbcType=INTEGER},
+      PageType = #{pagetype,jdbcType=TINYINT},
+      FormID = #{formid,jdbcType=INTEGER}
+    where DepartmentID = #{departmentid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="Departmentlist" resultType="java.util.LinkedHashMap" parameterType="java.util.HashMap">
+      
+   select a.DepartmentID,a.Code,a.Department from Department a
+   where 1=1 
+   <if test="conditions != null and conditions != ''"> 
+   ${conditions}
+   </if>
+   order by DepartmentID
+      
+  </select>
+  
+    <select id="Departmentcount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+      
+   select Count(1) from Department  a where 1=1 
+   <if test="conditions != null and conditions != ''">
+   ${conditions}
+   </if>
+
+      
+  </select>
+  
+  
+</mapper>
