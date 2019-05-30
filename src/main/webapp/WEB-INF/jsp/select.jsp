@@ -210,6 +210,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
      success:function(res){
     	 table.render({
     		 elem: '#test'
+    		 //, url:'<%=basePath%>select/department.do'
     		 ,title: '详情数据表'
     		 ,id: 'selectlist'
     	     ,data:res.data
@@ -388,7 +389,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 		      var keyword = $('#keyword').attr("alt");
 		      console.log("keyword的值："+keyword)//keyword.val()
 		      //执行重载
-		      table.reload('stockdetail', {
+		      table.reload('selectlist', {
 		        page: {
 		          curr: 1 //重新从第 1 页开始
 		        }
@@ -454,19 +455,51 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	  
   })
   
+  //搜索框回车事件
+        $('#keyword').on('keydown', function (event) {
+        	department =$('#keyword').val();
+            if (event.keyCode === 13) {
+            	 $.ajax({ 
+            		 url:'<%=basePath%>select/department.do',
+            	     type:'post',
+            	     data:{'keyword':department,'issyn':issyn,'DisplaySizeGroup':DisplaySizeGroup,"page":1,'rows':10},
+            	     dataType:'json',
+            	     cache:false,
+            	     success:function(res){
+            	    	 table.render({
+            	    		 elem: '#test'
+            	    		 //, url:'<%=basePath%>select/department.do'
+            	    		 ,title: '详情数据表'
+            	    		 ,id: 'selectlist'
+            	    	     ,data:res.data
+            	    	     ,cols:res.cols //cols
+            	    	     ,totalRow: true
+            	    	     ,page: true
+            	    	     ,limit:10
+            	    	    // ,limit: Number.MAX_VALUE //显示全部数据，不分页
+            	    	 })
+            	     }
+            	 })//ajax结束
+                
+              //  return false
+            }
+        });
   
     
   //自动输入提示
-  autocomplete.render({
-            elem: $('#keyword')[0],
-            url: '<%=basePath%>stock/autocompete.do',
-            template_val: '{{d.No}}',
-            template_txt: '{{d.No}} <span class=\'layui-badge layui-bg-gray\'>{{d.Warehouse}}</span>',
-            onselect: function (resp) {
-              $('input[name=keyword]').val(resp.No),
-              $('input[name=keyword]').attr("alt",resp.StockID)
-            }
-        })
+ 
+// autocomplete.render({
+//            elem: $('#keyword')[0],
+//            url: '<%=basePath%>stock/autocompete.do',
+//            template_val: '{{d.No}}',
+//            template_txt: '{{d.No}} <span class=\'layui-badge layui-bg-gray\'>{{d.Warehouse}}</span>',
+//            onselect: function (resp) {
+//              $('input[name=keyword]').val(resp.No),
+//              $('input[name=keyword]').attr("alt",resp.StockID)
+//            }
+//        })
+
+        
         
  function  Send(data){
 	  var datastr =data;

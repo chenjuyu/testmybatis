@@ -36,7 +36,7 @@ public class SelectController {
 	 String conditions=null; 
 	 
 	 if (!oConvertUtils.isEmpty(Department)){
-		 conditions=" and a.Department like '%"+Department+"%' ";
+		 conditions=" and (a.Department like '%"+Department+"%' or a.Code like '%"+Department+"%') ";
 	 }
 	 
 		int pageno = 1;

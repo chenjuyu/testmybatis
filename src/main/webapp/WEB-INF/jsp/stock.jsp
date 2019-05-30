@@ -49,10 +49,10 @@
 				<input type="text" name="keyword" id="keyword" placeholder="请输入单号"
 					autocomplete="off" class="layui-input">
 			</div>
-			<div class="layui-inline">
+			<div class="layui-inline layui-unselect " style="position: relative;">
 				<input type="text" name="DepartmentID" id="DepartmentID" placeholder="请输入部门"
-					autocomplete="off" class="layui-input">
-				 <i class="change">...</i>
+					autocomplete="off" class="layui-input " style="float:left">
+				 <i class="change layui-icon">&#xe65f;</i>
 			</div>
 			<div class="layui-inline layui-show-xs-block">
 				<select name="interest" lay-filter="aihao">
@@ -376,9 +376,24 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
    var obj =  layero.find("iframe")[0].contentWindow; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
  //   body.find('input').val('Hi，我是从父页来的')
       if(obj.selectdata.length>0){
+    	  debugger
     	  console.log("obj.selectdata的数据:"+JSON.stringify(obj.selectdata));
       selectdata=obj.selectdata
+      var value="",DepartmentID=""
+      
+    	for(var i=0;i<selectdata.length;i++){
+    		if(i===selectdata.length-1)//判断最后一个
+    		{
+    			value=value+selectdata[i].Department
+        		DepartmentID=DepartmentID+selectdata[i].DepartmentID
+    		}else{
+    			value=value+selectdata[i].Department+','
+        		DepartmentID=DepartmentID+selectdata[i].DepartmentID+','	
+    		}
+    	}   
+      $('#DepartmentID').val(value)
       }
+     
      var data1=obj.back()
       //打印返回的值，看是否有我们想返回的值。
        console.log("index的数据:"+index);
@@ -527,17 +542,16 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 .layui-show {
 	display: block !important;
 }
-.alint{
-    display: block;
-    width: 90%;
-    padding-left: 10px;
-      height: 38px;
-    line-height: 1.3;
-    line-height: 38px\9;
-    border-width: 1px;
-    border-style: solid;
-    background-color: #fff;
-    border-radius: 2px;
+/*    background-color: #fff;*/
+.change{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -10px;
+    cursor: pointer;
+    border-width: 6px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
 }
 </style>
 </html>
