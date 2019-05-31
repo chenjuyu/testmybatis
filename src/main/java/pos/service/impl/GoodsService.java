@@ -45,7 +45,7 @@ public class GoodsService implements IGoods {
 		 int total =this.goodsmapper.goodscount(map);
 		 map.put("page", p);
 	   List<HashMap<String, Object>> goods = this.goodsmapper.goodslist(map);
-	   
+	   /*
 	   if(goods.size()>0){
 		
 		for(int i=0;i<goods.size();i++){
@@ -73,7 +73,7 @@ public class GoodsService implements IGoods {
 			
 			
 		}   	   
-	   }
+	   } */
 	   
 	   HashMap<String, Object> m=new HashMap<String, Object>();
 	     m.put("total", total);

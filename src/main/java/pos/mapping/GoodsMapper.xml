@@ -1801,23 +1801,29 @@
   
   <select id="goodslist" resultType="java.util.HashMap" parameterType="java.util.HashMap">
       
-   select a.GoodsID,a.Code,a.Name,a.Age,a.RetailSales,a.PointRate,a.SupplierCode,a.Model,a.Season,Convert(varchar(19),a.ModifyDate,121) ModifyDate from Goods a
+   select a.GoodsID,a.Code,bar.Barcode,gt.Code typeCode,gt.GoodsType,(a.Name+'-'+c.Color+'-'+s.Size) jdName,a.Name 
+   from Goods a join GoodsType gt on a.GoodstypeID=gt.GoodsTypeID join Barcode bar on a.GoodsID=bar.GoodsID 
+   join Color c on bar.ColorID=c.ColorID Join Size s on bar.SizeID=s.SizeID 
    where 1=1 
    <if test="conditions != null and conditions != ''"> 
    ${conditions}
    </if>
-   order by GoodsID
+    and exists (select st.GoodsID from stockdetail st with(nolock) where st.GoodsID=bar.GoodsID and st.ColorID=bar.ColorID and st.SizeID=bar.SizeID)
+   order by a.GoodsID
       
   </select>
   
     <select id="goodscount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
       
-   select count(1) from Goods a where 1=1 
+      select count(1) 
+   from Goods a join GoodsType gt on a.GoodstypeID=gt.GoodsTypeID join Barcode bar on a.GoodsID=bar.GoodsID 
+   join Color c on bar.ColorID=c.ColorID Join Size s on bar.SizeID=s.SizeID 
+    where 1=1 
    <if test="conditions != null and conditions != ''">
     
    ${conditions}
    </if>
-
+  and exists (select st.GoodsID from stockdetail st with(nolock) where st.GoodsID=bar.GoodsID and st.ColorID=bar.ColorID and st.SizeID=bar.SizeID)
       
   </select>
   

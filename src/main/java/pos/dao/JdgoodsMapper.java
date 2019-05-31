@@ -7,7 +7,7 @@ import pos.model.JdgoodsExample;
 public interface JdgoodsMapper {
     int countByExample(JdgoodsExample example);
 
-    int deleteByPrimaryKey(String goodsid);
+    int deleteByPrimaryKey(String goodsno);
 
     int insert(Jdgoods record);
 
@@ -15,7 +15,7 @@ public interface JdgoodsMapper {
 
     List<Jdgoods> selectByExample(JdgoodsExample example);
 
-    Jdgoods selectByPrimaryKey(String goodsid);
+    Jdgoods selectByPrimaryKey(String goodsno);
 
     int updateByPrimaryKeySelective(Jdgoods record);
 

@@ -2,16 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pos.dao.JdgoodsMapper" >
   <resultMap id="BaseResultMap" type="pos.model.Jdgoods" >
-    <id column="GoodsID" property="goodsid" jdbcType="VARCHAR" />
+    <id column="GoodsNo" property="goodsno" jdbcType="VARCHAR" />
+    <result column="GoodsID" property="goodsid" jdbcType="VARCHAR" />
     <result column="Code" property="code" jdbcType="VARCHAR" />
     <result column="Name" property="name" jdbcType="VARCHAR" />
-    <result column="Age" property="age" jdbcType="CHAR" />
-    <result column="Season" property="season" jdbcType="VARCHAR" />
-    <result column="Model" property="model" jdbcType="VARCHAR" />
-    <result column="PurchasePrice" property="purchaseprice" jdbcType="DECIMAL" />
-    <result column="RetailSales" property="retailsales" jdbcType="DECIMAL" />
     <result column="barcodes" property="barcodes" jdbcType="VARCHAR" />
-    <result column="GoodsNo" property="goodsno" jdbcType="VARCHAR" />
     <result column="deptNo" property="deptno" jdbcType="VARCHAR" />
     <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
     <result column="safeDays" property="safedays" jdbcType="INTEGER" />
@@ -47,8 +42,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    GoodsID, Code, Name, Age, Season, Model, PurchasePrice, RetailSales, barcodes, GoodsNo, 
-    deptNo, goodsName, safeDays, thirdCategoryNo
+    GoodsNo, GoodsID, Code, Name, barcodes, deptNo, goodsName, safeDays, thirdCategoryNo
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.JdgoodsExample" >
     select
@@ -69,27 +63,28 @@
     select 
     <include refid="Base_Column_List" />
     from jdGoods
-    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+    where GoodsNo = #{goodsno,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from jdGoods
-    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+    where GoodsNo = #{goodsno,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="pos.model.Jdgoods" >
-    insert into jdGoods (GoodsID, Code, Name, 
-      Age, Season, Model, PurchasePrice, 
-      RetailSales, barcodes, GoodsNo, 
-      deptNo, goodsName, safeDays, 
-      thirdCategoryNo)
-    values (#{goodsid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{age,jdbcType=CHAR}, #{season,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{purchaseprice,jdbcType=DECIMAL}, 
-      #{retailsales,jdbcType=DECIMAL}, #{barcodes,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR}, 
-      #{deptno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{safedays,jdbcType=INTEGER}, 
-      #{thirdcategoryno,jdbcType=VARCHAR})
+    insert into jdGoods (GoodsNo, GoodsID, Code, 
+      Name, barcodes, deptNo, 
+      goodsName, safeDays, thirdCategoryNo
+      )
+    values (#{goodsno,jdbcType=VARCHAR}, #{goodsid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{barcodes,jdbcType=VARCHAR}, #{deptno,jdbcType=VARCHAR}, 
+      #{goodsname,jdbcType=VARCHAR}, #{safedays,jdbcType=INTEGER}, #{thirdcategoryno,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="pos.model.Jdgoods" >
     insert into jdGoods
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsno != null" >
+        GoodsNo,
+      </if>
       <if test="goodsid != null" >
         GoodsID,
       </if>
@@ -99,26 +94,8 @@
       <if test="name != null" >
         Name,
       </if>
-      <if test="age != null" >
-        Age,
-      </if>
-      <if test="season != null" >
-        Season,
-      </if>
-      <if test="model != null" >
-        Model,
-      </if>
-      <if test="purchaseprice != null" >
-        PurchasePrice,
-      </if>
-      <if test="retailsales != null" >
-        RetailSales,
-      </if>
       <if test="barcodes != null" >
         barcodes,
-      </if>
-      <if test="goodsno != null" >
-        GoodsNo,
       </if>
       <if test="deptno != null" >
         deptNo,
@@ -134,6 +111,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsno != null" >
+        #{goodsno,jdbcType=VARCHAR},
+      </if>
       <if test="goodsid != null" >
         #{goodsid,jdbcType=VARCHAR},
       </if>
@@ -143,26 +123,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
-        #{age,jdbcType=CHAR},
-      </if>
-      <if test="season != null" >
-        #{season,jdbcType=VARCHAR},
-      </if>
-      <if test="model != null" >
-        #{model,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseprice != null" >
-        #{purchaseprice,jdbcType=DECIMAL},
-      </if>
-      <if test="retailsales != null" >
-        #{retailsales,jdbcType=DECIMAL},
-      </if>
       <if test="barcodes != null" >
         #{barcodes,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsno != null" >
-        #{goodsno,jdbcType=VARCHAR},
       </if>
       <if test="deptno != null" >
         #{deptno,jdbcType=VARCHAR},
@@ -187,32 +149,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="pos.model.Jdgoods" >
     update jdGoods
     <set >
+      <if test="goodsid != null" >
+        GoodsID = #{goodsid,jdbcType=VARCHAR},
+      </if>
       <if test="code != null" >
         Code = #{code,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         Name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
-        Age = #{age,jdbcType=CHAR},
-      </if>
-      <if test="season != null" >
-        Season = #{season,jdbcType=VARCHAR},
-      </if>
-      <if test="model != null" >
-        Model = #{model,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseprice != null" >
-        PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
-      </if>
-      <if test="retailsales != null" >
-        RetailSales = #{retailsales,jdbcType=DECIMAL},
-      </if>
       <if test="barcodes != null" >
         barcodes = #{barcodes,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsno != null" >
-        GoodsNo = #{goodsno,jdbcType=VARCHAR},
       </if>
       <if test="deptno != null" >
         deptNo = #{deptno,jdbcType=VARCHAR},
@@ -227,23 +174,18 @@
         thirdCategoryNo = #{thirdcategoryno,jdbcType=VARCHAR},
       </if>
     </set>
-    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+    where GoodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="pos.model.Jdgoods" >
     update jdGoods
-    set Code = #{code,jdbcType=VARCHAR},
+    set GoodsID = #{goodsid,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
       Name = #{name,jdbcType=VARCHAR},
-      Age = #{age,jdbcType=CHAR},
-      Season = #{season,jdbcType=VARCHAR},
-      Model = #{model,jdbcType=VARCHAR},
-      PurchasePrice = #{purchaseprice,jdbcType=DECIMAL},
-      RetailSales = #{retailsales,jdbcType=DECIMAL},
       barcodes = #{barcodes,jdbcType=VARCHAR},
-      GoodsNo = #{goodsno,jdbcType=VARCHAR},
       deptNo = #{deptno,jdbcType=VARCHAR},
       goodsName = #{goodsname,jdbcType=VARCHAR},
       safeDays = #{safedays,jdbcType=INTEGER},
       thirdCategoryNo = #{thirdcategoryno,jdbcType=VARCHAR}
-    where GoodsID = #{goodsid,jdbcType=VARCHAR}
+    where GoodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
 </mapper>

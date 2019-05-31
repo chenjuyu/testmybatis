@@ -26,6 +26,7 @@ import web.util.AjaxJson;
 import web.util.Common;
 import web.util.LoginUtilParameter;
 import web.util.OAuth;
+import web.util.ResourceUtil;
 import web.util.oConvertUtils;
 
 import com.jd.open.api.sdk.JdClient;
@@ -83,12 +84,19 @@ public class ManagerController {
 		
 		Map<String,Object> map=OAuth.transToken();
 		
-		String accessToken=String.valueOf(map.get("access_token"));
+	    //String.valueOf(map.get("access_token"));
 		
-		String appKey=String.valueOf(map.get("appKey"));
+		//OAuth.refreshtoken();
 		
-		String appSecret=String.valueOf(map.get("appSecret"));
+		String appKey=ResourceUtil.getConfigByName("appKey");//String.valueOf(map.get("appKey"));
 		
+		String appSecret=ResourceUtil.getConfigByName("appSecret");//String.valueOf(map.get("appSecret"));
+		
+		String accessToken=ResourceUtil.getConfigByName("access_token");
+		
+		 System.out.println("accessToken的值:"+accessToken);
+		 System.out.println("appKey的值:"+appKey);
+		 System.out.println("appSecret的值:"+appSecret);
 		
 	    System.out.println("list的值:"+list.toString());
 		
@@ -99,20 +107,30 @@ public class ManagerController {
 			System.out.println(String.valueOf(m.get("Code"))+"\n");
 			System.out.println(String.valueOf(m.get("GoodsID"))+"\n");
 			System.out.println(String.valueOf(m.get("Name"))+"\n");
-			System.out.println("Barcodes:"+String.valueOf(m.get("Barcodes"))+"\n");
+			System.out.println("Barcodes:"+String.valueOf(m.get("Barcode"))+"\n");
+			
+			System.out.println("typeCode三级编码:"+String.valueOf(m.get("typeCode"))+"\n");
+			
+			System.out.println("jdName京东名字:"+String.valueOf(m.get("jdName"))+"\n");
+			
+			
 		    client=new DefaultJdClient("https://api.jd.com/routerjson",accessToken,appKey,appSecret); 
+		    
 			EclpGoodsTransportGoodsInfoRequest request=new EclpGoodsTransportGoodsInfoRequest();
 			request.setDeptNo("EBU4418046578252");//事业部的编码
-			request.setIsvGoodsNo(String.valueOf(m.get("Code"))); //ISV主商品编码(不可修改) (长度：60)
+			request.setIsvGoodsNo(String.valueOf(m.get("Barcode"))); //ISV主商品编码(不可修改) (长度：60)
 			//request.setSpGoodsNo("38578045095");
-			request.setBarcodes(String.valueOf(m.get("Barcodes")));
-			request.setThirdCategoryNo("11991"); //短库
-			request.setGoodsName("测试商品请不要购买");//g.getName()
+			request.setBarcodes(String.valueOf(m.get("Barcode")));
+			request.setThirdCategoryNo(String.valueOf(m.get("typeCode"))); //短库 "11991" 
+			
+			request.setGoodsName(String.valueOf(m.get("jdName")));//g.getName()
+			
 			request.setAbbreviation("测试商品请不要购买");
 			request.setBrandNo("290850");
 			request.setBrandName("测试品牌");
 			request.setManufacturer("测试品牌");
 			request.setProduceAddress("测试品牌");
+			request.setSafeDays(12);
 		//	request.setStandard("5L220V");
 		//	request.setColor("红色");
 		//	request.setSize("5寸");
@@ -122,7 +140,7 @@ public class ManagerController {
 		//	request.setLength( 4);
 		//	request.setWidth(5);
 		//	request.setHeight(8);
-			request.setSafeDays(12);
+			
 //			request.setSerial("1");
 //			request.setBatch("1");
 //			request.setCheapGift("1");
@@ -253,14 +271,17 @@ public class ManagerController {
 				if(response.getGoodsNo() !=null && !"".equals(response.getGoodsNo())){
 					Jdgoods jdgoods=new Jdgoods();
 					jdgoods.setGoodsid(String.valueOf(m.get("GoodsID")));
-					jdgoods.setCode(String.valueOf(m.get("Code")));
+					jdgoods.setCode(String.valueOf(m.get("Barcode")));
 					jdgoods.setName(String.valueOf(m.get("Name")));
-					jdgoods.setBarcodes(String.valueOf(m.get("Barcodes")));
+					jdgoods.setGoodsname(String.valueOf(m.get("jdName")));
+					jdgoods.setBarcodes(String.valueOf(m.get("Barcode")));
+					jdgoods.setThirdcategoryno(String.valueOf(m.get("typeCode")));
 					jdgoods.setGoodsno(response.getGoodsNo());
 					
 					JdgoodsExample example=new JdgoodsExample();	
+					example.clear();
 					JdgoodsExample.Criteria cr= example.createCriteria();
-					cr.andGoodsidEqualTo(String.valueOf(m.get("GoodsID")));
+					cr.andCodeEqualTo(String.valueOf(m.get("Barcode")));
 			    	int count=jdgoodsservice.countByExample(example);
 				
 	                 if(count > 0){
@@ -268,12 +289,10 @@ public class ManagerController {
 	           
 	                 }else{
 	                	 jdgoodsservice.insert(jdgoods);
-	                 }			
-					
-					
-					
-					
-					
+	                 }		
+	                 j.setMsg("同步成功");
+				}else{
+					j.setMsg(response.toString());
 				}
 				
 				
@@ -289,7 +308,7 @@ public class ManagerController {
 		
 	//	System.out.println("list:"+list.toString());
 		
-		j.setMsg("成功执行");
+		
 		return j;
 	}
 	

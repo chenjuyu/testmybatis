@@ -167,18 +167,18 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
-      ,{field:'Code', title:'货品编码', width:120}//, edit: 'text'
-      ,{field:'Name', title:'货品名称', width:120, edit: 'text'}//, edit: 'text'
+      ,{field:'Code', title:'伏羲货号', width:120}//, edit: 'text'
+      ,{field:'Name', title:'伏羲货名', width:120, edit: 'text'}//, edit: 'text'
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
       }} */
-      ,{field:'Age', title:'年份', width:80 }//sort: true , edit: 'text'
-      ,{field:'PurchasePrice', title:'参考进价', width:100,hide:true}
-      ,{field:'RetailSales', title:'零售价',width:80}
-      ,{field:'PointRate', title:'积分倍数', width:100}
-      ,{field:'SupplierCode', title:'厂商货品编码', width:120}
-      ,{field:'Model', title:'型号规格', width:100}
-      ,{field:'Season', title:'季节', width:120}
+      ,{field:'Barcode', title:'同步编码', width:180}
+      ,{field:'jdName', title:'同步名称', width:150 }//sort: true , edit: 'text'
+      ,{field:'typeCode', title:'三级类别编码', width:150}
+      ,{field:'GoodsType', title:'三级类别名称',width:150}
+     // ,{field:'SupplierCode', title:'厂商货品编码', width:120}
+     // ,{field:'Model', title:'型号规格', width:100}
+    //  ,{field:'Season', title:'季节', width:120}
      // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
     ]]
     ,id: 'goodslist'  
@@ -317,7 +317,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	   //返回 的是没有元素，不是已经存在的  适合新增与删除，不适合修改比较 _.difference
 	var diff=_.differenceWith(tabledata,JSON.parse(layui.data('olddata').olddata),_.isEqual)
 	   console.log("diff数据："+JSON.stringify(diff)) 
-	   return
+	//   return
 	  
 	  
 	  
@@ -331,7 +331,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	       // layer.alert(JSON.stringify(data));
 	       if(data.length>0){
 	        Send(JSON.stringify(data))
-	        layer.msg('同步成功');
+	       // layer.msg('同步成功');
 	       }
 	      break;
 	      case 'getCheckLength':

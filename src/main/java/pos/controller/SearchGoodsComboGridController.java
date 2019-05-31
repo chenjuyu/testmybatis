@@ -52,10 +52,10 @@ public class SearchGoodsComboGridController {
 			conditions=" and a.goodsid='"+keyword+"' ";
 		}
 		if (issyn==1){
-			conditions=conditions+" and not exists(select GoodsID from jdgoods b where a.GoodsID=b.GoodsID)";
+			conditions=conditions+" and not exists(select GoodsID from jdgoods b where bar.BarCode=b.GoodsNo)";
 		}
 		if (issyn==2){ //已同步
-		    conditions=conditions+" and exists(select GoodsID from jdgoods b where a.GoodsID=b.GoodsID)";	
+		    conditions=conditions+" and exists(select GoodsID from jdgoods b where bar.BarCode=b.GoodsNo)";	
 			
 		}
 		

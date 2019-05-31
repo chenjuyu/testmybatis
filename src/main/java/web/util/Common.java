@@ -2,6 +2,7 @@ package web.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class Common
@@ -395,4 +398,29 @@ public static int getSecondTimestampTwo(Date date){
   String timestamp = String.valueOf(date.getTime()/1000);  
   return Integer.valueOf(timestamp);  
 }
+
+/* 
+ * 将时间戳转换为时间
+ */
+public static String stampToDate(String s){
+    String res;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    long lt = new Long(s);
+    Date date = new Date(lt);
+    res = simpleDateFormat.format(date);
+    return res;
+}
+/* 
+ * 将时间转换为时间戳
+ */    
+public static String dateToStamp(String s) throws ParseException{
+    String res;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date date = simpleDateFormat.parse(s);
+    long ts = date.getTime();
+    res = String.valueOf(ts);
+    return res;
+}
+
+
 }

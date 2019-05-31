@@ -94,9 +94,13 @@ public class OAuth {
 	  Map<String,Object> map=new HashMap<String,Object>();
 	  
 	  int EndDate=Integer.parseInt(ResourceUtil.getConfigByName("EndDate"));
+	  
+	  System.out.println("EndDate 过期时间"+(EndDate-Common.getSecondTimestampTwo(new Date()))); 
 	  if(EndDate-Common.getSecondTimestampTwo(new Date())<=3600){
 	 	   refreshtoken();
+	 	   System.out.println("刷新票据林成功");
 	    }
+	  refreshtoken();
 	  map.put("appKey", ResourceUtil.getConfigByName("appKey"));
 	  map.put("appSecret", ResourceUtil.getConfigByName("appSecret"));
 	  map.put("access_token", ResourceUtil.getConfigByName("access_token"));

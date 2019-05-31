@@ -1,24 +1,24 @@
+
 CREATE TABLE [dbo].[jdGoods](
-[GoodsID] [varchar](20) NOT NULL primary key,
-[Code] [varchar](50) NULL,
-[Name] [varchar](60)  NULL,
-[Age] [char](4) NULL,
-[Season] [varchar](10) NULL,
-[Model] [varchar](50) NULL,
-PurchasePrice money,
-RetailSales money,
-barcodes varchar(200),
-GoodsNo varchar(100),
-deptNo varchar(50),
-goodsName varchar(500),
-safeDays int,
-thirdCategoryNo varchar(20)
-)
-GO
-CREATE UNIQUE NONCLUSTERED INDEX [IXGoodsCode] ON [dbo].[jdGoods] 
+	[GoodsID] [varchar](20) NOT NULL,
+	[Code] [varchar](50) NULL,
+	[Name] [varchar](60) NOT NULL,
+	[barcodes] [varchar](200) NULL,
+	[GoodsNo] [varchar](100) not NULL,
+	[deptNo] [varchar](50) NULL,
+	[goodsName] [varchar](500) NULL,
+	[safeDays] [int] NULL,
+	[thirdCategoryNo] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
 (
-	[Code] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	[GoodsNo] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
 GO
 CREATE TABLE [dbo].[jdStock](
 	[StockID] [varchar](20) NOT NULL primary key,
