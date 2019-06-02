@@ -21,8 +21,11 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jd.open.api.sdk.JdException;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
 
 import pos.model.Sizegroupsize;
 import pos.model.SizegroupsizeExample;
@@ -41,7 +44,7 @@ public class StockController {
 	@Autowired
 	private ISizeGroupSize sizeservice;
 	
-	
+	private JdTools  jdTools =new JdTools();
 	
 	@RequestMapping(value = "/search")
 	public void search(HttpServletRequest request, HttpServletResponse response) {
@@ -444,6 +447,7 @@ public class StockController {
 	}
 	
 	@RequestMapping(value = "/jdstock")	
+	@ResponseBody
 	public AjaxJson jdstock(HttpServletRequest re) throws JdException{
 		AjaxJson j=new AjaxJson();
 		
@@ -471,7 +475,7 @@ public class StockController {
 			jsonstr.put("Qty",String.valueOf(m.get("Quantity")));
 			jsonstr.put("totalPrice",String.valueOf(m.get("RelationAmount")));
 		}
-		JdTools  jdTools =new JdTools();
+		
 		
 		org.json.JSONObject json=jdTools.addPoOrder(jsonstr);
 		
@@ -486,6 +490,55 @@ public class StockController {
 		
 		
 		return j;
+	}
+	@RequestMapping(value = "/jdstock")
+	public void queryPoOrder(HttpServletRequest re,HttpServletResponse rp) throws JdException{
+		//默认只能查询一单
+		String No=re.getParameter("No");
+		org.json.JSONObject json=jdTools.queryPoOrder(No);
+		org.json.JSONObject jsons=new org.json.JSONObject();
+		if(json !=null){
+			List<QueryPoModel> ls =(List<QueryPoModel>)json.get("ls"); //采购入库单明细
+			     for(QueryPoModel po :ls){
+			     String poOrderNo =po.getPoOrderNo();//开放平台采购入库单号;最大长度50
+			     String isvPoOrderNo=po.getIsvPoOrderNo();//ISV采购入库单号；最大长度50
+			     String deptNo=po.getDeptNo();//开放平台事业部编号；EBU开头；最大长度50
+			     String whNo=po.getWhNo();//开放平台库房编号；最大长度50；
+			     String supplierNo=po.getSupplierNo();//开放平台供应商编号；最大长度50
+			     String createUser=po.getCreateUser();//采购入库单创建人;最大长度50；
+			     String poOrderStatus=po.getPoOrderStatus();//采购入库单状态：10：新建，20：初始（下发），50：验收,70：关单；最大长度4
+			     String createTime=po.getCreateTime();
+			     String completeTime=po.getCompleteTime();
+			     String storageStatus=po.getStorageStatus();
+			     String resultCode=po.getResultCode();
+			     String msg=po.getMsg();
+			     List<PoItemModel> lt=po.getPoItemModelList();
+			     
+			     if(lt.size()>0){	 
+			    	 jsons.put("poOrderNo", poOrderNo);
+			    	 jsons.put("isvPoOrderNo", isvPoOrderNo);
+			    	 jsons.put("deptNo", deptNo);
+			    	 jsons.put("whNo", whNo);
+			    	 jsons.put("supplierNo", supplierNo);
+			    	 jsons.put("createUser", createUser);
+			    	 jsons.put("poOrderStatus", poOrderStatus);
+			    	 jsons.put("createTime", createTime);
+			    	 jsons.put("completeTime", completeTime);
+			    	 jsons.put("storageStatus", storageStatus);
+			    	 jsons.put("resultCode", resultCode);
+			    	 jsons.put("msg", msg);
+			    	 jsons.put("data", lt);//采购入库单明细 
+			     }
+			     
+			     List<String> qc= po.getQcBackErrItemList(); //质检不合格明细     
+			     if(qc.size()>0){
+			    	 jsons.put("qcBackErrItemList", qc);
+			     }
+			     }	
+			   
+		}
+		
+		
 	}
 	
 	

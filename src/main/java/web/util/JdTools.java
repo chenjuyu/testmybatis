@@ -1,16 +1,24 @@
 package web.util;
 
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
 
 
 
+
+
+
+
 import com.jd.open.api.sdk.DefaultJdClient;
 import com.jd.open.api.sdk.JdClient;
 import com.jd.open.api.sdk.JdException;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
 import com.jd.open.api.sdk.request.ECLP.EclpPoAddPoOrderRequest;
+import com.jd.open.api.sdk.request.ECLP.EclpPoQueryPoOrderRequest;
 import com.jd.open.api.sdk.response.ECLP.EclpPoAddPoOrderResponse;
+import com.jd.open.api.sdk.response.ECLP.EclpPoQueryPoOrderResponse;
 public class JdTools {
 	
 	Map<String,Object> map=OAuth.transToken();
@@ -37,6 +45,7 @@ public class JdTools {
 		request.setGoodsStatus("1");
 		
 		EclpPoAddPoOrderResponse response=client.execute(request);
+		
 		if(!"".equals(response.getPoOrderNo()) && response.getPoOrderNo() !=null){
 			j.put("msg", "生成订单号成功");
 			j.put("PoOrderNo", response.getPoOrderNo());
@@ -45,6 +54,41 @@ public class JdTools {
 			j.put("msg", "同步失败");
 			j.put("errorcode",response.getCode() );
 		}
+		return j;
+	}
+	public  JSONObject queryPoOrder(String No) throws JdException{
+		   
+		    JSONObject j=new JSONObject();
+		    
+		    EclpPoQueryPoOrderRequest request=new EclpPoQueryPoOrderRequest();
+		    request.setPoOrderNo(No);//"EPL4398046516113"
+		    EclpPoQueryPoOrderResponse response=client.execute(request);
+		    List<QueryPoModel> ls= response.getQueryPoModelList();
+		    
+		    if(ls.size()>0){
+		 //    for(QueryPoModel po :ls){
+		 //    String poOrderNo =po.getPoOrderNo();//开放平台采购入库单号;最大长度50
+		 //    String isvPoOrderNo=po.getIsvPoOrderNo();//ISV采购入库单号；最大长度50
+		 //    String deptNo=po.getDeptNo();//开放平台事业部编号；EBU开头；最大长度50
+		//     String whNo=po.getWhNo();//开放平台库房编号；最大长度50；
+		 //    String supplierNo=po.getSupplierNo();//开放平台供应商编号；最大长度50
+		 //    String createUser=po.getCreateUser();//采购入库单创建人;最大长度50；
+		  //   String poOrderStatus=po.getPoOrderStatus();//采购入库单状态：10：新建，20：初始（下发），50：验收,70：关单；最大长度4
+		     
+		     
+		 //    }
+		    	
+		    	j.put("ls", ls); 	
+		    	
+		    }else{
+		    	return null;
+		    }
+		    
+		    
+		    
+		    
+		
+		
 		return j;
 	}
 	
