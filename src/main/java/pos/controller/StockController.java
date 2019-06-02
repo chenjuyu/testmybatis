@@ -22,11 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jd.open.api.sdk.JdException;
+
 import pos.model.Sizegroupsize;
 import pos.model.SizegroupsizeExample;
 import pos.service.ISizeGroupSize;
 import pos.service.IStock;
 import web.util.AjaxJson;
+import web.util.JdTools;
 import web.util.oConvertUtils;
 
 @Controller
@@ -441,10 +444,44 @@ public class StockController {
 	}
 	
 	@RequestMapping(value = "/jdstock")	
-	public AjaxJson jdstock(HttpServletRequest re){
+	public AjaxJson jdstock(HttpServletRequest re) throws JdException{
 		AjaxJson j=new AjaxJson();
 		
+		String stockid=oConvertUtils.getString(re.getParameter("stockid"));
+		String No=oConvertUtils.getString(re.getParameter("No"));
+		String conditions=null;
+		if(!"".equals(stockid) && stockid !=null){
+			conditions=" and a.stockID='"+stockid+"'";
+		}
 		
+		HashMap<String,Object> map = stockService.synstock(conditions);		        
+		
+		List<LinkedHashMap<String,Object>> list= (List<LinkedHashMap<String,Object>>) map.get("rows");
+		String GoodsNo="";
+		org.json.JSONObject jsonstr=new org.json.JSONObject();
+		for(int i=0 ;i<list.size();i++){
+			LinkedHashMap<String,Object> m= list.get(i);
+			if(i==list.size()-1){
+			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"));	
+			}else{
+			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"))+",";//京东货号
+			}
+			jsonstr.put("No", No);
+			jsonstr.put("GoodsNo", GoodsNo);
+			jsonstr.put("Qty",String.valueOf(m.get("Quantity")));
+			jsonstr.put("totalPrice",String.valueOf(m.get("RelationAmount")));
+		}
+		JdTools  jdTools =new JdTools();
+		
+		org.json.JSONObject json=jdTools.addPoOrder(jsonstr);
+		
+		if(json.getString("errorcode") !=null){
+			j.setSuccess(false);
+			j.setMsg(json.getString("errorcode"));
+		}else{
+			j.setMsg(json.getString("msg"));
+			j.setSuccess(true);
+		}
 		
 		
 		

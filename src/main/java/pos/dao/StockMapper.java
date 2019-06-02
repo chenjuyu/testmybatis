@@ -29,4 +29,6 @@ public interface StockMapper {
     int stockcount(Map<String,Object> map);
     
     List<LinkedHashMap<String,Object>> stockDetial(Map<String,Object> map); 
+    
+    List<LinkedHashMap<String,Object>> stockconnetjd(Map<String,Object> map); 
 }

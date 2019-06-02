@@ -96,6 +96,20 @@ public class StockService implements IStock {
 		 return m;
 	}
 
+	@Override
+	public HashMap<String, Object> synstock(String conditions) {
+         Map<String,Object> map=new HashMap<String,Object>();
+         HashMap<String,Object> m=new HashMap<String,Object>();
+		if(!"".equals(conditions) && conditions !=null){
+			map.put("conditions", conditions);
+		List<LinkedHashMap<String, Object>> stocklist = this.stockMapper.stockconnetjd(map);
+		m.put("rows", stocklist);
+		}
+		
+		return m;
+		
+	}
+
 
 
 }

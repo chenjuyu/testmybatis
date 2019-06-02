@@ -29,4 +29,56 @@ CREATE TABLE [dbo].[jdStock](
     jddeptNo varchar(50),
     poOrderNo varchar(50)
     )
+go
+alter table stockdetail add RelationUnitPrice money,RelationAmount money
+go
+Create  PROCEDURE [dbo].[ExecUpdateTablePrice] @TableTag int,@IDValue varchar(40)
+--With Encryption
+AS
+--修改日期 2010-07-25
+Declare @TableName Varchar(40),@SizeCount Int, @I int, @BoxFlag bit, @QtyField Varchar(50), @ExecStr Varchar(2000), @DiscountFlag bit, 
+	@KeyField Varchar(50), @OrderNo Varchar(20), @KeyFields Varchar(100) ,@KeyField2 Varchar(50), @ParentField Varchar(50)
+	Set NOCOUNT ON
+	
+    Select @KeyField=(Select FieldName From DataDictionary Where TableTag=@TableTag)
+    Select @TableName=(Select TableName From DataDictionary Where TableTag=@TableTag)
+  
+   if @TableTag=25
+    Update a set a.RelationUnitPrice=b.RelationUnitPrice*b.DiscountRate/10 
+     from  stockdetail a,StockDetailTemp b where a.StockID=b.StockID and b.StockID=@IDValue
+     and a.GoodsID=b.GoodsID and a.ColorID=b.ColorID and ISNULL(b.DiscountRate,0)>0 and ISNULL(b.DiscountRate,0)<=10    
+     and ISNULL(b.RelationUnitPrice,0)<>0
 
+     Update a set a.RelationUnitPrice=b.RelationUnitPrice
+     from  stockdetail a,StockDetailTemp b where a.StockID=b.StockID and b.StockID=@IDValue
+     and a.GoodsID=b.GoodsID and a.ColorID=b.ColorID and (ISNULL(b.DiscountRate,0)=0 or ISNULL(b.DiscountRate,'')='')    
+     and ISNULL(b.RelationUnitPrice,0)<>0
+
+     Update stockdetail set RelationAmount=RelationUnitPrice*Quantity where StockID=@IDValue and isnull(RelationUnitPrice,0)<>0
+
+	Set NOCOUNT OFF
+go
+ALTER TRIGGER [Stock_IU] ON [dbo].[Stock] 
+FOR INSERT, UPDATE Not For Replication
+AS
+	--if Not Update(AuditFlag)
+		--Return
+	--if Exists(Select Top 1 * From Deleted) and Exists(Select Top 1 * From Deleted Where AuditFlag=0) and Exists(Select * From Inserted Where AuditFlag=1)
+	--	or Not Exists(Select AuditFlag From Deleted) and Exists(Select * From Inserted Where AuditFlag=1)
+	update a set a.CostWarehouseID = d.CostWarehouseID from Stock a, Inserted b, Department d 
+		where a.StockID=b.StockID and a.WarehouseID=d.DepartmentID 
+		and (a.CostWarehouseID is null or a.CostWarehouseID <> d.CostWarehouseID)
+    declare @id varchar(40)
+    select @id=stockID from Inserted 
+	if Exists(Select a.* From Triggers a,  Inserted b Where TableTag=25 and IDValue=b.StockID)
+	begin
+		Begin Tran T1
+		Truncate Table StockDetailTemp_I 
+		Delete a From StockDetail a,Deleted b Where a.StockID=b.StockID
+		--Insert into StockDetailTemp_I(StockID,GoodsID,ColorID) Select Distinct a.StockID,GoodsID,ColorID from StockDetailTemp a,Inserted b Where a.StockID=b.StockID
+		Insert into StockDetailTemp_I Select a.* from StockDetailTemp a,Inserted b Where a.StockID=b.StockID
+		Exec ExecUpdateTable 25 
+        Exec [ExecUpdateTablePrice] 25,@id
+		Delete a From Triggers a,  Inserted b Where TableTag=25 and IDValue=b.StockID
+		Commit Tran T1
+	end

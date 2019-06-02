@@ -1,6 +1,7 @@
 package pos.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,6 @@ public interface IGoods {
 	
 	HashMap<String,Object> goodslist(String conditions, int pageno, int pagesize);
 	
-	
+	LinkedHashMap<String,Object> autolist(String conditions, int pageno, int pagesize);
 	
 }

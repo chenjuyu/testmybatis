@@ -168,7 +168,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
       {type: 'checkbox', fixed: 'left'}
       ,{field:'GoodsID', title:'GoodsID', width:80, fixed: 'left', hide:true, unresize: true}
       ,{field:'Code', title:'伏羲货号', width:120}//, edit: 'text'
-      ,{field:'Name', title:'伏羲货名', width:120, edit: 'text'}//, edit: 'text'
+      ,{field:'Name', title:'伏羲货名', width:120}//, edit: 'text'
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
       }} */

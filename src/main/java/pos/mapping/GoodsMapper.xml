@@ -1827,7 +1827,25 @@
       
   </select>
   
-  
+   <!-- 自定完成 -->
+     <select id="autolist" resultType="java.util.LinkedHashMap" parameterType="java.util.HashMap">
+     select a.GoodsID,a.Code,a.Name from Goods a where 1=1  
+       <if test="conditions != null and conditions != ''">
+            ${conditions}
+       </if>  
+       order by a.GoodsID
+         
+         
+     </select>
+     
+      <select id="autocount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+     select count(1)  from Goods a where 1=1  
+       <if test="conditions != null and conditions != ''">
+            ${conditions}
+       </if>  
+         
+         
+     </select>
   
   
 </mapper>

@@ -898,7 +898,7 @@
   Left outer join Warehouse w on a.RelationWarehouseID=w.warehouseid
   left outer join Brand br on a.BrandID=br.BrandID
   Left Outer Join Department f on a.BusinessDeptID=f.DepartmentID
-  where 1=1 
+  where 1=1 and a.Type in('采购','采购退货')
    <if test="conditions != null and conditions != ''"> 
    ${conditions}
    </if>  
@@ -911,7 +911,7 @@
    ${conditions}
    </if>
   </select>
-  
+  <!-- 显示 -->
   <select id="stockDetial" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
  Select b.Code,b.SupplierCode,b.Name,b.Model,b.Unit,c.Color,b.GroupNo,b.age,b.Season,b.StopFlag,a.BoxQty,
  <if test="size != null and size != ''">
@@ -933,8 +933,18 @@ left join storage st on a.StorageID = st.StorageID
 
 Order by a.StockID,  a.IndexNo
   </select>
- 
- 
+  <!-- 同步到京东关联 -->
+ <select id="stockconnetjd" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
+   select a.stockid,a.GoodsID,a.ColorID,a.SizeID,jg.GoodsNo,a.Quantity,a.RelationUnitPrice,a.RelationAmount from stockdetail a 
+   join barcode bar on (a.GoodsID=bar.GoodsID and a.ColorID=bar.ColorID and a.SizeID=bar.SizeID)
+   Join [jdGoods] jg on bar.barcode=jg.Code
+   where 1=1 
+   <if test="conditions != null and conditions != ''">
+   ${conditions}
+  </if>
+   order by a.stockid
+   
+ </select>
  
  
   

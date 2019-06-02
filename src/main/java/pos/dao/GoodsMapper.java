@@ -1,6 +1,7 @@
 package pos.dao;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import pos.model.Goods;
@@ -31,4 +32,9 @@ public interface GoodsMapper {
     List<HashMap<String,Object>> goodslist(HashMap<String,Object> map);
 
     int goodscount(HashMap<String,Object> map);
+    
+    List<LinkedHashMap<String,Object>> autolist(HashMap<String,Object> map); 
+    int autocount(HashMap<String,Object> map);
+    
+    
 }

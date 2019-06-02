@@ -411,7 +411,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
             var body = layer.getChildFrame('body', j);
             var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
            // console.log(body.html()) //得到iframe页的body内容
-            body.find('input[name=keyword]').val('Hi，我是从父页来的')
+          //  body.find('input[name=keyword]').val('Hi，我是从父页来的')
             console.log(iframeWin.kkk)
           }
         

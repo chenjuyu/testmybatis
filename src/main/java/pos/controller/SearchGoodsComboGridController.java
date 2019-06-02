@@ -3,10 +3,12 @@ package pos.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 
 
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 
 
@@ -52,10 +55,10 @@ public class SearchGoodsComboGridController {
 			conditions=" and a.goodsid='"+keyword+"' ";
 		}
 		if (issyn==1){
-			conditions=conditions+" and not exists(select GoodsID from jdgoods b where bar.BarCode=b.GoodsNo)";
+			conditions=conditions+" and not exists(select GoodsID from jdgoods b where bar.BarCode=b.Code)";
 		}
 		if (issyn==2){ //已同步
-		    conditions=conditions+" and exists(select GoodsID from jdgoods b where bar.BarCode=b.GoodsNo)";	
+		    conditions=conditions+" and exists(select GoodsID from jdgoods b where bar.BarCode=b.Code)";	
 			
 		}
 		
@@ -122,7 +125,7 @@ public class SearchGoodsComboGridController {
 		
 		String conditions=" and (a.Code like '%"+keyword+"%' or a.Name like '%"+keyword+"%')";
 		
-		HashMap<String,Object> m=goodsserive.goodslist(conditions, pageno, pagesize);
+		LinkedHashMap<String,Object> m=goodsserive.autolist(conditions, pageno, pagesize);
 		JSONObject j=new JSONObject();
 		//j.put("total", m.get("total"));
 		//j.put("rows", m.get("rows"));

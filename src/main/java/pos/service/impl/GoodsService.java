@@ -87,6 +87,33 @@ public class GoodsService implements IGoods {
 		return m;
 	}
 
+	@Override
+	public LinkedHashMap<String, Object> autolist(String conditions,
+			int pageno, int pagesize) {
+		
+		PagingView p=new PagingView(Integer.valueOf(pageno).intValue());
+		p.setPageSize(pagesize);
+		
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		
+		
+			 if(conditions !=null || !"".equals(conditions) ){
+			
+	          map.put("conditions", conditions);			 	 
+			 }
+			 
+			int total =this.goodsmapper.autocount(map);
+			 
+		    map.put("page", p);
+		   List<LinkedHashMap<String, Object>> goods = this.goodsmapper.autolist(map);
+		   
+		   LinkedHashMap<String, Object> m=new LinkedHashMap<String, Object>();
+		    m.put("total", total);
+		    m.put("rows", goods);
+		 
+		return m;
+	}
+
 
 
 }

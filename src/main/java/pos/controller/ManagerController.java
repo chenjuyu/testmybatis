@@ -84,15 +84,15 @@ public class ManagerController {
 		
 		Map<String,Object> map=OAuth.transToken();
 		
-	    //String.valueOf(map.get("access_token"));
+	    
 		
 		//OAuth.refreshtoken();
 		
-		String appKey=ResourceUtil.getConfigByName("appKey");//String.valueOf(map.get("appKey"));
+		String appKey=String.valueOf(map.get("appKey"));//ResourceUtil.getConfigByName("appKey");
 		
-		String appSecret=ResourceUtil.getConfigByName("appSecret");//String.valueOf(map.get("appSecret"));
+		String appSecret=String.valueOf(map.get("appSecret"));//ResourceUtil.getConfigByName("appSecret");
 		
-		String accessToken=ResourceUtil.getConfigByName("access_token");
+		String accessToken=String.valueOf(map.get("access_token"));//ResourceUtil.getConfigByName("access_token");
 		
 		 System.out.println("accessToken的值:"+accessToken);
 		 System.out.println("appKey的值:"+appKey);
@@ -125,11 +125,11 @@ public class ManagerController {
 			
 			request.setGoodsName(String.valueOf(m.get("jdName")));//g.getName()
 			
-			request.setAbbreviation("测试商品请不要购买");
-			request.setBrandNo("290850");
-			request.setBrandName("测试品牌");
-			request.setManufacturer("测试品牌");
-			request.setProduceAddress("测试品牌");
+		//	request.setAbbreviation("测试商品请不要购买");
+		//	request.setBrandNo("290850");
+		//	request.setBrandName("测试品牌");
+		//	request.setManufacturer("测试品牌");
+		//	request.setProduceAddress("测试品牌");
 			request.setSafeDays(12);
 		//	request.setStandard("5L220V");
 		//	request.setColor("红色");
@@ -292,7 +292,7 @@ public class ManagerController {
 	                 }		
 	                 j.setMsg("同步成功");
 				}else{
-					j.setMsg(response.toString());
+					j.setMsg("同步失败，请查询厂商条码是否定义此货品的条码");
 				}
 				
 				

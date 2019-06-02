@@ -100,7 +100,7 @@ public class OAuth {
 	 	   refreshtoken();
 	 	   System.out.println("刷新票据林成功");
 	    }
-	  refreshtoken();
+	 // refreshtoken();
 	  map.put("appKey", ResourceUtil.getConfigByName("appKey"));
 	  map.put("appSecret", ResourceUtil.getConfigByName("appSecret"));
 	  map.put("access_token", ResourceUtil.getConfigByName("access_token"));
