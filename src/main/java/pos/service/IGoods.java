@@ -17,4 +17,6 @@ public interface IGoods {
 	
 	LinkedHashMap<String,Object> autolist(String conditions, int pageno, int pagesize);
 	
+	List<HashMap<String, Object>> stockgoods(String stockid);
+	
 }

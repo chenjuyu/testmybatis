@@ -92,9 +92,10 @@
 
 
 	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" data-type="getCheckData">同步数据</button>
-		<!--     <button class="layui-btn layui-btn-sm" data-type="getCheckLength">获取选中数目</button>
-    <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button> -->
+	    <button class="layui-btn layui-btn-sm" data-type="getCheckLength">先同步单据货品</button>
+		<button class="layui-btn layui-btn-sm" data-type="getCheckData">再同步单据</button>
+        
+  <!--  <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button> -->
 	</div>
 
 
@@ -220,7 +221,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
       } */ 
     ,title: '单据数据表'
     ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
+       {type:'radio'}  // {type: 'checkbox', fixed: 'left'} //这个多选 改为单选
       ,{field:'StockID', title:'StockID', width:80, fixed: 'left', hide:true, unresize: true}
       ,{field:'DisplaySizeGroup', title:'DisplaySizeGroup', width:80, fixed: 'left', hide:true}
       ,{field:'Date', title:'日期', width:120}
@@ -436,13 +437,26 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        console.log(data)
 	       // layer.alert(JSON.stringify(data));
 	       if(data.length>0){
-	        Send(JSON.stringify(data))
-	        layer.msg('同步成功');
-	       }
+	        //Send(JSON.stringify(data))
+	        //layer.msg('同步成功');
+	        var map={}
+	        map.stockid=data[0].StockID
+	        map.No=data[0].No
+	        Synjd(map) 
+	       } 
 	      break;
 	      case 'getCheckLength':
 	        var data = checkStatus.data;
-	        layer.msg('选中了：'+ data.length + ' 个');
+	        layer.alert(JSON.stringify(data));
+	        var stockid=data[0].StockID
+	        console.log(stockid)
+	       // return
+	        var array= getGoods(stockid)
+	        console.log("array数组："+JSON.stringify(array))
+	        if(array.length>0){
+	        jdgoods(JSON.stringify(array))
+	        }
+	       // layer.msg('选中了：'+ data.length + ' 个');
 	      break;
 	      case 'isAll':
 	        layer.msg(checkStatus.isAll ? '全选': '未全选');
@@ -500,6 +514,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         
  function  Send(data){
 	  var datastr =data;
+	 
 	  $.ajax({
 		 	type: "post",  //数据提交方式（post/get）
         	url: "<%=basePath%>main/jdstock.do",  //提交到的url
@@ -508,6 +523,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         	},
         	dataType: "json",//返回的数据类型格式  
         	success: function (msg) {
+        		
         		layer.alert(msg.msg, {icon: 1, time: 2500, title: '操作成功'});
         	}
         	,error:function (){
@@ -516,7 +532,79 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         	}
 		  
 	  });   
-  } 
+	 
+  }
+  //定义一个返回货品的方法
+ function getGoods(stockid){
+	  debugger
+	 var datalist=[]
+	  $.ajax({
+			type: "post",  //数据提交方式（post/get）
+	      	url: "<%=basePath%>stock/stockgoods.html",  //提交到的url
+	      	data: {
+	      		"stockid":stockid
+	      	},
+	      	dataType: "json",//返回的数据类型格式  
+	      	success: function (msg) {
+	      		datalist=msg.obj
+	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+	      	,error:function (){
+	      		
+	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+			  
+		  }); 
+	  
+	 return datalist;
+	  
+  }
+  //同步货品 的方法
+function jdgoods(data){
+	var datastr =data;
+	  $.ajax({
+		type: "post",  //数据提交方式（post/get）
+      	url: "<%=basePath%>main/jdgoods.html",  //提交到的url
+      	data: {
+      		"datas":datastr
+      	},
+      	dataType: "json",//返回的数据类型格式  
+      	success: function (msg) {
+      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+      	}
+      	,error:function (){
+      		
+      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+      	}
+		  
+	  }); 
+}  
+  
+//同步单据到京东
+function Synjd(map){
+	var stockid=map.stockid
+	var No=map.No
+	  $.ajax({
+			type: "post",  //数据提交方式（post/get）
+	      	url: "<%=basePath%>stock/jdstock.html",  //提交到的url
+	      	data: {
+	      		"stockid":stockid,
+	      		"No":No
+	      	},
+	      	dataType: "json",//返回的数据类型格式  
+	      	success: function (msg) {
+	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+	      	,error:function (){
+	      		
+	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+			  
+		  }); 
+	
+	
+	
+}
        
         
   

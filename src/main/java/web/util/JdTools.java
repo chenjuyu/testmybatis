@@ -35,14 +35,23 @@ public class JdTools {
 		EclpPoAddPoOrderRequest request=new EclpPoAddPoOrderRequest();
 		request.setSpPoOrderNo(jsonstr.getString("No")); //商家单号伏羲单号
 		request.setDeptNo("EBU4418046578252"); //京东事业部编码
-		request.setReferenceOrder("手工单号");
-		request.setInboundRemark("备注信息");
-		request.setWhNo("110000008"); //入库库房编号，格式：11开头，最大长度：100
-		request.setSupplierNo("EMS0000000000001");//供应商编号，格式：EMS开头，最大长度：50
+		//request.setReferenceOrder("手工单号");
+	    //request.setInboundRemark("备注信息");
+		request.setWhNo("110009082"); // 110009082入库库房编号，格式：11开头，最大长度：100
+		request.setSupplierNo("EMS4418047468093");//EMS4418047468093供应商编号，格式：EMS开头，最大长度：50
 		request.setDeptGoodsNo(jsonstr.getString("GoodsNo")); //商品
 		request.setNumApplication(jsonstr.getString("Qty"));  //jsonstr申请入库数量，最大长度：11
 		request.setTotalPrice(jsonstr.getString("totalPrice"));//商品总价
-		request.setGoodsStatus("1");
+		request.setGoodsStatus(jsonstr.getString("GoodsStatus"));
+		
+		System.out.println("本地单号："+jsonstr.getString("No"));
+		
+		System.out.println("京东对应货号："+jsonstr.getString("GoodsNo"));
+		
+		System.out.println("京东入库数量："+jsonstr.getString("Qty"));
+		
+		System.out.println("京东入库总价："+jsonstr.getString("totalPrice"));
+		System.out.println("京东入货品状态："+jsonstr.getString("GoodsStatus"));
 		
 		EclpPoAddPoOrderResponse response=client.execute(request);
 		

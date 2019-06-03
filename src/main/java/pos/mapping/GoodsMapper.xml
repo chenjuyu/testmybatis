@@ -1808,7 +1808,7 @@
    <if test="conditions != null and conditions != ''"> 
    ${conditions}
    </if>
-    and exists (select st.GoodsID from stockdetail st with(nolock) where st.GoodsID=bar.GoodsID and st.ColorID=bar.ColorID and st.SizeID=bar.SizeID)
+    and exists (select st.GoodsID from stockdetail st with(nolock) where st.GoodsID=bar.GoodsID and st.ColorID=bar.ColorID and st.SizeID=bar.SizeID <if test="stockid != null and stockid != ''"> and st.StockID=${stockid} </if> )
    order by a.GoodsID
       
   </select>

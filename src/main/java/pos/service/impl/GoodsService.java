@@ -114,6 +114,15 @@ public class GoodsService implements IGoods {
 		return m;
 	}
 
+	@Override
+	public List<HashMap<String, Object>> stockgoods(String stockid) {
+		// TODO Auto-generated method stub
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("stockid", stockid);
+	    List<HashMap<String, Object>> goods = this.goodsmapper.goodslist(map);
+		return goods;
+	}
+
 
 
 }

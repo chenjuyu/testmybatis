@@ -3,6 +3,7 @@ package pos.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +28,12 @@ import com.jd.open.api.sdk.JdException;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
 
+import pos.model.Jdstock;
+import pos.model.JdstockExample;
 import pos.model.Sizegroupsize;
 import pos.model.SizegroupsizeExample;
+import pos.service.IGoods;
+import pos.service.IJdstock;
 import pos.service.ISizeGroupSize;
 import pos.service.IStock;
 import web.util.AjaxJson;
@@ -43,6 +48,11 @@ public class StockController {
 	private IStock stockService;
 	@Autowired
 	private ISizeGroupSize sizeservice;
+	
+	@Autowired
+	private IGoods goodsservice;
+	@Autowired
+	private IJdstock jdstockService;
 	
 	private JdTools  jdTools =new JdTools();
 	
@@ -445,6 +455,28 @@ public class StockController {
 		 * goods= goodsserive.selectByExample(example);
 		 */
 	}
+	//获取单据同不的货品，同不到京东
+	@RequestMapping(value = "/stockgoods")	
+	@ResponseBody 
+	public AjaxJson stockgoods(HttpServletRequest re){
+		AjaxJson j=new AjaxJson();
+		
+		String stockid=re.getParameter("stockid");
+		List<HashMap<String,Object>> ls=goodsservice.stockgoods("'"+stockid+"'");
+		if(ls.size()>0){
+		j.setSuccess(true);
+		j.setObj(ls);
+		j.setMsg("获取数据成功");
+		}else{
+		j.setMsg("获取数据失败");	
+		}
+		
+		return j;
+	}
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/jdstock")	
 	@ResponseBody
@@ -461,42 +493,74 @@ public class StockController {
 		HashMap<String,Object> map = stockService.synstock(conditions);		        
 		
 		List<LinkedHashMap<String,Object>> list= (List<LinkedHashMap<String,Object>>) map.get("rows");
-		String GoodsNo="";
+		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="";
 		org.json.JSONObject jsonstr=new org.json.JSONObject();
 		for(int i=0 ;i<list.size();i++){
 			LinkedHashMap<String,Object> m= list.get(i);
 			if(i==list.size()-1){
 			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"));	
+			Qty=Qty+String.valueOf(m.get("Quantity"));	
+			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			RelationAmount=RelationAmount+String.valueOf(bg);
+			GoodsStatus=GoodsStatus+"1";
 			}else{
 			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"))+",";//京东货号
+			Qty=Qty+String.valueOf(m.get("Quantity"))+",";
+			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			RelationAmount=RelationAmount+String.valueOf(bg)+",";
+			GoodsStatus=GoodsStatus+"1"+",";
+			  
 			}
-			jsonstr.put("No", No);
-			jsonstr.put("GoodsNo", GoodsNo);
-			jsonstr.put("Qty",String.valueOf(m.get("Quantity")));
-			jsonstr.put("totalPrice",String.valueOf(m.get("RelationAmount")));
+			
 		}
-		
+		jsonstr.put("No", No);
+		jsonstr.put("GoodsNo", GoodsNo);
+		jsonstr.put("Qty",Qty);
+		jsonstr.put("totalPrice",RelationAmount);
+		jsonstr.put("GoodsStatus",GoodsStatus);
 		
 		org.json.JSONObject json=jdTools.addPoOrder(jsonstr);
 		
-		if(json.getString("errorcode") !=null){
+		if(json.has("errorcode")){
 			j.setSuccess(false);
 			j.setMsg(json.getString("errorcode"));
 		}else{
 			j.setMsg(json.getString("msg"));
 			j.setSuccess(true);
+			
+			JdstockExample example =new JdstockExample();
+			example.clear();
+			JdstockExample.Criteria cr=example.createCriteria();
+			cr.andStockidEqualTo(stockid);
+			int count=jdstockService.countByExample(example);
+			
+			Jdstock jd=new Jdstock();
+			jd.setStockid(stockid);
+			jd.setGoodsno(GoodsNo);
+			jd.setNo(No);
+			jd.setPoorderno(json.getString("PoOrderNo"));
+			if(count>0){
+					
+			}else{
+				jdstockService.insert(jd);
+			}
+			
 		}
 		
 		
 		
 		return j;
 	}
-	@RequestMapping(value = "/jdstock")
-	public void queryPoOrder(HttpServletRequest re,HttpServletResponse rp) throws JdException{
+	@RequestMapping(value = "/queryPoOrder")
+	@ResponseBody
+	public AjaxJson queryPoOrder(HttpServletRequest re,HttpServletResponse response) throws JdException{
 		//默认只能查询一单
+		AjaxJson j=new AjaxJson();
 		String No=re.getParameter("No");
 		org.json.JSONObject json=jdTools.queryPoOrder(No);
-		org.json.JSONObject jsons=new org.json.JSONObject();
+		Map<String,Object> jsons=j.getAttribute();
 		if(json !=null){
 			List<QueryPoModel> ls =(List<QueryPoModel>)json.get("ls"); //采购入库单明细
 			     for(QueryPoModel po :ls){
@@ -526,8 +590,11 @@ public class StockController {
 			    	 jsons.put("completeTime", completeTime);
 			    	 jsons.put("storageStatus", storageStatus);
 			    	 jsons.put("resultCode", resultCode);
+			    	 
 			    	 jsons.put("msg", msg);
-			    	 jsons.put("data", lt);//采购入库单明细 
+			    	 //jsons.put("data", lt);//采购入库单明细 
+			    	 j.setObj(lt);
+			    	 j.setSuccess(true);
 			     }
 			     
 			     List<String> qc= po.getQcBackErrItemList(); //质检不合格明细     
@@ -539,6 +606,18 @@ public class StockController {
 		}
 		
 		
+	/*	PrintWriter p = null;
+		response.setContentType("text/html;charset=utf-8");// 解决返回乱码
+		try {
+			p = response.getWriter();
+			p.write(jsons.toString());
+			p.flush();
+			p.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} */
+		return j;
 	}
 	
 	

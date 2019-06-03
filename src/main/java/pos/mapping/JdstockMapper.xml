@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pos.dao.JdstockMapper" >
+  <resultMap id="BaseResultMap" type="pos.model.Jdstock" >
+    <id column="StockID" property="stockid" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="VARCHAR" />
+    <result column="No" property="no" jdbcType="VARCHAR" />
+    <result column="Date" property="date" jdbcType="TIMESTAMP" />
+    <result column="WarehouseID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="jddeptNo" property="jddeptno" jdbcType="VARCHAR" />
+    <result column="poOrderNo" property="poorderno" jdbcType="VARCHAR" />
+    <result column="GoodsNo" property="goodsno" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    StockID, Type, No, Date, WarehouseID, jddeptNo, poOrderNo, GoodsNo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.JdstockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from jdStock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jdStock
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jdStock
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pos.model.Jdstock" >
+    insert into jdStock (StockID, Type, No, 
+      Date, WarehouseID, jddeptNo, 
+      poOrderNo, GoodsNo)
+    values (#{stockid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{warehouseid,jdbcType=VARCHAR}, #{jddeptno,jdbcType=VARCHAR}, 
+      #{poorderno,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pos.model.Jdstock" >
+    insert into jdStock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        StockID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="no != null" >
+        No,
+      </if>
+      <if test="date != null" >
+        Date,
+      </if>
+      <if test="warehouseid != null" >
+        WarehouseID,
+      </if>
+      <if test="jddeptno != null" >
+        jddeptNo,
+      </if>
+      <if test="poorderno != null" >
+        poOrderNo,
+      </if>
+      <if test="goodsno != null" >
+        GoodsNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        #{stockid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseid != null" >
+        #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="jddeptno != null" >
+        #{jddeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="poorderno != null" >
+        #{poorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsno != null" >
+        #{goodsno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pos.model.JdstockExample" resultType="java.lang.Integer" >
+    select count(*) from jdStock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="pos.model.Jdstock" >
+    update jdStock
+    <set >
+      <if test="type != null" >
+        Type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        No = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        Date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseid != null" >
+        WarehouseID = #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="jddeptno != null" >
+        jddeptNo = #{jddeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="poorderno != null" >
+        poOrderNo = #{poorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsno != null" >
+        GoodsNo = #{goodsno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pos.model.Jdstock" >
+    update jdStock
+    set Type = #{type,jdbcType=VARCHAR},
+      No = #{no,jdbcType=VARCHAR},
+      Date = #{date,jdbcType=TIMESTAMP},
+      WarehouseID = #{warehouseid,jdbcType=VARCHAR},
+      jddeptNo = #{jddeptno,jdbcType=VARCHAR},
+      poOrderNo = #{poorderno,jdbcType=VARCHAR},
+      GoodsNo = #{goodsno,jdbcType=VARCHAR}
+    where StockID = #{stockid,jdbcType=VARCHAR}
+  </update>
+</mapper>
