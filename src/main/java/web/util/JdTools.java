@@ -65,16 +65,16 @@ public class JdTools {
 		}
 		return j;
 	}
-	public  JSONObject queryPoOrder(String No) throws JdException{
+	public  List<QueryPoModel> queryPoOrder(String No) throws JdException{
 		   
-		    JSONObject j=new JSONObject();
+		   // JSONObject j=new JSONObject();
 		    
 		    EclpPoQueryPoOrderRequest request=new EclpPoQueryPoOrderRequest();
 		    request.setPoOrderNo(No);//"EPL4398046516113"
 		    EclpPoQueryPoOrderResponse response=client.execute(request);
 		    List<QueryPoModel> ls= response.getQueryPoModelList();
 		    
-		    if(ls.size()>0){
+		   // if(ls.size()>0){
 		 //    for(QueryPoModel po :ls){
 		 //    String poOrderNo =po.getPoOrderNo();//开放平台采购入库单号;最大长度50
 		 //    String isvPoOrderNo=po.getIsvPoOrderNo();//ISV采购入库单号；最大长度50
@@ -87,18 +87,18 @@ public class JdTools {
 		     
 		 //    }
 		    	
-		    	j.put("ls", ls); 	
+		    //	j.put("ls", ls); 	
 		    	
-		    }else{
-		    	return null;
-		    }
+	//	    }else{
+		  //  	return null;
+		//    }
 		    
 		    
 		    
 		    
 		
 		
-		return j;
+		return ls;
 	}
 	
 	

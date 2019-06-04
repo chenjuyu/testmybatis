@@ -889,7 +889,7 @@
   
   
   <select id="stocklist" resultType="java.util.Map" parameterType="java.util.Map">
-  Select a.No,a.StockID,a.DisplaySizeGroup,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,c.Department,d.Name,(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,
+  Select a.No,a.StockID,jds.poOrderNo,a.DisplaySizeGroup,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,c.Department,d.Name,(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,
   w.Name as RelationWarehouse,br.Brand,f.Department as BusinessDept,isnull(RelationAmountSum,0)+isnull(OtherAmount,0) As TotalAmount
   From Stock a Left Outer Join Warehouse b On a.WarehouseID=b.WarehouseID
   Left Outer Join Department c On a.DepartmentID=c.DepartmentID
@@ -898,6 +898,7 @@
   Left outer join Warehouse w on a.RelationWarehouseID=w.warehouseid
   left outer join Brand br on a.BrandID=br.BrandID
   Left Outer Join Department f on a.BusinessDeptID=f.DepartmentID
+  left join jdstock jds on a.StockID=jds.StockID 
   where 1=1 and a.Type in('采购','采购退货')
    <if test="conditions != null and conditions != ''"> 
    ${conditions}

@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jd.open.api.sdk.JdException;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
@@ -73,12 +74,10 @@ public class StockController {
 			conditions = " and a.StockID='" + keyword + "' ";
 		}
 		if (issyn == 1) {
-			// conditions=conditions+" and not exists(select StockID from
-			// jdStock b where a.StockID=b.StockID)";
+			 conditions=conditions+" and not exists(select StockID from jdStock b where a.StockID=b.StockID)";
 		}
 		if (issyn == 2) { // 已同步
-			// conditions=conditions+" and exists(select StockID from jdStock b
-			// where a.StockID=b.StockID)";
+			 conditions=conditions+" and exists(select StockID from jdStock b where a.StockID=b.StockID)";
 
 		}
 		conditions = conditions + " and a.Direction=1 ";
@@ -553,17 +552,26 @@ public class StockController {
 		
 		return j;
 	}
+	
+	
+	@RequestMapping(value = "/jdstockdetail")
+	public ModelAndView jdstockdetail(HttpServletRequest re){
+		
+		return new ModelAndView("jdstockdetail");
+	}
 	@RequestMapping(value = "/queryPoOrder")
 	@ResponseBody
 	public AjaxJson queryPoOrder(HttpServletRequest re,HttpServletResponse response) throws JdException{
 		//默认只能查询一单
 		AjaxJson j=new AjaxJson();
 		String No=re.getParameter("No");
-		org.json.JSONObject json=jdTools.queryPoOrder(No);
-		Map<String,Object> jsons=j.getAttribute();
-		if(json !=null){
-			List<QueryPoModel> ls =(List<QueryPoModel>)json.get("ls"); //采购入库单明细
-			     for(QueryPoModel po :ls){
+		System.out.println("京东单号："+No);
+		List<QueryPoModel> ls=jdTools.queryPoOrder(No);
+		
+		if(ls.size()>0){
+			System.out.println("ls的长度："+ls.size());
+			     QueryPoModel po=ls.get(0); 
+			     Map<String,Object> jsons= new LinkedHashMap<String,Object>();
 			     String poOrderNo =po.getPoOrderNo();//开放平台采购入库单号;最大长度50
 			     String isvPoOrderNo=po.getIsvPoOrderNo();//ISV采购入库单号；最大长度50
 			     String deptNo=po.getDeptNo();//开放平台事业部编号；EBU开头；最大长度50
@@ -578,31 +586,36 @@ public class StockController {
 			     String msg=po.getMsg();
 			     List<PoItemModel> lt=po.getPoItemModelList();
 			     
-			     if(lt.size()>0){	 
-			    	 jsons.put("poOrderNo", poOrderNo);
-			    	 jsons.put("isvPoOrderNo", isvPoOrderNo);
-			    	 jsons.put("deptNo", deptNo);
-			    	 jsons.put("whNo", whNo);
-			    	 jsons.put("supplierNo", supplierNo);
-			    	 jsons.put("createUser", createUser);
-			    	 jsons.put("poOrderStatus", poOrderStatus);
-			    	 jsons.put("createTime", createTime);
-			    	 jsons.put("completeTime", completeTime);
-			    	 jsons.put("storageStatus", storageStatus);
-			    	 jsons.put("resultCode", resultCode);
-			    	 
-			    	 jsons.put("msg", msg);
+			     System.out.println("返回的单号getPoOrderNo:"+poOrderNo);
+				 jsons.put("poOrderNo", poOrderNo);
+		    	 jsons.put("isvPoOrderNo", isvPoOrderNo);
+		    	 jsons.put("deptNo", deptNo);
+		    	 jsons.put("whNo", whNo);
+		    	 jsons.put("supplierNo", supplierNo);
+		    	 jsons.put("createUser", createUser);
+		    	 jsons.put("poOrderStatus", poOrderStatus);
+		    	 jsons.put("createTime", createTime);
+		    	 jsons.put("completeTime", completeTime);
+		    	 jsons.put("storageStatus", storageStatus);
+		    	 jsons.put("resultCode", resultCode);
+		    	 
+		    	 j.setAttribute(jsons);
+		    	 
+		    	 jsons.put("msg", msg);
+			     if(lt !=null){	 
 			    	 //jsons.put("data", lt);//采购入库单明细 
 			    	 j.setObj(lt);
-			    	 j.setSuccess(true);
 			     }
-			     
+			     j.setSuccess(true);
 			     List<String> qc= po.getQcBackErrItemList(); //质检不合格明细     
-			     if(qc.size()>0){
+			     if(qc !=null){
 			    	 jsons.put("qcBackErrItemList", qc);
 			     }
-			     }	
+			     	
 			   
+		}else{
+			j.setMsg("返回查询失败");
+			j.setSuccess(false);
 		}
 		
 		

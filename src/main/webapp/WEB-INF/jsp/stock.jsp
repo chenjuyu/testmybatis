@@ -130,13 +130,12 @@
 
 
 	<script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+     <a class="layui-btn layui-btn-xs" lay-event="edit">查询京东单据详情</a>
 </script>
 
 
 
-	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>  -->
 
 	<script>
  
@@ -156,7 +155,7 @@
 layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], function(){
   var laydate = layui.laydate;
   var form = layui.form;
-  
+  var $ = layui.$
   var layer = layui.layer;
   
   var autocomplete=layui.autocomplete;
@@ -168,6 +167,8 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   var dtree=layui.dtree;
   
   var issyn=0
+  
+  var visible=false//详情按扭不可见
   
   var selectdata=[]
   
@@ -198,7 +199,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     ,url:'<%=basePath%>stock/search.do'
     ,method:'post'
     ,where:{'keyword':'','issyn':issyn}
-  //  ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
+    ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
     ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
   /*  ,parseData: function(res){ //res 即为原始返回的数据
         return {
@@ -238,11 +239,15 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
    //   ,{field:'SupplierCode', title:'厂商货品编码', width:120}
     //  ,{field:'Model', title:'型号规格', width:100}
      // ,{field:'Season', title:'季节', width:120}
-     // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+      ,{fixed: 'right', title:'查看', toolbar: '#barDemo', width:150}
     ]]
     ,id: 'stocklist'  
     ,page: true
-   
+   ,done: function(res, curr, count){
+	   if(!visible){//此处test为你的条件值
+			$("[data-field='10']").css('display','none'); //关键代码
+		}
+   }
   });
   
   //头工具栏事件
@@ -274,7 +279,34 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      layer.prompt({
+      if(data.poOrderNo !=='' && data.poOrderNo !==undefined){
+    	  console.log("stock页面的data.poOrderNo的值："+data.poOrderNo)
+    	  layui.data('No',{key:'No',value:data.poOrderNo})
+    		layer.open({
+    			type:2,
+    			area: ['1100px', '500px'],
+    			fix: false, //不固定
+    			maxmin: true,
+    	        shadeClose: true,
+    	        shade:0.4,
+    	        title: '京东单据详情',
+    	        content: '<%=basePath%>stock/jdstockdetail.html',
+    	        btn:['确定'],
+    	        yes:function(index, layero){
+    	        	layer.close(index);
+    	        } ,success: function(layero, index){
+    	        	var j = parent.layer.getFrameIndex(window.name); 
+    	            var body = layer.getChildFrame('body', j);
+    	            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+    	           // console.log(body.html()) //得到iframe页的body内容
+    	          //  body.find('input[name=keyword]').val('Hi，我是从父页来的')
+    	            console.log(iframeWin.kkk)
+    	          }
+    		})
+      }	
+    	
+    	
+    /*   layer.prompt({
         formType: 2
         ,value: data.Name
       }, function(value, index){
@@ -282,7 +314,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         	Name: value
         });
         layer.close(index);
-      });
+      }); */
     }
   });
   
@@ -310,7 +342,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   
   //------------------------------表单
   
-  var $ = layui.$, active = {
+  var active = {
 		    reload: function(){
 		       if($('#keyword').val()==''){
 		    	   $('#keyword').attr("alt","")    
@@ -346,6 +378,11 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     console.log(data);
     console.log("index的值："+data.index);
     issyn=data.index
+    if(issyn===2){
+    	visible=true
+    }else{
+    	visible=false
+    }
     active['reload'].call(this);
     
   });
