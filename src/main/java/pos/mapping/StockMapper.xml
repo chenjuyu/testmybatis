@@ -936,7 +936,8 @@ Order by a.StockID,  a.IndexNo
   </select>
   <!-- 同步到京东关联 -->
  <select id="stockconnetjd" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
-   select a.stockid,a.GoodsID,a.ColorID,a.SizeID,jg.GoodsNo,a.Quantity,a.RelationUnitPrice,a.RelationAmount from stockdetail a 
+   select a.stockid,a.GoodsID,a.ColorID,a.SizeID,jg.GoodsNo,a.Quantity,g.RetailSales RelationUnitPrice,(a.Quantity*g.RetailSales) RelationAmount from stockdetail a 
+   join Goods g on a.GoodsID=g.GoodsID 
    join barcode bar on (a.GoodsID=bar.GoodsID and a.ColorID=bar.ColorID and a.SizeID=bar.SizeID)
    Join [jdGoods] jg on bar.barcode=jg.Code
    where 1=1 

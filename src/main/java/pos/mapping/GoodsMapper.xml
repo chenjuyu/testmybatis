@@ -1801,7 +1801,7 @@
   
   <select id="goodslist" resultType="java.util.HashMap" parameterType="java.util.HashMap">
       
-   select a.GoodsID,a.Code,bar.Barcode,gt.Code typeCode,gt.GoodsType,(a.Name+'-'+c.Color+'-'+s.Size) jdName,a.Name 
+   select a.GoodsID,a.Code,bar.Barcode,gt.Code typeCode,gt.GoodsType,(a.Code+a.Name+'-'+c.Color+'-'+s.Size) jdName,a.Name 
    from Goods a join GoodsType gt on a.GoodstypeID=gt.GoodsTypeID join Barcode bar on a.GoodsID=bar.GoodsID 
    join Color c on bar.ColorID=c.ColorID Join Size s on bar.SizeID=s.SizeID 
    where 1=1 

@@ -29,7 +29,8 @@ CREATE TABLE [dbo].[jdStock](
     jddeptNo varchar(50),
     poOrderNo varchar(50)
     )
-go
+go  
+--价钱取货品资料的零售价就可以 不用改触发器了
 alter table stockdetail add RelationUnitPrice money,RelationAmount money
 go
 Create  PROCEDURE [dbo].[ExecUpdateTablePrice] @TableTag int,@IDValue varchar(40)

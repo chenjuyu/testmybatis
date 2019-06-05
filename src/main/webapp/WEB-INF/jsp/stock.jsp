@@ -488,11 +488,8 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        var stockid=data[0].StockID
 	        console.log(stockid)
 	       // return
-	        var array= getGoods(stockid)
-	        console.log("array数组："+JSON.stringify(array))
-	        if(array.length>0){
-	        jdgoods(JSON.stringify(array))
-	        }
+	        getGoods(stockid)
+	     
 	       // layer.msg('选中了：'+ data.length + ' 个');
 	      break;
 	      case 'isAll':
@@ -574,7 +571,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   //定义一个返回货品的方法
  function getGoods(stockid){
 	  debugger
-	 var datalist=[]
+	
 	  $.ajax({
 			type: "post",  //数据提交方式（post/get）
 	      	url: "<%=basePath%>stock/stockgoods.html",  //提交到的url
@@ -582,9 +579,16 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	      		"stockid":stockid
 	      	},
 	      	dataType: "json",//返回的数据类型格式  
-	      	success: function (msg) {
-	      		datalist=msg.obj
-	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	success: function (res) {
+	      		  if(res.obj !=undefined){
+	      			  var list=res.obj
+	      			   console.log("array数组："+JSON.stringify(list))
+	      		        if(list.length>0){
+	      		        jdgoods(JSON.stringify(list))
+	      		        }
+	      		  }
+	      		layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	
 	      	}
 	      	,error:function (){
 	      		
@@ -593,7 +597,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 			  
 		  }); 
 	  
-	 return datalist;
+	 
 	  
   }
   //同步货品 的方法
