@@ -29,6 +29,7 @@ import com.jd.open.api.sdk.JdException;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
 
+import pos.model.Department;
 import pos.model.Jdstock;
 import pos.model.JdstockExample;
 import pos.model.Sizegroupsize;
@@ -55,7 +56,7 @@ public class StockController {
 	@Autowired
 	private IJdstock jdstockService;
 	
-	private JdTools  jdTools =new JdTools();
+	
 	
 	@RequestMapping(value = "/search")
 	public void search(HttpServletRequest request, HttpServletResponse response) {
@@ -63,16 +64,68 @@ public class StockController {
 		String keyword = request.getParameter("keyword");
 		int issyn = Integer.parseInt(request.getParameter("issyn"));
 
+	   String DepartmentID=request.getParameter("DepartmentID");
+	   
+	   String BeginDate=request.getParameter("BeginDate");
+	   
+	   String EndDate =request.getParameter("EndDate");
+		
+	   String Type= request.getParameter("Type");
+		
+	   String auditflag=request.getParameter("auditflag");
+	   
+	   int Direction=Integer.valueOf(request.getParameter("Direction")).intValue();
+	   
 		System.out.print("issyn的值：" + issyn);
 
+		
 		// String q=request.getParameter("q");
 		String conditions = "";
-		if (keyword == null || "".equals(keyword)) {
-			conditions = "";
+		if (keyword != null && !"".equals(keyword)) {
+			conditions =conditions+ " and a.StockID='" + keyword + "' ";
 			// keyword=q;
-		} else {
-			conditions = " and a.StockID='" + keyword + "' ";
 		}
+		
+		if(auditflag !=null && !"".equals(auditflag)){
+			
+			conditions =conditions+ " and isnull(a.AuditFlag,0)=" + auditflag;	
+		}
+			
+	if(BeginDate != null || !"".equals(BeginDate)){
+		conditions =conditions+" and a.Date>='"+BeginDate+"'";
+		}
+		
+		
+		
+		if(EndDate != null && !"".equals(EndDate)){
+			conditions =conditions+" and a.Date<='"+EndDate+" 23:59:59.997'";
+			
+		}
+		if(Type !=null && !"".equals(Type)){
+			conditions =conditions+ " and a.Type='" + Type + "' ";	
+		}
+			
+		if(DepartmentID != null && !"".equals(DepartmentID)){
+			
+		/*	String str="";
+			
+			if(DepartmentID.indexOf(",") !=-1){
+				String [] idlist=DepartmentID.split(",");
+				for(int i=0;i<idlist.length;i++){
+					if(i==idlist.length){
+					str=str+"'"+idlist[i]+"'";
+					}else{
+					str=str+"'"+idlist[i]+"',";
+					}
+				}
+				
+			}*/
+			
+			conditions =conditions+" and a.warehouseID in("+DepartmentID+")";	
+		}
+		
+	
+		
 		if (issyn == 1) {
 			 conditions=conditions+" and not exists(select StockID from jdStock b where a.StockID=b.StockID)";
 		}
@@ -80,7 +133,11 @@ public class StockController {
 			 conditions=conditions+" and exists(select StockID from jdStock b where a.StockID=b.StockID)";
 
 		}
+		if(Direction==1){
 		conditions = conditions + " and a.Direction=1 ";
+		}else{
+		conditions = conditions + " and a.Direction=-1 ";	
+		}
 		// System.out.println(q);
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
@@ -92,7 +149,7 @@ public class StockController {
 		// String conditions=" a.Code like '%"+keyword+"%' or a.Name like
 		// '%"+keyword+"%'";
 
-		HashMap<String, Object> m = stockService.stocklist(conditions, pageno, pagesize);
+		HashMap<String, Object> m = stockService.stocklist(Direction,conditions, pageno, pagesize);
 		JSONObject j = new JSONObject();
 		// j.put("total", m.get("total"));
 		// j.put("rows", m.get("rows"));
@@ -411,7 +468,9 @@ public class StockController {
 	public void auto(HttpServletRequest request, HttpServletResponse response) {
 
 		String keyword = request.getParameter("keyword");
-
+   
+		int Direction=Integer.valueOf(request.getParameter("Direction")).intValue();
+		
 		String conditions;
 
 		if (keyword == null || "".equals(keyword)) {
@@ -420,13 +479,20 @@ public class StockController {
 		} else {
 			conditions = " and (a.No like '%" + keyword + "%' )";
 		}
+		
+		if(Direction==1){
+			conditions = conditions + " and a.Direction=1 ";
+			}else{
+			conditions = conditions + " and a.Direction=-1 ";	
+			}
+		
 
 		int pageno = 1;
 		pageno = Integer.valueOf(request.getParameter("page").toString()).intValue() > 1
 				? Integer.valueOf(request.getParameter("page").toString()).intValue() : 1;
 		int pagesize = Integer.valueOf(request.getParameter("rows").toString()).intValue();
 
-		HashMap<String, Object> m = stockService.stocklist(conditions, pageno, pagesize);
+		HashMap<String, Object> m = stockService.stocklist(Direction,conditions, pageno, pagesize);
 		JSONObject j = new JSONObject();
 		// j.put("total", m.get("total"));
 		// j.put("rows", m.get("rows"));
@@ -520,6 +586,8 @@ public class StockController {
 		jsonstr.put("totalPrice",RelationAmount);
 		jsonstr.put("GoodsStatus",GoodsStatus);
 		
+		 JdTools  jdTools =new JdTools();
+		
 		org.json.JSONObject json=jdTools.addPoOrder(jsonstr);
 		
 		if(json.has("errorcode")){
@@ -566,6 +634,9 @@ public class StockController {
 		AjaxJson j=new AjaxJson();
 		String No=re.getParameter("No");
 		System.out.println("京东单号："+No);
+		
+		 JdTools  jdTools =new JdTools();
+		
 		List<QueryPoModel> ls=jdTools.queryPoOrder(No);
 		
 		if(ls.size()>0){

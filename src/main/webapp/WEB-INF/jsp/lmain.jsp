@@ -148,6 +148,9 @@
 						<li><a onclick="xadmin.add_tab('进仓单','./main/stock.html')">
 								<i class="iconfont">&#xe6a7;</i> <cite>进仓单</cite>
 						</a></li>
+						<li><a onclick="xadmin.add_tab('出仓单','./main/stockout.html')">
+								<i class="iconfont">&#xe6a7;</i> <cite>出仓单</cite>
+						</a></li>
 					</ul></li>	
 					
 

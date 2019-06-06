@@ -57,10 +57,10 @@
 			<div class="layui-inline layui-show-xs-block">
 				<select name="interest" lay-filter="Type">
 					<option value="">请选择类别</option>
-					<option value="采购">采购</option>
-					<option value="采购退货">采购退货</option>
-					<option value="转仓进仓">转仓进仓</option>
-					<option value="其它进仓">其它进仓</option>
+					<option value="销售">销售</option>
+					<option value="销售退货">销售退货</option>
+					<option value="转仓出仓">转仓出仓</option>
+					<option value="其它出仓">其它出仓</option>
 				</select>
 			</div>
 	 <div class="layui-inline layui-show-xs-block">
@@ -225,7 +225,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	  ,'DepartmentID':DepartmentID
 	  ,'Type':Type
 	  ,'auditflag':auditflag  
-	  ,'Direction':1
+	  ,'Direction':-1
     }
    // ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
   //  ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
@@ -257,7 +257,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
       ,{field:'Type', title:'类别', width:120}
       ,{field:'No', title:'单号', width:120, unresize: true}//, edit: 'text'
       ,{field:'Warehouse', title:'仓库', width:120}//, edit: 'text'
-      ,{field:'Supplier', title:'厂商', width:150}
+      ,{field:'Customer', title:'客户', width:150}
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
       }} */
@@ -360,7 +360,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	  layui.data('obj',{key:'obj',value:JSON.stringify(obj.data)})
 	  
 	  console.log("stockpage:"+JSON.stringify(obj.data))
-	   location.href='<%=basePath%>main/stockdetail.do?Direction=1';
+	   location.href='<%=basePath%>main/stockdetail.do?Direction=-1';
 	  
 	  //obj.del(); //删除当前行
 	  //obj.update(fields) //修改当前行数据
@@ -395,7 +395,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 		        	  ,'DepartmentID':DepartmentID
 		        	  ,'Type':Type
 		        	  ,'auditflag':auditflag
-		        	  ,'Direction':1
+		        	  ,'Direction':-1
 		        //  }
 		        }
 		      });
@@ -574,7 +574,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   autocomplete.render({
             elem: $('#keyword')[0],
             url: '<%=basePath%>stock/autocompete.do'
-            ,params:{'Direction':1}
+            ,params:{'Direction':-1}
             ,template_val: '{{d.No}}'
             ,template_txt: '{{d.No}} <span class=\'layui-badge layui-bg-gray\'>{{d.Warehouse}}</span>'
             ,onselect: function (resp) {

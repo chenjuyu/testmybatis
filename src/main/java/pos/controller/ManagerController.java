@@ -327,10 +327,20 @@ public class ManagerController {
 		
 		return new ModelAndView("stock");
 	}
+	@RequestMapping("/stockout")
+	public ModelAndView stockout(HttpServletRequest re,HttpServletResponse rp){
+		
+		System.out.println("keyword的值:"+re.getParameter("keyword"));
+		
+		return new ModelAndView("stockout");
+	}
+	
 	@RequestMapping("/stockdetail")
 	public ModelAndView stockdetail(HttpServletRequest re,HttpServletResponse rp){
-		
-		return new ModelAndView("stockdetail");
+		int Direction=Integer.valueOf(re.getParameter("Direction")).intValue();
+		Map<String,Object> smap=new HashMap<String,Object>();
+		smap.put("Direction", Direction);
+		return new ModelAndView("stockdetail",smap);
 	}
 	
 	

@@ -44,7 +44,7 @@ public class StockService implements IStock {
 	}
 
 	@Override
-	public HashMap<String, Object> stocklist(String conditions, int pageno,
+	public HashMap<String, Object> stocklist(int Direction,String conditions, int pageno,
 			int pagesize) {
 		
 		PagingView p=new PagingView(Integer.valueOf(pageno).intValue());
@@ -56,9 +56,24 @@ public class StockService implements IStock {
 		
          map.put("conditions", conditions);			 	 
 		 }
-		 
+		
 		 int total =this.stockMapper.stockcount(map);
+		 
+          String JoinStr="",FieldName="";
+		 
+		 if(Direction==1){
+			 JoinStr=" Left Outer Join Supplier e On a.CSID=e.SupplierID ";
+			 FieldName="(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,";
+		 }else{
+			 JoinStr=" Left Outer Join Customer e On a.CSID=e.CustomerID ";
+			 FieldName="e.Customer,";
+		 }
+		 
+		 map.put("JoinStr", JoinStr);
+		 map.put("FieldName", FieldName);
 		 map.put("page", p);
+		 
+		 
 		 List<Map<String, Object>> stocklist = this.stockMapper.stocklist(map);
 		
 		 HashMap<String, Object> m=new HashMap<String, Object>();

@@ -138,7 +138,7 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   var stockin=layui.data('stockin')
   var obj=layui.data('obj')
   
-  
+  var Direction=${Direction}
   
   var stockid=stockin.stockid
   var DisplaySizeGroup=stockin.DisplaySizeGroup
@@ -404,7 +404,11 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	        layer.msg(checkStatus.isAll ? '全选': '未全选');
 	      break;
 	      case 'returnlist':
+	      if(Direction===-1){
+	    	  location.href='<%=basePath%>main/stockout.html';  
+	      }else{	  
 	      location.href='<%=basePath%>main/stock.html';
+	      }
 	      break;	  
 	    };
 	    
