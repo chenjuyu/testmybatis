@@ -56,7 +56,7 @@ public class StockController {
 	@Autowired
 	private IJdstock jdstockService;
 	
-	
+	 JdTools  jdTools =new JdTools();
 	
 	@RequestMapping(value = "/search")
 	public void search(HttpServletRequest request, HttpServletResponse response) {
@@ -76,8 +76,12 @@ public class StockController {
 	   
 	   int Direction=Integer.valueOf(request.getParameter("Direction")).intValue();
 	   
+	   String relationType=request.getParameter("relationType");
+	   
 		System.out.print("issyn的值：" + issyn);
 
+		
+		
 		
 		// String q=request.getParameter("q");
 		String conditions = "";
@@ -89,6 +93,11 @@ public class StockController {
 		if(auditflag !=null && !"".equals(auditflag)){
 			
 			conditions =conditions+ " and isnull(a.AuditFlag,0)=" + auditflag;	
+		}
+		
+		if(relationType !=null && !"".equals(relationType)){
+			
+			conditions =conditions+ " and a.relationType<> '" + relationType+"'";	
 		}
 			
 	if(BeginDate != null || !"".equals(BeginDate)){
@@ -586,7 +595,7 @@ public class StockController {
 		jsonstr.put("totalPrice",RelationAmount);
 		jsonstr.put("GoodsStatus",GoodsStatus);
 		
-		 JdTools  jdTools =new JdTools();
+		// JdTools  jdTools =new JdTools();
 		
 		org.json.JSONObject json=jdTools.addPoOrder(jsonstr);
 		
@@ -635,7 +644,7 @@ public class StockController {
 		String No=re.getParameter("No");
 		System.out.println("京东单号："+No);
 		
-		 JdTools  jdTools =new JdTools();
+		
 		
 		List<QueryPoModel> ls=jdTools.queryPoOrder(No);
 		
@@ -703,6 +712,102 @@ public class StockController {
 		} */
 		return j;
 	}
+	
+	
+	@RequestMapping(value = "/jdstockout")	
+	@ResponseBody  //出库单同步
+	public AjaxJson jdstockout(HttpServletRequest re) throws JdException{
+		AjaxJson j=new AjaxJson();
+		
+		String stockid=oConvertUtils.getString(re.getParameter("stockid"));
+		String No=oConvertUtils.getString(re.getParameter("No"));
+		String Customer=oConvertUtils.getString(re.getParameter("Customer"));
+		String Type=oConvertUtils.getString(re.getParameter("Type"));
+		String shipperNo=oConvertUtils.getString(re.getParameter("shipperNo"));
+		String Mobile=oConvertUtils.getString(re.getParameter("Mobile"));
+		String Address=oConvertUtils.getString(re.getParameter("Address"));
+		
+		
+		String conditions=null;
+		if(!"".equals(stockid) && stockid !=null){
+			conditions=" and a.stockID='"+stockid+"'";
+		}
+		
+		HashMap<String,Object> map = stockService.synstock(conditions);		        
+		
+		List<LinkedHashMap<String,Object>> list= (List<LinkedHashMap<String,Object>>) map.get("rows");
+		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="",jdName="";
+		org.json.JSONObject jsonstr=new org.json.JSONObject();
+		for(int i=0 ;i<list.size();i++){
+			LinkedHashMap<String,Object> m= list.get(i);
+			if(i==list.size()-1){
+			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"));	
+			jdName=jdName+String.valueOf(m.get("GoodsName"));
+			Qty=Qty+String.valueOf(m.get("Quantity"));	
+			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			RelationAmount=RelationAmount+String.valueOf(bg);
+			GoodsStatus=GoodsStatus+"1";
+			}else{
+			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"))+",";//京东货号
+			jdName=jdName+String.valueOf(m.get("GoodsName"))+",";
+			Qty=Qty+String.valueOf(m.get("Quantity"))+",";
+			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			RelationAmount=RelationAmount+String.valueOf(bg)+",";
+			GoodsStatus=GoodsStatus+"1"+",";
+			  
+			}
+			
+		}
+		jsonstr.put("Customer", Customer);
+		jsonstr.put("Mobile", Mobile);
+		jsonstr.put("Address", Address);
+		jsonstr.put("Type", Type);
+		jsonstr.put("shipperNo", shipperNo);
+		jsonstr.put("OrderNo", "");
+		jsonstr.put("No", No);
+		jsonstr.put("GoodsNo", GoodsNo);
+		jsonstr.put("jdName", jdName);
+		jsonstr.put("Qty",Qty);
+		jsonstr.put("Amt",RelationAmount);
+		//jsonstr.put("GoodsStatus",GoodsStatus);
+		
+		// JdTools  jdTools =new JdTools();
+		
+		org.json.JSONObject json=jdTools.orderaddOrder(jsonstr);
+		
+		if(json.has("errorcode")){
+			j.setSuccess(false);
+			j.setMsg(json.getString("errorcode"));
+		}else{
+			j.setMsg(json.getString("msg"));
+			j.setSuccess(true);
+			
+			JdstockExample example =new JdstockExample();
+			example.clear();
+			JdstockExample.Criteria cr=example.createCriteria();
+			cr.andStockidEqualTo(stockid);
+			int count=jdstockService.countByExample(example);
+			
+			Jdstock jd=new Jdstock();
+			jd.setStockid(stockid);
+			jd.setGoodsno(GoodsNo);
+			jd.setNo(No);
+			jd.setEclpsono(json.getString("eclpSoNo"));
+			if(count>0){
+					
+			}else{
+				jdstockService.insert(jd);
+			}
+			
+		}
+		
+		
+		
+		return j;
+	}
+	
 	
 	
 

@@ -21,14 +21,21 @@ SET ANSI_PADDING OFF
 GO
 GO
 CREATE TABLE [dbo].[jdStock](
-	[StockID] [varchar](20) NOT NULL primary key,
-	[Type] [varchar](12) NOT NULL,
-	[No] [varchar](20)  NULL,
-	[Date] [datetime]  NULL,
-	[WarehouseID] [varchar](20)  NULL,
-    jddeptNo varchar(50),
-    poOrderNo varchar(50)
-    )
+	[StockID] [varchar](20) COLLATE Chinese_PRC_CI_AS NOT NULL,
+	[Type] [varchar](12) COLLATE Chinese_PRC_CI_AS NULL,
+	[No] [varchar](20) COLLATE Chinese_PRC_CI_AS NULL,
+	[Date] [datetime] NULL,
+	[WarehouseID] [varchar](20) COLLATE Chinese_PRC_CI_AS NULL,
+	[jddeptNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
+	[poOrderNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
+	[eclpSoNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
+	[eclpRtsNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
+	[GoodsNo] [varchar](4000) COLLATE Chinese_PRC_CI_AS NULL,
+ CONSTRAINT [PK__jdStock__18522615] PRIMARY KEY CLUSTERED 
+(
+	[StockID] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 go  
 --价钱取货品资料的零售价就可以 不用改触发器了
 alter table stockdetail add RelationUnitPrice money,RelationAmount money

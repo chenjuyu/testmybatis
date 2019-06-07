@@ -17,7 +17,13 @@ public class Jdstock {
 
     private String poorderno;
 
+    private String eclpsono;
+
+    private String eclprtsno;
+
     private String goodsno;
+
+    private Boolean iscancel;
 
     public String getStockid() {
         return stockid;
@@ -75,11 +81,35 @@ public class Jdstock {
         this.poorderno = poorderno;
     }
 
+    public String getEclpsono() {
+        return eclpsono;
+    }
+
+    public void setEclpsono(String eclpsono) {
+        this.eclpsono = eclpsono;
+    }
+
+    public String getEclprtsno() {
+        return eclprtsno;
+    }
+
+    public void setEclprtsno(String eclprtsno) {
+        this.eclprtsno = eclprtsno;
+    }
+
     public String getGoodsno() {
         return goodsno;
     }
 
     public void setGoodsno(String goodsno) {
         this.goodsno = goodsno;
+    }
+
+    public Boolean getIscancel() {
+        return iscancel;
+    }
+
+    public void setIscancel(Boolean iscancel) {
+        this.iscancel = iscancel;
     }
 }

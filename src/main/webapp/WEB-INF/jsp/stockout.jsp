@@ -68,6 +68,9 @@
       <input type="radio" name="auditflag" lay-filter="auditflag" value="1" title="审核">
       <input type="radio" name="auditflag" lay-filter="auditflag" value="0" title="未审核" >
     </div>
+     <div class="layui-inline layui-show-xs-block">
+     <input type="checkbox" name="relationType[0]" lay-filter="relationType" checked title="排除零售">
+     </div>
      <!-- 测试 dtree layui-input-block selected="采购"-->
   <!-- 	<label>城市：</label>
 										<div class="layui-inline layui-show-xs-block">
@@ -213,7 +216,19 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   console.log(data.value); //被点击的radio的value值
   auditflag=data.value
 });  
-  
+  var relationType='零售'
+  form.on('checkbox(relationType)', function(data){
+	  console.log(data.elem); //得到checkbox原始DOM对象
+	  console.log(data.elem.checked); //是否被选中，true或者false
+	  console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+	  console.log(data.othis); //得到美化后的DOM对象
+	  if(!data.elem.checked){
+		  relationType=''
+	  }else{
+		  relationType='零售' 
+	  }
+	  
+	});       
 
   
   table.render({
@@ -226,6 +241,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	  ,'Type':Type
 	  ,'auditflag':auditflag  
 	  ,'Direction':-1
+	  ,'relationType':relationType
     }
    // ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
   //  ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
@@ -254,7 +270,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
       ,{field:'StockID', title:'StockID', width:80, fixed: 'left', hide:true, unresize: true}
       ,{field:'DisplaySizeGroup', title:'DisplaySizeGroup', width:80, fixed: 'left', hide:true}
       ,{field:'Date', title:'日期', width:120}
-      ,{field:'Type', title:'类别', width:120}
+      ,{field:'Type', title:'类别', width:80}
       ,{field:'No', title:'单号', width:120, unresize: true}//, edit: 'text'
       ,{field:'Warehouse', title:'仓库', width:120}//, edit: 'text'
       ,{field:'Customer', title:'客户', width:150}
@@ -264,6 +280,9 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
       ,{field:'QuantitySum', title:'数量', width:80 }//sort: true , edit: 'text'
       ,{field:'AmountSum', title:'金额', width:100,hide:true}
       ,{field:'RelationAmountSum', title:'结算金额',width:120}
+      ,{field:'Memo', title:'备注',width:150}
+      ,{field:'Mobile', title:'客户手机',width:120}
+      ,{field:'Address', title:'客户收货地址',width:200}
       
    //   ,{field:'SupplierCode', title:'厂商货品编码', width:120}
     //  ,{field:'Model', title:'型号规格', width:100}
@@ -274,7 +293,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     ,page: true
    ,done: function(res, curr, count){
 	   if(!visible){//此处test为你的条件值
-			$("[data-field='11']").css('display','none'); //关键代码
+			$("[data-field='14']").css('display','none'); //关键代码
 		}
    }
   });
@@ -308,9 +327,9 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      if(data.poOrderNo !=='' && data.poOrderNo !==undefined){
-    	  console.log("stock页面的data.poOrderNo的值："+data.poOrderNo)
-    	  layui.data('No',{key:'No',value:data.poOrderNo})
+      if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
+    	  console.log("stock页面的data.eclpSoNo的值："+data.eclpSoNo)
+    	  layui.data('No',{key:'No',value:data.eclpSoNo})
     		layer.open({
     			type:2,
     			area: ['1100px', '500px'],
@@ -396,6 +415,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 		        	  ,'Type':Type
 		        	  ,'auditflag':auditflag
 		        	  ,'Direction':-1
+		        	  ,'relationType':relationType
 		        //  }
 		        }
 		      });
@@ -515,12 +535,17 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        var map={}
 	        map.stockid=data[0].StockID
 	        map.No=data[0].No
+	        map.Customer=data[0].Customer
+	        map.Type=data[0].Type
+	        map.shipperNo=data[0].Memo//快递单号
+	        map.Mobile=data[0].Mobile
+	        map.Address=data[0].Address
 	        Synjd(map) 
 	       } 
 	      break;
 	      case 'getCheckLength':
 	        var data = checkStatus.data;
-	        layer.alert(JSON.stringify(data));
+	        //layer.alert(JSON.stringify(data));
 	        var stockid=data[0].StockID
 	        console.log(stockid)
 	       // return
@@ -574,7 +599,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   autocomplete.render({
             elem: $('#keyword')[0],
             url: '<%=basePath%>stock/autocompete.do'
-            ,params:{'Direction':-1}
+            ,params:{'Direction':-1,'relationType':relationType}
             ,template_val: '{{d.No}}'
             ,template_txt: '{{d.No}} <span class=\'layui-badge layui-bg-gray\'>{{d.Warehouse}}</span>'
             ,onselect: function (resp) {
@@ -664,10 +689,15 @@ function Synjd(map){
 	var No=map.No
 	  $.ajax({
 			type: "post",  //数据提交方式（post/get）
-	      	url: "<%=basePath%>stock/jdstock.html",  //提交到的url
+	      	url: "<%=basePath%>stock/jdstockout.html",  //提交到的url
 	      	data: {
 	      		"stockid":stockid,
-	      		"No":No
+	      		"No":No,
+	      		"Customer":map.Customer
+	      		,"Type":map.Type
+	      		,"shipperNo":map.shipperNo
+	      		,"Mobile":map.Mobile
+	      		,"Address":map.Address
 	      	},
 	      	dataType: "json",//返回的数据类型格式  
 	      	success: function (msg) {

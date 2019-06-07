@@ -889,7 +889,7 @@
   
   
   <select id="stocklist" resultType="java.util.Map" parameterType="java.util.Map">
-  Select a.No,a.StockID,a.Type,jds.poOrderNo,a.DisplaySizeGroup,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,
+  Select a.No,a.StockID,a.Type,jds.poOrderNo,jds.eclpSoNo,jds.eclpRtsNo,jds.iscancel,a.Memo,a.DisplaySizeGroup,Convert(varchar(10),a.Date,121) Date,a.DepartmentID,a.WarehouseID,a.QuantitySum,a.AmountSum,a.RelationAmountSum,a.SupplierID,a.CustomerID,b.Name as Warehouse,
   c.Department,d.Name,<if test="FieldName != null and FieldName != ''">${FieldName}</if>
   w.Name as RelationWarehouse,br.Brand,f.Department as BusinessDept,isnull(RelationAmountSum,0)+isnull(OtherAmount,0) As TotalAmount
   From Stock a Left Outer Join Warehouse b On a.WarehouseID=b.WarehouseID
@@ -937,7 +937,7 @@ Order by a.StockID,  a.IndexNo
   </select>
   <!-- 同步到京东关联 -->
  <select id="stockconnetjd" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
-   select a.stockid,a.GoodsID,a.ColorID,a.SizeID,jg.GoodsNo,a.Quantity,g.RetailSales RelationUnitPrice,(a.Quantity*g.RetailSales) RelationAmount from stockdetail a 
+   select a.stockid,a.GoodsID,a.ColorID,a.SizeID,jg.GoodsNo,jg.GoodsName,a.Quantity,g.RetailSales RelationUnitPrice,(a.Quantity*g.RetailSales) RelationAmount from stockdetail a 
    join Goods g on a.GoodsID=g.GoodsID 
    join barcode bar on (a.GoodsID=bar.GoodsID and a.ColorID=bar.ColorID and a.SizeID=bar.SizeID)
    Join [jdGoods] jg on bar.barcode=jg.Code

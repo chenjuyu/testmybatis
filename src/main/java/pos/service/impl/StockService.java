@@ -66,7 +66,7 @@ public class StockService implements IStock {
 			 FieldName="(case isnull(a.CustomerID,'')  when '' then e.Supplier else '' end) Supplier,";
 		 }else{
 			 JoinStr=" Left Outer Join Customer e On a.CSID=e.CustomerID ";
-			 FieldName="e.Customer,";
+			 FieldName="e.Customer,e.MobilePhone Mobile,e.Address,";
 		 }
 		 
 		 map.put("JoinStr", JoinStr);

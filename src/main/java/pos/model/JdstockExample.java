@@ -585,6 +585,146 @@ public class JdstockExample {
             return (Criteria) this;
         }
 
+        public Criteria andEclpsonoIsNull() {
+            addCriterion("eclpSoNo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoIsNotNull() {
+            addCriterion("eclpSoNo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoEqualTo(String value) {
+            addCriterion("eclpSoNo =", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoNotEqualTo(String value) {
+            addCriterion("eclpSoNo <>", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoGreaterThan(String value) {
+            addCriterion("eclpSoNo >", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoGreaterThanOrEqualTo(String value) {
+            addCriterion("eclpSoNo >=", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoLessThan(String value) {
+            addCriterion("eclpSoNo <", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoLessThanOrEqualTo(String value) {
+            addCriterion("eclpSoNo <=", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoLike(String value) {
+            addCriterion("eclpSoNo like", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoNotLike(String value) {
+            addCriterion("eclpSoNo not like", value, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoIn(List<String> values) {
+            addCriterion("eclpSoNo in", values, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoNotIn(List<String> values) {
+            addCriterion("eclpSoNo not in", values, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoBetween(String value1, String value2) {
+            addCriterion("eclpSoNo between", value1, value2, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclpsonoNotBetween(String value1, String value2) {
+            addCriterion("eclpSoNo not between", value1, value2, "eclpsono");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoIsNull() {
+            addCriterion("eclpRtsNo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoIsNotNull() {
+            addCriterion("eclpRtsNo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoEqualTo(String value) {
+            addCriterion("eclpRtsNo =", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoNotEqualTo(String value) {
+            addCriterion("eclpRtsNo <>", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoGreaterThan(String value) {
+            addCriterion("eclpRtsNo >", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoGreaterThanOrEqualTo(String value) {
+            addCriterion("eclpRtsNo >=", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoLessThan(String value) {
+            addCriterion("eclpRtsNo <", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoLessThanOrEqualTo(String value) {
+            addCriterion("eclpRtsNo <=", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoLike(String value) {
+            addCriterion("eclpRtsNo like", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoNotLike(String value) {
+            addCriterion("eclpRtsNo not like", value, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoIn(List<String> values) {
+            addCriterion("eclpRtsNo in", values, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoNotIn(List<String> values) {
+            addCriterion("eclpRtsNo not in", values, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoBetween(String value1, String value2) {
+            addCriterion("eclpRtsNo between", value1, value2, "eclprtsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andEclprtsnoNotBetween(String value1, String value2) {
+            addCriterion("eclpRtsNo not between", value1, value2, "eclprtsno");
+            return (Criteria) this;
+        }
+
         public Criteria andGoodsnoIsNull() {
             addCriterion("GoodsNo is null");
             return (Criteria) this;
@@ -652,6 +792,66 @@ public class JdstockExample {
 
         public Criteria andGoodsnoNotBetween(String value1, String value2) {
             addCriterion("GoodsNo not between", value1, value2, "goodsno");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelIsNull() {
+            addCriterion("iscancel is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelIsNotNull() {
+            addCriterion("iscancel is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelEqualTo(Boolean value) {
+            addCriterion("iscancel =", value, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelNotEqualTo(Boolean value) {
+            addCriterion("iscancel <>", value, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelGreaterThan(Boolean value) {
+            addCriterion("iscancel >", value, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("iscancel >=", value, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelLessThan(Boolean value) {
+            addCriterion("iscancel <", value, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelLessThanOrEqualTo(Boolean value) {
+            addCriterion("iscancel <=", value, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelIn(List<Boolean> values) {
+            addCriterion("iscancel in", values, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelNotIn(List<Boolean> values) {
+            addCriterion("iscancel not in", values, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelBetween(Boolean value1, Boolean value2) {
+            addCriterion("iscancel between", value1, value2, "iscancel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIscancelNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("iscancel not between", value1, value2, "iscancel");
             return (Criteria) this;
         }
     }

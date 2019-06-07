@@ -9,7 +9,10 @@
     <result column="WarehouseID" property="warehouseid" jdbcType="VARCHAR" />
     <result column="jddeptNo" property="jddeptno" jdbcType="VARCHAR" />
     <result column="poOrderNo" property="poorderno" jdbcType="VARCHAR" />
+    <result column="eclpSoNo" property="eclpsono" jdbcType="VARCHAR" />
+    <result column="eclpRtsNo" property="eclprtsno" jdbcType="VARCHAR" />
     <result column="GoodsNo" property="goodsno" jdbcType="VARCHAR" />
+    <result column="iscancel" property="iscancel" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -41,7 +44,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    StockID, Type, No, Date, WarehouseID, jddeptNo, poOrderNo, GoodsNo
+    StockID, Type, No, Date, WarehouseID, jddeptNo, poOrderNo, eclpSoNo, eclpRtsNo, GoodsNo, 
+    iscancel
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="pos.model.JdstockExample" >
     select
@@ -71,10 +75,12 @@
   <insert id="insert" parameterType="pos.model.Jdstock" >
     insert into jdStock (StockID, Type, No, 
       Date, WarehouseID, jddeptNo, 
-      poOrderNo, GoodsNo)
+      poOrderNo, eclpSoNo, eclpRtsNo, 
+      GoodsNo, iscancel)
     values (#{stockid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, 
       #{date,jdbcType=TIMESTAMP}, #{warehouseid,jdbcType=VARCHAR}, #{jddeptno,jdbcType=VARCHAR}, 
-      #{poorderno,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR})
+      #{poorderno,jdbcType=VARCHAR}, #{eclpsono,jdbcType=VARCHAR}, #{eclprtsno,jdbcType=VARCHAR}, 
+      #{goodsno,jdbcType=VARCHAR}, #{iscancel,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="pos.model.Jdstock" >
     insert into jdStock
@@ -100,8 +106,17 @@
       <if test="poorderno != null" >
         poOrderNo,
       </if>
+      <if test="eclpsono != null" >
+        eclpSoNo,
+      </if>
+      <if test="eclprtsno != null" >
+        eclpRtsNo,
+      </if>
       <if test="goodsno != null" >
         GoodsNo,
+      </if>
+      <if test="iscancel != null" >
+        iscancel,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -126,8 +141,17 @@
       <if test="poorderno != null" >
         #{poorderno,jdbcType=VARCHAR},
       </if>
+      <if test="eclpsono != null" >
+        #{eclpsono,jdbcType=VARCHAR},
+      </if>
+      <if test="eclprtsno != null" >
+        #{eclprtsno,jdbcType=VARCHAR},
+      </if>
       <if test="goodsno != null" >
         #{goodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="iscancel != null" >
+        #{iscancel,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -158,8 +182,17 @@
       <if test="poorderno != null" >
         poOrderNo = #{poorderno,jdbcType=VARCHAR},
       </if>
+      <if test="eclpsono != null" >
+        eclpSoNo = #{eclpsono,jdbcType=VARCHAR},
+      </if>
+      <if test="eclprtsno != null" >
+        eclpRtsNo = #{eclprtsno,jdbcType=VARCHAR},
+      </if>
       <if test="goodsno != null" >
         GoodsNo = #{goodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="iscancel != null" >
+        iscancel = #{iscancel,jdbcType=BIT},
       </if>
     </set>
     where StockID = #{stockid,jdbcType=VARCHAR}
@@ -172,7 +205,10 @@
       WarehouseID = #{warehouseid,jdbcType=VARCHAR},
       jddeptNo = #{jddeptno,jdbcType=VARCHAR},
       poOrderNo = #{poorderno,jdbcType=VARCHAR},
-      GoodsNo = #{goodsno,jdbcType=VARCHAR}
+      eclpSoNo = #{eclpsono,jdbcType=VARCHAR},
+      eclpRtsNo = #{eclprtsno,jdbcType=VARCHAR},
+      GoodsNo = #{goodsno,jdbcType=VARCHAR},
+      iscancel = #{iscancel,jdbcType=BIT}
     where StockID = #{stockid,jdbcType=VARCHAR}
   </update>
 </mapper>
