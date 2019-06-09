@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jd.open.api.sdk.JdException;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.cancelOrder.CancelResult;
 
 import pos.model.Department;
 import pos.model.Jdstock;
@@ -807,6 +808,31 @@ public class StockController {
 		
 		return j;
 	}
+	
+	//出库单取消
+	@RequestMapping("/cancelorderaddOrder")
+	@ResponseBody
+	public AjaxJson cancelorderaddOrder(HttpServletRequest re) throws JdException{
+		AjaxJson j= new AjaxJson();
+		
+		String eclpSoNo=re.getParameter("No");
+		
+		CancelResult result=jdTools.ordercancelOrder(eclpSoNo);
+		//返回结果码,1:取消成功,2:取消失败,3:取消中，需要等待一段时间，重新调用查询接口，获取拦截结果
+		if(result.getCode() !=1){
+			j.setSuccess(true);
+			j.setMsg(result.getMsg());
+		}else{
+			j.setSuccess(false);
+			j.setMsg(result.getMsg());
+		}
+	
+		
+		
+		
+		return j;
+	}
+	
 	
 	
 	

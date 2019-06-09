@@ -520,7 +520,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	      break;
 	      case 'getCheckLength':
 	        var data = checkStatus.data;
-	        layer.alert(JSON.stringify(data));
+	     //   layer.alert(JSON.stringify(data));
 	        var stockid=data[0].StockID
 	        console.log(stockid)
 	       // return

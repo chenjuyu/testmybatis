@@ -141,6 +141,7 @@
 
 	<script type="text/html" id="barDemo">
      <a class="layui-btn layui-btn-xs" lay-event="edit">查询京东单据详情</a>
+     <a class="layui-btn layui-btn-xs" lay-event="cancel">取消京东出库单</a>
 </script>
 
 
@@ -363,6 +364,12 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         });
         layer.close(index);
       }); */
+    }else if(obj.event ==='cancel'){
+    	if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
+    		
+    		cancellorderaddorder(data.eclpSoNo)
+    	}
+    	
     }
   });
   
@@ -708,12 +715,35 @@ function Synjd(map){
 	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
 	      	}
 			  
-		  }); 
+		  }); 	
+}
+  
+// 取消出库单
+function cancellorderaddorder(No){
+	
+	$.ajax({
+		type:'post'
+		,url:'<%=basePath%>stock/cancelorderaddOrder.html'
+		,data:{'No':No}
+		,dataType:"json"
+		,async:false //取消异步，要同步
+		,success:function(res){
+			if(res.success){
+			layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});	
+			}else{
+			layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});	
+			}
+			
+			
+		},error:function(){
+			layer.alert('提交异常', {icon: 1, time: 2500, title: '提示信息'});	
+		}
+		
+	})
 	
 	
 	
 }
-       
         
   
   
