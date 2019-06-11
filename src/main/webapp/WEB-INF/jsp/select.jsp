@@ -335,20 +335,43 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
   
   
   table.on('checkbox(test)', function(obj){
+	  debugger
+	  var checkStatus = table.checkStatus('selectlist'); //idTest 即为基础参数 id 对应的值
 	  console.log(obj.checked); //当前是否选中状态
-	  console.log(obj.data); //选中行的相关数据
+	  console.log(JSON.stringify(obj.data)); //选中行的相关数据
 	  console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
 	  var map1={}
 	  map1.DepartmentID=obj.data.DepartmentID
 	  map1.Department=obj.data.Department
-	  if(listmap(map1)===null && obj.checked){
+	  console.log('检查是否存在：'+listmap(map1))
+	  if(checkStatus.isAll){
+		  console.log(checkStatus.data) //获取选中行的数据
+		  if((checkStatus.data).length>0){
+			 for(var i=0;i<checkStatus.data.length;i++){
+				    var m=checkStatus.data[i]
+				    if((listmap(m)===null || listmap(m)===undefined)){
+				    	selectdata.unshift(m)
+				    	$('.selectcontent ul').append('<li class="'+m.DepartmentID+'">'+m.Department+'</li>')
+				    }
+			 } 
+			  
+			  
+		  }  
+		  //if($("#tt").length > 0) {
+			    //元素存在时执行的代码
+		//	}   
+	  }else if(!obj.checked && obj.type==='all'){ //取消全选
+		  selectdata.splice(0, selectdata.length);  
+		  $('.selectcontent li').remove()
+	  }
+	  else if((listmap(map1)===null || listmap(map1)===undefined) && obj.checked ){
 		 selectdata.unshift(map1)  
 		  $('.selectcontent ul').append('<li class="'+map1.DepartmentID+'">'+map1.Department+'</li>')
 		   console.log("list的数组："+JSON.stringify(selectdata))
 	  }else if(listmap(map1) !==null && !obj.checked){
 		//  var index=selectdata.indexOf(map1)
 		  selectdata.splice(listmap(map1).index, 1);
-		  console.log("list的数组："+JSON.stringify(selectdata))
+		  console.log("list的数组存在时："+JSON.stringify(selectdata))
 		  //下面的例子删除 class="italic" 的所有 <p> 元素：
 		  $('.'+map1.DepartmentID+'').remove();
 	  }
@@ -359,15 +382,14 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 	});
   
   function listmap(map1){
+	
 	  if(selectdata.length>0){
 	 for(var i=0;i<selectdata.length;i++){
-		 var map =selectdata[i]
-		  if(map.DepartmentID===map1.DepartmentID){
+		var map =selectdata[i]
+	   if(map.DepartmentID===map1.DepartmentID){
 			  map.index=i
 			 return map
-		  }else{
-			 return null 
-		  }
+		}
 	  }
 	  }else{
 		  return null
@@ -533,6 +555,18 @@ layui.use(['element','table','laydate','form','autocomplete'], function(){
 		}
 //}) //$(function 结束
 </script>
+<style>
+.selectcontent ul{
+ list-style: none;
+ line-height: 40px;
+}
+.selectcontent li{
+display: block;
+ float: left;
+ margin-right:5px
+}
+
+</style>
 
 </body>
 </html>
