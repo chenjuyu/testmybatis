@@ -131,15 +131,15 @@ public class JdTools {
 		JSONObject json=new JSONObject();
 		EclpOrderAddOrderRequest request=new EclpOrderAddOrderRequest();
 		request.setIsvUUID(jsonstr.getString("No")); //isv出库单号（商家出库单号），作为isv出库的唯一性校验码：长度不能超125
-		request.setIsvSource(jsonstr.getString("No"));//ISV来源编号
-		request.setShopNo(jsonstr.getString("shopNo"));//店铺编号(B2C订单必填，B2B（soType=2）订单非必填)
-		request.setSoType("2");
+		request.setIsvSource("ISV0020000000068");//ISV来源编号
+		request.setShopNo("ESP0020000055973");//店铺编号(B2C订单必填，B2B（soType=2）订单非必填)
+	//	request.setSoType("2");
 		request.setIsvSoType(jsonstr.getString("Type"));
 		request.setDepartmentNo("EBU4418046578252");//事业部编码
 		request.setWarehouseNo("110009082");//库房编号，事业部开启寻源拆分服务可不填；否则必填；
 		request.setShipperNo(jsonstr.getString("shipperNo"));//承运商编号，默认为京东快递，CYS0000010
 		request.setSalesPlatformOrderNo(jsonstr.getString("OrderNo"));//销售平台订单号，如果销售平台来源为京东平台，则该字段不能为空，长度不超过200
-		request.setSalePlatformSource("线下平台");//销售平台来源，参考销售平台来源查询接口的值
+		request.setSalePlatformSource(jsonstr.getString("form"));//销售平台来源，参考销售平台来源查询接口的值
 		request.setConsigneeName(jsonstr.getString("Customer")); //收货人姓名，长度不能超20
 		request.setConsigneeMobile(jsonstr.getString("Mobile"));//收货人手机（收货人电话、手机至少有一个不为空），长度不能超30
 		request.setConsigneeAddress(jsonstr.getString("Address"));//收货人地址 ，长度不能超100

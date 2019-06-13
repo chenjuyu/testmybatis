@@ -737,24 +737,26 @@ public class StockController {
 		HashMap<String,Object> map = stockService.synstock(conditions);		        
 		
 		List<LinkedHashMap<String,Object>> list= (List<LinkedHashMap<String,Object>>) map.get("rows");
-		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="",jdName="";
+		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="",jdName="",form="";
 		org.json.JSONObject jsonstr=new org.json.JSONObject();
 		for(int i=0 ;i<list.size();i++){
 			LinkedHashMap<String,Object> m= list.get(i);
 			if(i==list.size()-1){
+			form=form+"线下平台";
 			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"));	
 			jdName=jdName+String.valueOf(m.get("GoodsName"));
 			Qty=Qty+String.valueOf(m.get("Quantity"));	
 			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
-			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_DOWN);
 			RelationAmount=RelationAmount+String.valueOf(bg);
 			GoodsStatus=GoodsStatus+"1";
 			}else{
+			form=form+"线下平台,";	
 			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"))+",";//京东货号
 			jdName=jdName+String.valueOf(m.get("GoodsName"))+",";
 			Qty=Qty+String.valueOf(m.get("Quantity"))+",";
 			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
-			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_DOWN);
 			RelationAmount=RelationAmount+String.valueOf(bg)+",";
 			GoodsStatus=GoodsStatus+"1"+",";
 			  
@@ -772,6 +774,7 @@ public class StockController {
 		jsonstr.put("jdName", jdName);
 		jsonstr.put("Qty",Qty);
 		jsonstr.put("Amt",RelationAmount);
+		jsonstr.put("form", form);
 		//jsonstr.put("GoodsStatus",GoodsStatus);
 		
 		// JdTools  jdTools =new JdTools();
