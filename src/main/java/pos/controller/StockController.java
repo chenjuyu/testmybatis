@@ -29,6 +29,7 @@ import com.jd.open.api.sdk.JdException;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.cancelOrder.CancelResult;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsTransfer.RtsResult;
 
 import pos.model.Department;
 import pos.model.Jdstock;
@@ -647,6 +648,7 @@ public class StockController {
 		
 		
 		
+		
 		List<QueryPoModel> ls=jdTools.queryPoOrder(No);
 		
 		if(ls.size()>0){
@@ -714,6 +716,143 @@ public class StockController {
 		return j;
 	}
 	
+	//退供应商下发(非备件库)
+	@RequestMapping(value = "/jdstockRtsTransfer")	
+	@ResponseBody
+	public AjaxJson rtsisvRtsTransfer (HttpServletRequest re) throws JdException{
+		
+		AjaxJson j=new AjaxJson();
+		
+		String No=re.getParameter("No");
+		String stockid=oConvertUtils.getString(re.getParameter("stockid"));
+		String conditions=null;
+		
+		if(!"".equals(stockid) && stockid !=null){
+			conditions=" and a.stockID='"+stockid+"'";
+		}
+		 //得到单据货品
+		HashMap<String,Object> map = stockService.synstock(conditions);	
+		
+		List<LinkedHashMap<String,Object>> list= (List<LinkedHashMap<String,Object>>) map.get("rows");
+		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="",jdName="";
+		//因为退货要正数，所以负数的，要转成正数
+		for(int i=0 ;i<list.size();i++){
+			LinkedHashMap<String,Object> m= list.get(i);
+			if(i==list.size()-1){
+			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"));	
+			Qty=Qty+String.valueOf(-Integer.valueOf(String.valueOf(m.get("Quantity"))));	
+			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			RelationAmount=RelationAmount+String.valueOf(bg);
+			GoodsStatus=GoodsStatus+"1";
+			jdName=jdName+String.valueOf(m.get("GoodsName"));
+			}else{
+			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"))+",";//京东货号
+			Qty=Qty+String.valueOf(-Integer.valueOf(String.valueOf(m.get("Quantity"))))+",";
+			BigDecimal rmt=(BigDecimal)m.get("RelationAmount");
+			BigDecimal bg = rmt.setScale(2, BigDecimal.ROUND_HALF_UP);
+			RelationAmount=RelationAmount+String.valueOf(bg)+",";
+			GoodsStatus=GoodsStatus+"1"+",";
+			jdName=jdName+String.valueOf(m.get("GoodsName"))+",";  
+			}
+			
+		}
+		if(list.size()>0){
+		System.out.println("转换后的数量:"+Qty);
+		org.json.JSONObject jsonstr =new org.json.JSONObject();
+		jsonstr.put("No", No);
+		jsonstr.put("GoodsNo", GoodsNo);
+		jsonstr.put("jdName", jdName);
+		jsonstr.put("Qty", Qty);
+		
+	    org.json.JSONObject json= jdTools.rtsisvRtsTransfer(jsonstr);
+	    
+	    if(json.has("result")){
+	    	RtsResult result=(RtsResult)json.get("result");
+	    	j.setMsg("新建退供单单号为："+result.getEclpRtsNo());  
+	    	j.setSuccess(true);
+	    	JdstockExample example =new JdstockExample();
+			example.clear();
+			JdstockExample.Criteria cr=example.createCriteria();
+			cr.andStockidEqualTo(stockid);
+			int count=jdstockService.countByExample(example);
+			
+			Jdstock jd=new Jdstock();
+			jd.setStockid(stockid);
+			jd.setGoodsno(GoodsNo);
+			jd.setNo(No);
+			jd.setEclprtsno(result.getEclpRtsNo());
+			jd.setIscancel(false);
+			
+			if(count==0){
+				jdstockService.insert(jd);
+			}
+	    	
+	    	
+	    }else{
+	    	j.setMsg(json.getString("msg"));
+	    	j.setSuccess(false);
+	    }
+	    
+	    
+		
+		}
+		
+		
+		
+		return j;
+	}
+	
+	//查询退供应商详情     rts.isvRtsQuery
+	@RequestMapping(value = "/rtsisvRtsQuery")	
+	@ResponseBody
+	public AjaxJson rtsisvRtsQuery(HttpServletRequest re) throws JdException{
+		AjaxJson j=new AjaxJson();
+		
+		String eclpRtsNo =re.getParameter("No"); //京东退货单号  就查询一条的
+		Map<String,Object> map=new LinkedHashMap<>(); //表头内容
+		
+		if(!"".equals(eclpRtsNo) && eclpRtsNo !=null){
+		List<com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsQuery.RtsResult> ls=jdTools.rtsisvRtsQuery(eclpRtsNo);
+		
+		for(com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsQuery.RtsResult result : ls){
+			if("1".equals(result.getResultCode())){
+				j.setMsg(result.getMsg());
+				map.put("eclpRtsNo", result.getEclpRtsNo());//京东退货单号
+				map.put("isvRtsNum", result.getIsvRtsNum());//线下单号
+				map.put("supplierNo", result.getSupplierNo());
+			  List<com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsQuery.RtsDetail> detail=result.getRtsDetailList();	//退供应商明细信息集合
+			  j.setObj(detail);
+			  j.setAttribute(map);
+			  j.setSuccess(true);
+			}else{
+			  j.setSuccess(false);
+			  j.setMsg(result.getMsg());
+			}
+			
+		}
+		
+		
+		}	
+		return j;
+	}
+	
+	//查询退供应商详情   界面
+	
+	@RequestMapping(value = "/rtsisvRtsQueryDetail")
+	public ModelAndView rtsisvRtsQueryDetail(HttpServletRequest re){
+		Map<String,Object> map =new HashMap<>();
+		map.put("No", re.getParameter("No"));
+		
+		return new ModelAndView("rtsisvRtsQueryDetail",map);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/jdstockout")	
 	@ResponseBody  //出库单同步
@@ -737,12 +876,12 @@ public class StockController {
 		HashMap<String,Object> map = stockService.synstock(conditions);		        
 		
 		List<LinkedHashMap<String,Object>> list= (List<LinkedHashMap<String,Object>>) map.get("rows");
-		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="",jdName="",form="";
+		String GoodsNo="",Qty="",RelationAmount="",GoodsStatus="",jdName="";
 		org.json.JSONObject jsonstr=new org.json.JSONObject();
 		for(int i=0 ;i<list.size();i++){
 			LinkedHashMap<String,Object> m= list.get(i);
 			if(i==list.size()-1){
-			form=form+"线下平台";
+			
 			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"));	
 			jdName=jdName+String.valueOf(m.get("GoodsName"));
 			Qty=Qty+String.valueOf(m.get("Quantity"));	
@@ -751,7 +890,7 @@ public class StockController {
 			RelationAmount=RelationAmount+String.valueOf(bg);
 			GoodsStatus=GoodsStatus+"1";
 			}else{
-			form=form+"线下平台,";	
+			
 			GoodsNo =GoodsNo+String.valueOf(m.get("GoodsNo"))+",";//京东货号
 			jdName=jdName+String.valueOf(m.get("GoodsName"))+",";
 			Qty=Qty+String.valueOf(m.get("Quantity"))+",";
@@ -774,7 +913,7 @@ public class StockController {
 		jsonstr.put("jdName", jdName);
 		jsonstr.put("Qty",Qty);
 		jsonstr.put("Amt",RelationAmount);
-		jsonstr.put("form", form);
+		
 		//jsonstr.put("GoodsStatus",GoodsStatus);
 		
 		// JdTools  jdTools =new JdTools();
@@ -783,7 +922,7 @@ public class StockController {
 		
 		if(json.has("errorcode")){
 			j.setSuccess(false);
-			j.setMsg(json.getString("errorcode"));
+			j.setMsg(json.getString("msg"));
 		}else{
 			j.setMsg(json.getString("msg"));
 			j.setSuccess(true);

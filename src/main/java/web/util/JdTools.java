@@ -67,11 +67,11 @@ public class JdTools {
 		EclpPoAddPoOrderResponse response=client.execute(request);
 		
 		if(!"".equals(response.getPoOrderNo()) && response.getPoOrderNo() !=null){
-			j.put("msg", "生成订单号成功");
+			j.put("msg", response.getZhDesc());
 			j.put("PoOrderNo", response.getPoOrderNo());
 			System.out.println("生成订单号成功");
 		}else{
-			j.put("msg", "同步失败");
+			j.put("msg", response.getZhDesc());
 			j.put("errorcode",response.getCode() );
 		}
 		return j;
@@ -89,7 +89,9 @@ public class JdTools {
 	
 	//退供应商下发(非备件库)
 	
-   public RtsResult rtsisvRtsTransfer(JSONObject jsonstr) throws JdException{
+   public JSONObject  rtsisvRtsTransfer(JSONObject jsonstr) throws JdException{
+	   
+	   JSONObject j=new JSONObject();
 	   
 	   EclpRtsIsvRtsTransferRequest request=new EclpRtsIsvRtsTransferRequest();
 	  // request.setEclpRtsNo("EBS4398046520233");//	开放平台退供应商单号（EBS开头）;格式：EBS4XXXXXXXXXXX;最大长度50字符
@@ -103,17 +105,37 @@ public class JdTools {
        request.setGoodsName(jsonstr.getString("jdName"));//事业部商品名称；最大50个字符
        request.setQuantity(jsonstr.getString("Qty"));//申请退货数量；正整数
        
+       
+   	System.out.println("本地单号："+jsonstr.getString("No"));
+	
+	System.out.println("京东对应货号："+jsonstr.getString("GoodsNo"));
+	System.out.println("京东对应名字："+jsonstr.getString("jdName"));
+	
+	System.out.println("京东退供应商数量："+jsonstr.getString("Qty"));
+       
        EclpRtsIsvRtsTransferResponse response=client.execute(request);
        RtsResult result=  response.getRtsResult();
        
-       return result;
+       System.out.println("结果返回码："+result.getResultCode());
+       
+       System.out.println("结果中文描述："+result.getFailMsg());
+       
+       if("1".equals(result.getResultCode())){
+       j.put("msg", result.getFailMsg());
+       j.put("result", result);
+       }else{
+       j.put("msg", result.getFailMsg());   
+       }
+       
+       
+       return j;
    }	
   
    //查询退供应商详情
-   public List<com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsQuery.RtsResult>  rtsisvRtsQuery(JSONObject jsonstr) throws JdException{
+   public List<com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsQuery.RtsResult>  rtsisvRtsQuery(String jsonstr) throws JdException{
 	   EclpRtsIsvRtsQueryRequest request=new EclpRtsIsvRtsQueryRequest();
-	   request.setEclpRtsNo(jsonstr.getString("rtsNo"));//开放平台退供应商单号（EBS开头）;格式：EBS4XXXXXXXXX01,EBSXXXXXXX02;最多50个单号查询,中间以英文逗号分隔。
-	   request.setIsvRtsNum(jsonstr.getString("No"));//	I商家系统退供应商单号；最大长度50字符
+	   request.setEclpRtsNo(jsonstr);//开放平台退供应商单号（EBS开头）;格式：EBS4XXXXXXXXX01,EBSXXXXXXX02;最多50个单号查询,中间以英文逗号分隔。
+	  // request.setIsvRtsNum(jsonstr.getString("No"));//	I商家系统退供应商单号；最大长度50字符
 	   
 	   EclpRtsIsvRtsQueryResponse response=client.execute(request); //返回 响应
 	    List<com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.isvRtsQuery.RtsResult> ls= response.getRtsResultList();
@@ -131,15 +153,15 @@ public class JdTools {
 		JSONObject json=new JSONObject();
 		EclpOrderAddOrderRequest request=new EclpOrderAddOrderRequest();
 		request.setIsvUUID(jsonstr.getString("No")); //isv出库单号（商家出库单号），作为isv出库的唯一性校验码：长度不能超125
-		request.setIsvSource("ISV0020000000068");//ISV来源编号
+		request.setIsvSource("ISV0020000000068");//ISV来源编号 ISV0020000000068
 		request.setShopNo("ESP0020000055973");//店铺编号(B2C订单必填，B2B（soType=2）订单非必填)
 	//	request.setSoType("2");
-		request.setIsvSoType(jsonstr.getString("Type"));
+	//	request.setIsvSoType(jsonstr.getString("Type"));
 		request.setDepartmentNo("EBU4418046578252");//事业部编码
 		request.setWarehouseNo("110009082");//库房编号，事业部开启寻源拆分服务可不填；否则必填；
 		request.setShipperNo(jsonstr.getString("shipperNo"));//承运商编号，默认为京东快递，CYS0000010
 		request.setSalesPlatformOrderNo(jsonstr.getString("OrderNo"));//销售平台订单号，如果销售平台来源为京东平台，则该字段不能为空，长度不超过200
-		request.setSalePlatformSource(jsonstr.getString("form"));//销售平台来源，参考销售平台来源查询接口的值
+		request.setSalePlatformSource("6");//销售平台来源，参考销售平台来源查询接口的值 6 京东技术人员给
 		request.setConsigneeName(jsonstr.getString("Customer")); //收货人姓名，长度不能超20
 		request.setConsigneeMobile(jsonstr.getString("Mobile"));//收货人手机（收货人电话、手机至少有一个不为空），长度不能超30
 		request.setConsigneeAddress(jsonstr.getString("Address"));//收货人地址 ，长度不能超100
@@ -172,11 +194,11 @@ public class JdTools {
 		EclpOrderAddOrderResponse response=client.execute(request);
 		
 		if(!"".equals(response.getEclpSoNo()) && response.getEclpSoNo() !=null){
-			json.put("msg", "生成出库单号成功");
+			json.put("msg", response.getZhDesc());
 			json.put("eclpSoNo", response.getEclpSoNo());
 			System.out.println("生成出库单号成功");
 		}else{
-			json.put("msg", "同步失败");
+			json.put("msg", response.getZhDesc());
 			json.put("errorcode",response.getCode() );
 		}
 		

@@ -100,7 +100,8 @@
 
 	<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" data-type="getCheckLength">同步单据货品</button>
-		<button class="layui-btn layui-btn-sm" data-type="getCheckData">同步单据</button>
+		<button class="layui-btn layui-btn-sm" data-type="getCheckData">同步入货单据</button>
+		<button class="layui-btn layui-btn-sm" data-type="returndan">同步退货单据</button>
         
   <!--  <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button> -->
 	</div>
@@ -318,7 +319,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     			maxmin: true,
     	        shadeClose: true,
     	        shade:0.4,
-    	        title: '京东单据详情',
+    	        title: '京东入货单据详情',
     	        content: '<%=basePath%>stock/jdstockdetail.html',
     	        btn:['确定'],
     	        yes:function(index, layero){
@@ -332,7 +333,30 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     	            console.log(iframeWin.kkk)
     	          }
     		})
-      }	
+      }else if(data.eclpRtsNo !=='' && data.eclpRtsNo !==undefined ) //厂商退货查询
+      {   //layui.data('No',{key:'No',value:data.eclpRtsNo})
+    		layer.open({
+    			type:2,
+    			area: ['1100px', '500px'],
+    			fix: false, //不固定
+    			maxmin: true,
+    	        shadeClose: true,
+    	        shade:0.4,
+    	        title: '京东退货单据详情',
+    	        content: '<%=basePath%>stock/rtsisvRtsQueryDetail.html?No='+data.eclpRtsNo,
+    	        btn:['确定'],
+    	        yes:function(index, layero){
+    	        	layer.close(index);
+    	        } ,success: function(layero, index){
+    	        	var j = parent.layer.getFrameIndex(window.name); 
+    	            var body = layer.getChildFrame('body', j);
+    	            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+    	           // console.log(body.html()) //得到iframe页的body内容
+    	          //  body.find('input[name=keyword]').val('Hi，我是从父页来的')
+    	            console.log(iframeWin.kkk)
+    	          }
+    		})
+      }
     	
     	
     /*   layer.prompt({
@@ -528,6 +552,19 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	     
 	       // layer.msg('选中了：'+ data.length + ' 个');
 	      break;
+	      case 'returndan':
+	    	  var data = checkStatus.data;
+	    	  if(data.length>0){
+	    	 if(data[0].Type !='采购退货'){
+	    		 layer.alert('请选择单据类别 为 【采购退货】的单据');	 		 
+	    	 }else if(data[0].Type ==='采购退货'){
+	    		 var map={}
+	    		 map.stockid=data[0].StockID
+	 	         map.No=data[0].No
+	    		 rtsisvRtsTransfer(map)
+	    	 }  
+	    	  }
+	      break; 	  
 	      case 'isAll':
 	        layer.msg(checkStatus.isAll ? '全选': '未全选');
 	      break;
@@ -658,7 +695,7 @@ function jdgoods(data){
 	  }); 
 }  
   
-//同步单据到京东
+//同步单据到京东  进
 function Synjd(map){
 	var stockid=map.stockid
 	var No=map.No
@@ -683,6 +720,34 @@ function Synjd(map){
 	
 	
 }
+
+//供应商下发， 退货
+function rtsisvRtsTransfer(map){
+	var stockid=map.stockid
+	var No=map.No
+	  $.ajax({
+			type: "post",  //数据提交方式（post/get）
+	      	url: "<%=basePath%>stock/jdstockRtsTransfer.html",  //提交到的url
+	      	async:false,
+	      	data: {
+	      		"stockid":stockid,
+	      		"No":No
+	      	},
+	      	dataType: "json",//返回的数据类型格式  
+	      	success: function (res) {
+	      		layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+	      	,error:function (){
+	      		
+	      		layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+			  
+		  }); 
+	
+}
+
+
+
        
         
   
