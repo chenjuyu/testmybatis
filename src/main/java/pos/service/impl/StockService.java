@@ -125,6 +125,22 @@ public class StockService implements IStock {
 		
 	}
 
+	@Override
+	public boolean cancelStock(String stockid, String tabletag) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map=new HashMap<>();
+		map.put("stockid", stockid);
+		map.put("tabletag", tabletag);
+		try{
+		stockMapper.cancelStock(map);
+		return true;
+		}catch(Exception e){
+			e.getMessage();
+		return false;
+		}
+	
+	}
+
 
 
 }

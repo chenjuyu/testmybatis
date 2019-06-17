@@ -31,4 +31,6 @@ public interface StockMapper {
     List<LinkedHashMap<String,Object>> stockDetial(Map<String,Object> map); 
     
     List<LinkedHashMap<String,Object>> stockconnetjd(Map<String,Object> map); 
+    
+    LinkedHashMap<String,Object> cancelStock(Map<String,Object> map); 
 }

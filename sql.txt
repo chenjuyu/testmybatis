@@ -17,8 +17,6 @@ PRIMARY KEY CLUSTERED
 
 GO
 
-SET ANSI_PADDING OFF
-GO
 GO
 CREATE TABLE [dbo].[jdStock](
 	[StockID] [varchar](20) COLLATE Chinese_PRC_CI_AS NOT NULL,
@@ -28,15 +26,18 @@ CREATE TABLE [dbo].[jdStock](
 	[WarehouseID] [varchar](20) COLLATE Chinese_PRC_CI_AS NULL,
 	[jddeptNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
 	[poOrderNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
+	[GoodsNo] [varchar](4000) COLLATE Chinese_PRC_CI_AS NULL,
 	[eclpSoNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
 	[eclpRtsNo] [varchar](50) COLLATE Chinese_PRC_CI_AS NULL,
-	[GoodsNo] [varchar](4000) COLLATE Chinese_PRC_CI_AS NULL,
+	[iscancel] [bit] NOT NULL DEFAULT ((0)),
  CONSTRAINT [PK__jdStock__18522615] PRIMARY KEY CLUSTERED 
 (
 	[StockID] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
-go  
+
+GO 
+/*
 --价钱取货品资料的零售价就可以 不用改触发器了
 alter table stockdetail add RelationUnitPrice money,RelationAmount money
 go
@@ -90,3 +91,49 @@ AS
 		Delete a From Triggers a,  Inserted b Where TableTag=25 and IDValue=b.StockID
 		Commit Tran T1
 	end
+	*/
+	go
+	
+
+
+alter proc cancelStock @StockID varchar(40)='',@TableTag int
+as 
+set nocount on
+
+if @StockID='' 
+begin 
+raiserror('参数不能为空',16,1)
+return
+end
+
+declare @id varchar(30),@No varchar(30) exec getnewidValue @TableTag,@id output select @id IDValue
+Exec GetMaxNo @TableTag, @No Output
+declare @sql varchar(6000),@MaxNo int,@i int,@SizeStr varchar(5000),@FieldStr varchar(3000),@Direction varchar(2)
+-- 24 进 32 出
+if @TableTag=32 set @Direction='-1'
+else set @Direction='1'
+
+
+select @MaxNo= MAX(NO) from SizeGroupSize
+select @i=1,@SizeStr='',@FieldStr=''
+while @i<=@MaxNo begin
+select @SizeStr =@SizeStr+'-x_'+Cast(@i as varchar(10))+',',@FieldStr=@FieldStr+'x_'+Cast(@i as varchar(10))+','
+set @i=@i+1
+end
+
+set @sql ='Insert into StockDetailTemp(IndexNo,StockID,GoodsID,ColorID,BoxQty,'+@FieldStr+'Quantity,StorageID,RelationUnitPrice,RelationAmount,RelationOrderID,relationCustCode,RelationSalesOrderID,UnitPrice,Amount,RetailSales,RetailAmount,PurchasePrice,PurchaseAmount,GoodsKind,BatchNo,Memo,Field1,Field2,Field3,Field4,Field5,Field6,Field7,Field8,Field9,WareHouseInID,DiscountRate,InitUnitPrice,SizeIndex)'+
+'select IndexNo,'''+@id+''' ,GoodsID,ColorID,-BoxQty, '+@SizeStr+' -Quantity,StorageID,RelationUnitPrice,-RelationAmount,RelationOrderID,relationCustCode,RelationSalesOrderID,UnitPrice,-Amount,RetailSales,-RetailAmount,PurchasePrice,-PurchaseAmount,GoodsKind,BatchNo,Memo,Field1,Field2,Field3,Field4,Field5,Field6,Field7,Field8,Field9,WareHouseInID,DiscountRate,InitUnitPrice,SizeIndex from StockDetailTemp where StockID='''+@StockID+''''
+select @sql
+exec(@SQL)
+
+set @sql='Insert into Stock(StockID,Type,No,Date,WareHouseID,DepartmentID,EmployeeID,QuantitySum,AmountSum,MadeByDate,AuditFlag,TallyFlag,OutportEndFlag,SendFlag,Memo,Direction,Year,Month,ReceivalInt,DisplaySizeGroup,CostFlag,CSID,RelationWarehouseID,CommandFlag,RetailAmountSum,PurchaseAmountSum,CostWarehouseID,CustomerID,BrandID,RelationAmountSum,SupplierID,RelationType,OtherAmount,TradeAmountSum,BusinessDeptID,CustAddress)'+CHAR(13)+
+'select '''+@id+''' ,Type,'''+@No+''',Convert(varchar(10),GetDate(),121),WareHouseID,DepartmentID,EmployeeID,-QuantitySum,-AmountSum,GetDate(),0,0,0,0,''京东单据取消''+No+''生成'','+@Direction+',Year(getDate()), Right(100+Month(GetDate()),2) ,ReceivalInt,DisplaySizeGroup,CostFlag,CSID,RelationWarehouseID,CommandFlag,-RetailAmountSum,-PurchaseAmountSum,CostWarehouseID,CustomerID,BrandID,-RelationAmountSum,SupplierID,RelationType,-OtherAmount,-TradeAmountSum,BusinessDeptID,CustAddress from stock where stockid='''+@StockID+''''
+select @sql
+
+Exec(@sql)
+
+--select top 1 * from stock
+
+Exec [dbo].[sys_CheckAndRepairBill] 'StockDetailTemp','StockID',@id
+
+set nocount off

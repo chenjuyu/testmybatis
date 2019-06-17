@@ -25,4 +25,10 @@ public class JdStock implements IJdstock {
 		return jdstockMapper.insert(record);
 	}
 
+	@Override
+	public int updateByPrimaryKey(Jdstock record) {
+		// TODO Auto-generated method stub
+		return jdstockMapper.updateByPrimaryKey(record);
+	}
+
 }

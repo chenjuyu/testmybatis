@@ -939,7 +939,7 @@ public class StockController {
 			jd.setNo(No);
 			jd.setEclpsono(json.getString("eclpSoNo"));
 			if(count>0){
-					
+				jdstockService.updateByPrimaryKey(jd);
 			}else{
 				jdstockService.insert(jd);
 			}
@@ -958,12 +958,23 @@ public class StockController {
 		AjaxJson j= new AjaxJson();
 		
 		String eclpSoNo=re.getParameter("No");
-		
+		String stockid=re.getParameter("stockid");
 		CancelResult result=jdTools.ordercancelOrder(eclpSoNo);
 		//返回结果码,1:取消成功,2:取消失败,3:取消中，需要等待一段时间，重新调用查询接口，获取拦截结果
-		if(result.getCode() !=1){
+		if(result.getCode() ==1){
 			j.setSuccess(true);
+			stockService.cancelStock(stockid, "32");
+			
+			Jdstock jd=new Jdstock();
+			jd.setStockid(stockid);
+			jd.setEclpsono(eclpSoNo);
+			jd.setIscancel(true);
+			jdstockService.updateByPrimaryKey(jd);
+			
 			j.setMsg(result.getMsg());
+			
+			
+			
 		}else{
 			j.setSuccess(false);
 			j.setMsg(result.getMsg());

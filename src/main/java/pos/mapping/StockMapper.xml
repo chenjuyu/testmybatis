@@ -950,5 +950,11 @@ Order by a.StockID,  a.IndexNo
  </select>
  
  
+ <select id="cancelStock" statementType="CALLABLE" resultType="java.util.LinkedHashMap" parameterType="java.util.Map">
+      <![CDATA[
+          {call cancelStock(${stockid},${tabletag})}
+      ]]>
+</select>
+
   
 </mapper>

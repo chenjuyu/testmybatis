@@ -21,4 +21,6 @@ public interface IStock {
 	    HashMap<String,Object> stockDetial(String size,String conditions, int pageno, int pagesize);
 	    //不用分页这个
 	    HashMap<String,Object> synstock(String conditions);
+	    
+	    boolean cancelStock(String stockid,String tabletag);
 }
