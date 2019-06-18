@@ -549,7 +549,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	       if(data[0].eclpSoNo !=='' && data[0].eclpSoNo !==undefined && data[0].eclpSoNo !==null){
 	    	   layer.alert('此单号已经同步过了，不能再同步到京东');
 	    	   return
-	       }else if(data.length>0){
+	       }else if(data.length>0 && (data[0].Type==='销售' || data[0].Type==='转仓出仓' || data[0].Type==='其它出仓') ){
 	        //Send(JSON.stringify(data))
 	        //layer.msg('同步成功');
 	        var map={}
@@ -561,7 +561,10 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        map.Mobile=data[0].Mobile
 	        map.Address=data[0].Address
 	        Synjd(map) 
-	       } 
+	       }else{
+	    	   layer.alert('请选择其他正整数数量的单据');   
+	    	   return
+	       }
 	      break;
 	      case 'getCheckLength':
 	        var data = checkStatus.data;

@@ -536,7 +536,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        if(data[0].poOrderNo !=='' && data[0].poOrderNo !==undefined && data[0].poOrderNo !==null){
 	        	layer.alert('此单据已经同步过了，不能再同步到京东');
 	        	return
-	        }else if(data.length>0 && data[0].Type ==='采购' && data[0].Type ==='转仓进仓' && data[0].Type ==='其它进仓'){
+	        }else if(data.length>0 && (data[0].Type ==='采购' || data[0].Type ==='转仓进仓' || data[0].Type ==='其它进仓')){
 	        //Send(JSON.stringify(data))
 	        //layer.msg('同步成功');
 	        var map={}
