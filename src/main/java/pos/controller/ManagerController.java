@@ -61,7 +61,12 @@ public class ManagerController {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		map.put("user",LoginUtilParameter.user);	
+		String jdbrowflag =ResourceUtil.getConfigByName("jdbrowflag");
+		
+		
+		
+		map.put("user",LoginUtilParameter.user);
+		map.put("jdbrowflag", Boolean.valueOf(jdbrowflag));
 		return new ModelAndView("lmain",map);
 	}
 	

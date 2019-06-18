@@ -31,4 +31,10 @@ public class JdStock implements IJdstock {
 		return jdstockMapper.updateByPrimaryKey(record);
 	}
 
+	@Override
+	public int updateByPrimaryKeySelective(Jdstock record) {
+		// TODO Auto-generated method stub
+		return jdstockMapper.updateByPrimaryKeySelective(record);
+	}
+
 }

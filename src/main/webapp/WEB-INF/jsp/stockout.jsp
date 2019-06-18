@@ -142,6 +142,7 @@
 	<script type="text/html" id="barDemo">
      <a class="layui-btn layui-btn-xs" lay-event="edit">查询京东单据详情</a>
      <a class="layui-btn layui-btn-xs" lay-event="cancel">取消京东出库单</a>
+      
 </script>
 
 
@@ -288,7 +289,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
    //   ,{field:'SupplierCode', title:'厂商货品编码', width:120}
     //  ,{field:'Model', title:'型号规格', width:100}
      // ,{field:'Season', title:'季节', width:120}
-      ,{fixed: 'right', title:'查看', toolbar: '#barDemo', width:150}
+      ,{fixed: 'right', title:'查看', toolbar: '#barDemo', width:300}
     ]]
     ,id: 'stocklist'  
     ,page: true
@@ -330,7 +331,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     } else if(obj.event === 'edit'){
       if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
     	  console.log("stock页面的data.eclpSoNo的值："+data.eclpSoNo)
-    	  layui.data('No',{key:'No',value:data.eclpSoNo})
+    	// layui.data('No',{key:'No',value:data.eclpSoNo})
     		layer.open({
     			type:2,
     			area: ['1100px', '500px'],
@@ -339,7 +340,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     	        shadeClose: true,
     	        shade:0.4,
     	        title: '京东单据详情',
-    	        content: '<%=basePath%>stock/jdstockdetail.html',
+    	        content: '<%=basePath%>stock/orderqueryShow.html?No='+data.eclpSoNo+'&stockid='+data.StockID,
     	        btn:['确定'],
     	        yes:function(index, layero){
     	        	layer.close(index);
@@ -365,9 +366,18 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         layer.close(index);
       }); */
     }else if(obj.event ==='cancel'){
-    	if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
+        if(data.iscancel){
+        	layer.alert('该单号已经取消过了不能再取消');
+        return	
+    	}else if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
+    		cancellorderaddorder(data.eclpSoNo,data.StockID)
+    	}
+    	
+    }else if(obj.event ==='orderqueryOrder'){
+    	
+       if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
     		
-    		cancellorderaddorder(data.eclpSoNo)
+	   orderqueryOrder(data.eclpSoNo,data.StockID)
     	}
     	
     }
@@ -536,7 +546,10 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        var data = checkStatus.data;
 	        console.log(data)
 	       // layer.alert(JSON.stringify(data));
-	       if(data.length>0){
+	       if(data[0].eclpSoNo !=='' && data[0].eclpSoNo !==undefined && data[0].eclpSoNo !==null){
+	    	   layer.alert('此单号已经同步过了，不能再同步到京东');
+	    	   return
+	       }else if(data.length>0){
 	        //Send(JSON.stringify(data))
 	        //layer.msg('同步成功');
 	        var map={}
@@ -719,12 +732,12 @@ function Synjd(map){
 }
   
 // 取消出库单
-function cancellorderaddorder(No){
+function cancellorderaddorder(No,stockid){
 	
 	$.ajax({
 		type:'post'
 		,url:'<%=basePath%>stock/cancelorderaddOrder.html'
-		,data:{'No':No}
+		,data:{'No':No,'stockid':stockid}
 		,dataType:"json"
 		,async:false //取消异步，要同步
 		,success:function(res){
@@ -744,7 +757,12 @@ function cancellorderaddorder(No){
 	
 	
 }
-        
+//查询出库单
+function orderqueryOrder(No,stockid){
+
+	
+	
+}
   
   
 });

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jd.open.api.sdk.JdException;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryOrder.OrderDetail;
+import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryOrder.OrderDetailResult;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.PoItemModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.queryPoOrder.QueryPoModel;
 import com.jd.open.api.sdk.domain.ECLP.EclpOpenService.response.cancelOrder.CancelResult;
@@ -618,6 +620,7 @@ public class StockController {
 			jd.setStockid(stockid);
 			jd.setGoodsno(GoodsNo);
 			jd.setNo(No);
+			jd.setIscancel(false);
 			jd.setPoorderno(json.getString("PoOrderNo"));
 			if(count>0){
 					
@@ -938,6 +941,7 @@ public class StockController {
 			jd.setGoodsno(GoodsNo);
 			jd.setNo(No);
 			jd.setEclpsono(json.getString("eclpSoNo"));
+			jd.setIscancel(false);
 			if(count>0){
 				jdstockService.updateByPrimaryKey(jd);
 			}else{
@@ -969,7 +973,7 @@ public class StockController {
 			jd.setStockid(stockid);
 			jd.setEclpsono(eclpSoNo);
 			jd.setIscancel(true);
-			jdstockService.updateByPrimaryKey(jd);
+			jdstockService.updateByPrimaryKeySelective(jd);
 			
 			j.setMsg(result.getMsg());
 			
@@ -984,6 +988,51 @@ public class StockController {
 		
 		
 		return j;
+	}
+	//出库单查询
+	@RequestMapping("/orderqueryOrder")
+	@ResponseBody
+	public AjaxJson orderqueryOrder(HttpServletRequest re) throws JdException{
+		AjaxJson j= new AjaxJson();
+		
+		String No =re.getParameter("No");
+		OrderDetailResult result= jdTools.orderqueryOrder(No);
+		
+		String eclpSoNo =result.getEclpSoNo(); //	开放平台出库单号
+		
+		String isvUUID=result.getIsvUUID();
+		String shopNo=result.getShopNo();
+		String consigneeName=result.getConsigneeName();//客户姓名
+		String consigneeAddress =result.getConsigneeAddress();//收货人地址
+		String shipperName=result.getShipperName();//承运商名称
+		List<OrderDetail> ls=result.getOrderDetailList(); //出库商品集合
+		Map<String,Object> map=new LinkedHashMap<String,Object>();
+		map.put("eclpSoNo", eclpSoNo);
+		map.put("isvUUID", isvUUID);
+		map.put("shopNo", shopNo);
+		map.put("consigneeName", consigneeName);
+		map.put("consigneeAddress", consigneeAddress);
+		map.put("shipperName", shipperName);
+		j.setAttribute(map);
+		j.setObj(ls);
+		
+		return j;
+	}
+	
+	//出库单查询
+	@RequestMapping("/orderqueryShow")
+	public ModelAndView orderqueryShow(HttpServletRequest re) throws JdException{
+		
+		
+		String No =re.getParameter("No");
+		String stockid=re.getParameter("stockid");
+		
+        Map<String,Object> map= new LinkedHashMap<>(); 
+		
+        map.put("No", No);
+        map.put("stockid", stockid);
+		
+		return new ModelAndView("orderqueryShow",map);
 	}
 	
 	

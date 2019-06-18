@@ -153,7 +153,7 @@
 						</a></li>
 					</ul></li>	
 					
-
+                <c:if test="${jdbrowflag}">
 				<li><a href="javascript:;"> <i class="iconfont left-nav-li"
 						lay-tips="京东授权">&#xe6b4;</i> <cite>京东授权</cite> <i
 						class="iconfont nav_right">&#xe697;</i></a>
@@ -163,7 +163,7 @@
 						</a></li>
 
 					</ul></li>
-
+                  </c:if>  <!-- if 结束 -->
 			</ul>
 		</div>
 	</div>

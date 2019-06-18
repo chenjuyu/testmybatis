@@ -533,13 +533,19 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        var data = checkStatus.data;
 	        console.log(data)
 	       // layer.alert(JSON.stringify(data));
-	       if(data.length>0){
+	        if(data[0].poOrderNo !=='' && data[0].poOrderNo !==undefined && data[0].poOrderNo !==null){
+	        	layer.alert('此单据已经同步过了，不能再同步到京东');
+	        	return
+	        }else if(data.length>0 && data[0].Type ==='采购' && data[0].Type ==='转仓进仓' && data[0].Type ==='其它进仓'){
 	        //Send(JSON.stringify(data))
 	        //layer.msg('同步成功');
 	        var map={}
 	        map.stockid=data[0].StockID
 	        map.No=data[0].No
 	        Synjd(map) 
+	       }else{
+	    	   layer.alert('请选择相应的进仓单，不能选退货单据');
+	        	return   
 	       } 
 	      break;
 	      case 'getCheckLength':
@@ -558,10 +564,15 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	    	 if(data[0].Type !='采购退货'){
 	    		 layer.alert('请选择单据类别 为 【采购退货】的单据');	 		 
 	    	 }else if(data[0].Type ==='采购退货'){
+	    		 if(data[0].eclpRtsNo !=='' && data[0].eclpRtsNo !==undefined && data[0].eclpRtsNo !==null){
+	    			 layer.alert('此退已经退过货，不能再同步到京东');
+	    			 return 
+	    		 }else {
 	    		 var map={}
 	    		 map.stockid=data[0].StockID
 	 	         map.No=data[0].No
 	    		 rtsisvRtsTransfer(map)
+	    		 }
 	    	 }  
 	    	  }
 	      break; 	  

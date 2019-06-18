@@ -7,4 +7,6 @@ public interface IJdstock {
 	int countByExample(JdstockExample example);
 	int insert(Jdstock record);
 	int updateByPrimaryKey(Jdstock record);
+	
+	int updateByPrimaryKeySelective(Jdstock record);
 }

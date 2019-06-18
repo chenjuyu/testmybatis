@@ -67,7 +67,7 @@ public class JdTools {
 		EclpPoAddPoOrderResponse response=client.execute(request);
 		
 		if(!"".equals(response.getPoOrderNo()) && response.getPoOrderNo() !=null){
-			j.put("msg", response.getZhDesc());
+			j.put("msg","返回京东入库单号为："+response.getPoOrderNo());
 			j.put("PoOrderNo", response.getPoOrderNo());
 			System.out.println("生成订单号成功");
 		}else{
@@ -194,8 +194,11 @@ public class JdTools {
 		EclpOrderAddOrderResponse response=client.execute(request);
 		
 		if(!"".equals(response.getEclpSoNo()) && response.getEclpSoNo() !=null){
-			json.put("msg", response.getZhDesc());
+			json.put("msg","返回的京东出库单号为："+ response.getEclpSoNo() );
 			json.put("eclpSoNo", response.getEclpSoNo());
+			System.out.println("返回的京东单号:"+ response.getEclpSoNo());
+			System.out.println("成功后返回 中文描述"+response.getZhDesc());
+			
 			System.out.println("生成出库单号成功");
 		}else{
 			json.put("msg", response.getZhDesc());
