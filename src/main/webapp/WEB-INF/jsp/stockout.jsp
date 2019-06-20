@@ -57,10 +57,10 @@
 			<div class="layui-inline layui-show-xs-block">
 				<select name="interest" lay-filter="Type">
 					<option value="">请选择类别</option>
-					<option value="销售">销售</option>
-					<option value="销售退货">销售退货</option>
-					<option value="转仓出仓">转仓出仓</option>
-					<option value="其它出仓">其它出仓</option>
+					<option value="采购">采购</option>
+					<option value="采购退货">采购退货</option>
+					<option value="转仓进仓">转仓进仓</option>
+					<option value="其它进仓">其它进仓</option>
 				</select>
 			</div>
 	 <div class="layui-inline layui-show-xs-block">
@@ -68,9 +68,6 @@
       <input type="radio" name="auditflag" lay-filter="auditflag" value="1" title="审核">
       <input type="radio" name="auditflag" lay-filter="auditflag" value="0" title="未审核" >
     </div>
-     <div class="layui-inline layui-show-xs-block">
-     <input type="checkbox" name="relationType[0]" lay-filter="relationType" checked title="排除零售">
-     </div>
      <!-- 测试 dtree layui-input-block selected="采购"-->
   <!-- 	<label>城市：</label>
 										<div class="layui-inline layui-show-xs-block">
@@ -103,7 +100,8 @@
 
 	<div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm" data-type="getCheckLength">同步单据货品</button>
-		<button class="layui-btn layui-btn-sm" data-type="getCheckData">同步单据</button>
+		<button class="layui-btn layui-btn-sm" data-type="getCheckData">同步入货单据</button>
+		<button class="layui-btn layui-btn-sm" data-type="returndan">同步退货单据</button>
         
   <!--  <button class="layui-btn layui-btn-sm" data-type="isAll">验证是否全选</button> -->
 	</div>
@@ -141,8 +139,6 @@
 
 	<script type="text/html" id="barDemo">
      <a class="layui-btn layui-btn-xs" lay-event="edit">查询京东单据详情</a>
-     <a class="layui-btn layui-btn-xs" lay-event="cancel">取消京东出库单</a>
-      
 </script>
 
 
@@ -218,19 +214,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   console.log(data.value); //被点击的radio的value值
   auditflag=data.value
 });  
-  var relationType='零售'
-  form.on('checkbox(relationType)', function(data){
-	  console.log(data.elem); //得到checkbox原始DOM对象
-	  console.log(data.elem.checked); //是否被选中，true或者false
-	  console.log(data.value); //复选框value值，也可以通过data.elem.value得到
-	  console.log(data.othis); //得到美化后的DOM对象
-	  if(!data.elem.checked){
-		  relationType=''
-	  }else{
-		  relationType='零售' 
-	  }
-	  
-	});       
+  
 
   
   table.render({
@@ -242,8 +226,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	  ,'DepartmentID':DepartmentID
 	  ,'Type':Type
 	  ,'auditflag':auditflag  
-	  ,'Direction':-1
-	  ,'relationType':relationType
+	  ,'Direction':1
     }
    // ,toolbar: '#toolbarDemotest' //屏蔽先 #toolbarDemo
   //  ,defaultToolbar:[] //['filter', 'print', 'exports'] 删除后会显示出来的 导出打印
@@ -272,30 +255,27 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
       ,{field:'StockID', title:'StockID', width:80, fixed: 'left', hide:true, unresize: true}
       ,{field:'DisplaySizeGroup', title:'DisplaySizeGroup', width:80, fixed: 'left', hide:true}
       ,{field:'Date', title:'日期', width:120}
-      ,{field:'Type', title:'类别', width:80}
+      ,{field:'Type', title:'类别', width:120}
       ,{field:'No', title:'单号', width:120, unresize: true}//, edit: 'text'
       ,{field:'Warehouse', title:'仓库', width:120}//, edit: 'text'
-      ,{field:'Customer', title:'客户', width:150}
+      ,{field:'Supplier', title:'厂商', width:150}
       /*,{field:'Name', title:'货品名称', width:150, edit: 'text', templet: function(res){
         return '<em>'+ res.email +'</em>'
       }} */
       ,{field:'QuantitySum', title:'数量', width:80 }//sort: true , edit: 'text'
       ,{field:'AmountSum', title:'金额', width:100,hide:true}
       ,{field:'RelationAmountSum', title:'结算金额',width:120}
-      ,{field:'Memo', title:'备注',width:150}
-      ,{field:'Mobile', title:'客户手机',width:120}
-      ,{field:'Address', title:'客户收货地址',width:200}
       
    //   ,{field:'SupplierCode', title:'厂商货品编码', width:120}
     //  ,{field:'Model', title:'型号规格', width:100}
      // ,{field:'Season', title:'季节', width:120}
-      ,{fixed: 'right', title:'查看', toolbar: '#barDemo', width:300}
+      ,{fixed: 'right', title:'查看', toolbar: '#barDemo', width:150}
     ]]
     ,id: 'stocklist'  
     ,page: true
    ,done: function(res, curr, count){
 	   if(!visible){//此处test为你的条件值
-			$("[data-field='14']").css('display','none'); //关键代码
+			$("[data-field='11']").css('display','none'); //关键代码
 		}
    }
   });
@@ -329,9 +309,9 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
-    	  console.log("stock页面的data.eclpSoNo的值："+data.eclpSoNo)
-    	// layui.data('No',{key:'No',value:data.eclpSoNo})
+      if(data.poOrderNo !=='' && data.poOrderNo !==undefined){
+    	  console.log("stock页面的data.poOrderNo的值："+data.poOrderNo)
+    	  layui.data('No',{key:'No',value:data.poOrderNo})
     		layer.open({
     			type:2,
     			area: ['1100px', '500px'],
@@ -339,8 +319,8 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     			maxmin: true,
     	        shadeClose: true,
     	        shade:0.4,
-    	        title: '京东单据详情',
-    	        content: '<%=basePath%>stock/orderqueryShow.html?No='+data.eclpSoNo+'&stockid='+data.StockID,
+    	        title: '京东入货单据详情',
+    	        content: '<%=basePath%>stock/jdstockdetail.html',
     	        btn:['确定'],
     	        yes:function(index, layero){
     	        	layer.close(index);
@@ -353,7 +333,30 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
     	            console.log(iframeWin.kkk)
     	          }
     		})
-      }	
+      }else if(data.eclpRtsNo !=='' && data.eclpRtsNo !==undefined ) //厂商退货查询
+      {   //layui.data('No',{key:'No',value:data.eclpRtsNo})
+    		layer.open({
+    			type:2,
+    			area: ['1100px', '500px'],
+    			fix: false, //不固定
+    			maxmin: true,
+    	        shadeClose: true,
+    	        shade:0.4,
+    	        title: '京东退货单据详情',
+    	        content: '<%=basePath%>stock/rtsisvRtsQueryDetail.html?No='+data.eclpRtsNo,
+    	        btn:['确定'],
+    	        yes:function(index, layero){
+    	        	layer.close(index);
+    	        } ,success: function(layero, index){
+    	        	var j = parent.layer.getFrameIndex(window.name); 
+    	            var body = layer.getChildFrame('body', j);
+    	            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+    	           // console.log(body.html()) //得到iframe页的body内容
+    	          //  body.find('input[name=keyword]').val('Hi，我是从父页来的')
+    	            console.log(iframeWin.kkk)
+    	          }
+    		})
+      }
     	
     	
     /*   layer.prompt({
@@ -365,21 +368,6 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
         });
         layer.close(index);
       }); */
-    }else if(obj.event ==='cancel'){
-        if(data.iscancel){
-        	layer.alert('该单号已经取消过了不能再取消');
-        return	
-    	}else if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
-    		cancellorderaddorder(data.eclpSoNo,data.StockID)
-    	}
-    	
-    }else if(obj.event ==='orderqueryOrder'){
-    	
-       if(data.eclpSoNo !=='' && data.eclpSoNo !==undefined){
-    		
-	   orderqueryOrder(data.eclpSoNo,data.StockID)
-    	}
-    	
     }
   });
   
@@ -396,7 +384,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	  layui.data('obj',{key:'obj',value:JSON.stringify(obj.data)})
 	  
 	  console.log("stockpage:"+JSON.stringify(obj.data))
-	   location.href='<%=basePath%>main/stockdetail.do?Direction=-1';
+	   location.href='<%=basePath%>main/stockdetail.do?Direction=1';
 	  
 	  //obj.del(); //删除当前行
 	  //obj.update(fields) //修改当前行数据
@@ -431,8 +419,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 		        	  ,'DepartmentID':DepartmentID
 		        	  ,'Type':Type
 		        	  ,'auditflag':auditflag
-		        	  ,'Direction':-1
-		        	  ,'relationType':relationType
+		        	  ,'Direction':1
 		        //  }
 		        }
 		      });
@@ -546,29 +533,24 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	        var data = checkStatus.data;
 	        console.log(data)
 	       // layer.alert(JSON.stringify(data));
-	       if(data[0].eclpSoNo !=='' && data[0].eclpSoNo !==undefined && data[0].eclpSoNo !==null){
-	    	   layer.alert('此单号已经同步过了，不能再同步到京东');
-	    	   return
-	       }else if(data.length>0 && (data[0].Type==='销售' || data[0].Type==='转仓出仓' || data[0].Type==='其它出仓') ){
+	        if(data[0].poOrderNo !=='' && data[0].poOrderNo !==undefined && data[0].poOrderNo !==null){
+	        	layer.alert('此单据已经同步过了，不能再同步到京东');
+	        	return
+	        }else if(data.length>0 && (data[0].Type ==='采购' || data[0].Type ==='转仓进仓' || data[0].Type ==='其它进仓')){
 	        //Send(JSON.stringify(data))
 	        //layer.msg('同步成功');
 	        var map={}
 	        map.stockid=data[0].StockID
 	        map.No=data[0].No
-	        map.Customer=data[0].Customer
-	        map.Type=data[0].Type
-	        map.shipperNo=data[0].Memo//快递单号
-	        map.Mobile=data[0].Mobile
-	        map.Address=data[0].Address
 	        Synjd(map) 
 	       }else{
-	    	   layer.alert('请选择其他正整数数量的单据');   
-	    	   return
-	       }
+	    	   layer.alert('请选择相应的进仓单，不能选退货单据');
+	        	return   
+	       } 
 	      break;
 	      case 'getCheckLength':
 	        var data = checkStatus.data;
-	        //layer.alert(JSON.stringify(data));
+	     //   layer.alert(JSON.stringify(data));
 	        var stockid=data[0].StockID
 	        console.log(stockid)
 	       // return
@@ -576,6 +558,24 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
 	     
 	       // layer.msg('选中了：'+ data.length + ' 个');
 	      break;
+	      case 'returndan':
+	    	  var data = checkStatus.data;
+	    	  if(data.length>0){
+	    	 if(data[0].Type !='采购退货'){
+	    		 layer.alert('请选择单据类别 为 【采购退货】的单据');	 		 
+	    	 }else if(data[0].Type ==='采购退货'){
+	    		 if(data[0].eclpRtsNo !=='' && data[0].eclpRtsNo !==undefined && data[0].eclpRtsNo !==null){
+	    			 layer.alert('此退已经退过货，不能再同步到京东');
+	    			 return 
+	    		 }else {
+	    		 var map={}
+	    		 map.stockid=data[0].StockID
+	 	         map.No=data[0].No
+	    		 rtsisvRtsTransfer(map)
+	    		 }
+	    	 }  
+	    	  }
+	      break; 	  
 	      case 'isAll':
 	        layer.msg(checkStatus.isAll ? '全选': '未全选');
 	      break;
@@ -622,7 +622,7 @@ layui.use(['element','table','laydate','form','autocomplete','dtree','layer'], f
   autocomplete.render({
             elem: $('#keyword')[0],
             url: '<%=basePath%>stock/autocompete.do'
-            ,params:{'Direction':-1,'relationType':relationType}
+            ,params:{'Direction':1}
             ,template_val: '{{d.No}}'
             ,template_txt: '{{d.No}} <span class=\'layui-badge layui-bg-gray\'>{{d.Warehouse}}</span>'
             ,onselect: function (resp) {
@@ -706,21 +706,16 @@ function jdgoods(data){
 	  }); 
 }  
   
-//同步单据到京东
+//同步单据到京东  进
 function Synjd(map){
 	var stockid=map.stockid
 	var No=map.No
 	  $.ajax({
 			type: "post",  //数据提交方式（post/get）
-	      	url: "<%=basePath%>stock/jdstockout.html",  //提交到的url
+	      	url: "<%=basePath%>stock/jdstock.html",  //提交到的url
 	      	data: {
 	      		"stockid":stockid,
-	      		"No":No,
-	      		"Customer":map.Customer
-	      		,"Type":map.Type
-	      		,"shipperNo":map.shipperNo
-	      		,"Mobile":map.Mobile
-	      		,"Address":map.Address
+	      		"No":No
 	      	},
 	      	dataType: "json",//返回的数据类型格式  
 	      	success: function (msg) {
@@ -731,41 +726,41 @@ function Synjd(map){
 	      		layer.alert(msg.msg, {icon: 1, time: 2500, title: '提示信息'});
 	      	}
 			  
-		  }); 	
-}
-  
-// 取消出库单
-function cancellorderaddorder(No,stockid){
-	
-	$.ajax({
-		type:'post'
-		,url:'<%=basePath%>stock/cancelorderaddOrder.html'
-		,data:{'No':No,'stockid':stockid}
-		,dataType:"json"
-		,async:false //取消异步，要同步
-		,success:function(res){
-			if(res.success){
-			layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});	
-			}else{
-			layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});	
-			}
-			
-			
-		},error:function(){
-			layer.alert('提交异常', {icon: 1, time: 2500, title: '提示信息'});	
-		}
-		
-	})
+		  }); 
 	
 	
 	
 }
-//查询出库单
-function orderqueryOrder(No,stockid){
 
-	
+//供应商下发， 退货
+function rtsisvRtsTransfer(map){
+	var stockid=map.stockid
+	var No=map.No
+	  $.ajax({
+			type: "post",  //数据提交方式（post/get）
+	      	url: "<%=basePath%>stock/jdstockRtsTransfer.html",  //提交到的url
+	      	async:false,
+	      	data: {
+	      		"stockid":stockid,
+	      		"No":No
+	      	},
+	      	dataType: "json",//返回的数据类型格式  
+	      	success: function (res) {
+	      		layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+	      	,error:function (){
+	      		
+	      		layer.alert(res.msg, {icon: 1, time: 2500, title: '提示信息'});
+	      	}
+			  
+		  }); 
 	
 }
+
+
+
+       
+        
   
   
 });
